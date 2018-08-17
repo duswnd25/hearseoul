@@ -27,13 +27,8 @@
             android:gravity="center"
             android:text="@string/location_permission_description" />
 
-        <include layout="@layout/fragment_map" />
+        <include layout="@layout/template_map" />
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/main_current_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        tools:text="현재 위치" />
+    <include layout="@layout/template_recycler_with_refresher" />
 </LinearLayout>

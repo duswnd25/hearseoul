@@ -47,7 +47,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 
-public class Main extends Fragment implements PermissionListener, OnMapReadyCallback {
+public class Home extends Fragment implements PermissionListener, OnMapReadyCallback {
 
     private String TAG = "홈 프래그먼트";
     private View view;
@@ -58,7 +58,7 @@ public class Main extends Fragment implements PermissionListener, OnMapReadyCall
     private SpotListAdapter spotListAdapter;
     private PullToRefreshView pullToRefreshView;
 
-    public Main() {
+    public Home() {
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Main extends Fragment implements PermissionListener, OnMapReadyCall
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @SuppressLint("MissingPermission")
@@ -90,7 +90,7 @@ public class Main extends Fragment implements PermissionListener, OnMapReadyCall
         this.savedInstanceState = savedInstanceState;
 
         TedPermission.with(Objects.requireNonNull(getContext()))
-                .setPermissionListener(Main.this)
+                .setPermissionListener(Home.this)
                 .setRationaleMessage(getString(R.string.location_permission_description))
                 .setDeniedMessage(getString(R.string.permission_deny_description))
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -139,12 +139,6 @@ public class Main extends Fragment implements PermissionListener, OnMapReadyCall
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
                 googleMap.setMyLocationEnabled(true);
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
     }
@@ -201,7 +195,7 @@ public class Main extends Fragment implements PermissionListener, OnMapReadyCall
     }
 
     // 주변 정보 가져오기
-    private void fetchSpot(Location location) {
+    private void fetchSpot(LatLng location) {
         final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.fragment_recycler_common);
         shimmerRecyclerView.showShimmerAdapter();
         new FetchSpot(Objects.requireNonNull(getActivity()).getApplicationContext(), (FetchSpot.SuccessCallback) results -> {
@@ -221,7 +215,10 @@ public class Main extends Fragment implements PermissionListener, OnMapReadyCall
 
     // 지도 마커 추가
     private void addMarker(SpotBean item) {
-
+        LatLng temp = new LatLng(item.getLatitude(), item.getLongitude());
+        googleMap.addMarker(new MarkerOptions().position(temp).title(item.getTitle()).snippet(item.getDescription()));
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(temp).zoom(12).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
