@@ -2,31 +2,36 @@ package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,18 +41,22 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.main.FetchSpot;
 import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
+import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
 import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
+import com.herokuapp.hear_seoul.ui.main.MapLargeActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.squareup.otto.Subscribe;
 import com.yalantis.taurus.PullToRefreshView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 
-public class Home extends Fragment implements PermissionListener, OnMapReadyCallback {
+@SuppressLint("MissingPermission")
+public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener {
 
     private String TAG = "홈 프래그먼트";
     private View view;
@@ -57,6 +66,8 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     private LinkedList<SpotBean> spotList = new LinkedList<>();
     private SpotListAdapter spotListAdapter;
     private PullToRefreshView pullToRefreshView;
+    private LatLng currentLocation;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     public Home() {
     }
@@ -69,9 +80,10 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
 
     @Subscribe
     @SuppressWarnings("unused")
+    @SuppressLint("MissingPermission")
     public void PermissionEvent(PermissionEvent event) {
         if (event.isPermissionGranted()) {
-            view.findViewById(R.id.main_map_hider).setVisibility(View.GONE);
+            view.findViewById(R.id.home_map_replace_text).setVisibility(View.GONE);
             initMap();
         }
     }
@@ -89,6 +101,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         this.view = view;
         this.savedInstanceState = savedInstanceState;
 
+        // 권한 체크
         TedPermission.with(Objects.requireNonNull(getContext()))
                 .setPermissionListener(Home.this)
                 .setRationaleMessage(getString(R.string.location_permission_description))
@@ -96,57 +109,58 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
-        ShimmerRecyclerView noticeListView = view.findViewById(R.id.fragment_recycler_common);
-        noticeListView.setHasFixedSize(true);
+        // Shimmerview 설정
+        ShimmerRecyclerView spotListView = view.findViewById(R.id.fragment_recycler_common);
+        spotListView.setHasFixedSize(true);
 
+        // Recycler뷰의 레이아웃 타입과 구분선 설정
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),
                 mLayoutManager.getOrientation());
 
-        noticeListView.addItemDecoration(dividerItemDecoration);
+        spotListView.addItemDecoration(dividerItemDecoration);
         mLayoutManager.setSmoothScrollbarEnabled(true);
-        noticeListView.setLayoutManager(mLayoutManager);
+        spotListView.setLayoutManager(mLayoutManager);
 
         spotListAdapter = new SpotListAdapter(getActivity(), spotList);
-        noticeListView.setAdapter(spotListAdapter);
+        spotListView.setAdapter(spotListAdapter);
 
+        // 검색 버튼 세팅
+        FloatingActionButton searchButton = view.findViewById(R.id.home_search);
+        searchButton.setOnClickListener(this);
+
+        // 리프레시뷰의 설정
         pullToRefreshView = view.findViewById(R.id.pull_to_refresh);
-        //pullToRefreshView.setOnRefreshListener(() -> fetchSpot());
+        pullToRefreshView.setOnRefreshListener(this);
+
+        spotListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == 0) {
+                    searchButton.show();
+                } else {
+                    searchButton.hide();
+                }
+            }
+        });
     }
 
     // 위치 권한 있음
-    @SuppressLint("MissingPermission")
     @Override
     public void onPermissionGranted() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(120000); // two minute interval
+        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
         OttoProvider.getInstance().post(new PermissionEvent(true));
-    }
-
-    private void initMap() {
-        mMapView = view.findViewById(R.id.map_view);
-        mMapView.onCreate(savedInstanceState);
-
-        mMapView.onResume(); // needed to get the map to display immediately
-
-        try {
-            MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
-        } catch (Exception e) {
-            Log.e(TAG, e.getLocalizedMessage());
-        }
-
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-                googleMap.setMyLocationEnabled(true);
-            }
-        });
     }
 
     // 위치 권한 없음
     @Override
     public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-
         new StyleableToast
                 .Builder(Objects.requireNonNull(getContext()))
                 .text(getString(R.string.location_permission_description))
@@ -155,43 +169,53 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .show();
 
         Snackbar.make(view, getString(R.string.permission_deny_description), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.open), view -> startAppInformationActivity()).show();
+                .setAction(getString(R.string.open), view -> Utils.startAppInformationActivity(getContext())).show();
     }
 
+    @SuppressLint("MissingPermission")
+    private void initMap() {
+        mMapView = view.findViewById(R.id.map_view);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume(); // 즉시 지도를 가져오기 위해 필요함
+        try {
+            MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
+        } catch (Exception e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        mMapView.getMapAsync(this);
+    }
+
+    // 위치 콜백
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                Location location = locationList.get(locationList.size() - 1);
+                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
+                if (googleMap != null) {
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+                fetchSpot(currentLocation);
+            }
+        }
+    };
+
+
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(37.4233438, -122.0728817))
-                .title("LinkedIn")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(37.4629101, -122.2449094))
-                .title("Facebook")
-                .snippet("Facebook HQ: Menlo Park"));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(37.3092293, -122.1136845))
-                .title("Apple"));
-
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.4233438, -122.0728817), 10));
-
-    }
-
-    // 앱 정보 화면
-    private void startAppInformationActivity() {
-        String packageName = Objects.requireNonNull(getContext()).getPackageName();
-        try {
-            //Open the specific App Info page:
-            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + packageName));
+        this.googleMap = googleMap;
+        this.googleMap.setMyLocationEnabled(true);
+        this.googleMap.getUiSettings().setAllGesturesEnabled(false);
+        this.googleMap.getUiSettings().setCompassEnabled(false);
+        this.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        this.googleMap.setOnMapClickListener(latLng -> {
+            Intent intent = new Intent(getActivity(), MapLargeActivity.class);
+            intent.putExtra("location", currentLocation);
             startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-            startActivity(intent);
-
-        }
+        });
     }
 
     // 주변 정보 가져오기
@@ -217,8 +241,6 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     private void addMarker(SpotBean item) {
         LatLng temp = new LatLng(item.getLatitude(), item.getLongitude());
         googleMap.addMarker(new MarkerOptions().position(temp).title(item.getTitle()).snippet(item.getDescription()));
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(temp).zoom(12).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
@@ -244,6 +266,9 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         if (mMapView != null) {
             mMapView.onPause();
         }
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        }
     }
 
     @Override
@@ -254,4 +279,22 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         }
     }
 
+    // Refresh View 의 refresh 컨트롤
+    @Override
+    public void onRefresh() {
+        if (currentLocation != null) {
+            fetchSpot(currentLocation);
+        } else {
+            pullToRefreshView.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.home_search:
+                break;
+            default:
+        }
+    }
 }

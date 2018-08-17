@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/padding_default"
     tools:context=".ui.main.MainActivity">
 
     <android.support.v7.widget.CardView
@@ -14,14 +13,13 @@
         app:cardUseCompatPadding="true">
 
         <FrameLayout
-            android:id="@+id/main_map_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="false"
             android:focusable="false" />
 
         <TextView
-            android:id="@+id/main_map_hider"
+            android:id="@+id/home_map_replace_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -30,5 +28,19 @@
         <include layout="@layout/template_map" />
     </android.support.v7.widget.CardView>
 
-    <include layout="@layout/template_recycler_with_refresher" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/template_recycler_with_refresher" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_search"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/ic_search_white"
+            app:fabSize="normal"
+            app:useCompatPadding="true" />
+    </FrameLayout>
 </LinearLayout>
