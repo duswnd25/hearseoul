@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.main.FetchSpot;
@@ -27,7 +28,6 @@ public class MapLargeActivity extends AppCompatActivity {
 
         ViewGroup mapViewContainer = findViewById(R.id.map_large_map_view);
 
-        fetchSpot((Location) getIntent().getParcelableExtra("location"));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MapLargeActivity extends AppCompatActivity {
 
     }
 
-    private void fetchSpot(Location location) {
+    private void fetchSpot(LatLng location) {
         new FetchSpot(this, new FetchSpot.SuccessCallback() {
             @Override
             public void successCallback(LinkedList<SpotBean> results) {

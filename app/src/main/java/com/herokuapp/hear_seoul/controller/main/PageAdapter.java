@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.herokuapp.hear_seoul.ui.TestFragment;
 import com.herokuapp.hear_seoul.ui.main.fragment.Event;
-import com.herokuapp.hear_seoul.ui.main.fragment.Main;
+import com.herokuapp.hear_seoul.ui.main.fragment.Home;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
@@ -19,7 +19,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         Fragment temp;
         switch (position) {
             case 0:
-                temp = new Main();
+                temp = new Home();
                 break;
             case 1:
                 temp = new Event();

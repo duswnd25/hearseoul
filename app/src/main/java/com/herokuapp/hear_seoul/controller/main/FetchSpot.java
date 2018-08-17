@@ -1,9 +1,9 @@
 package com.herokuapp.hear_seoul.controller.main;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.AsyncTask;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
@@ -27,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class FetchSpot extends AsyncTask<Location, Void, LinkedList<SpotBean>> {
+public class FetchSpot extends AsyncTask<LatLng, Void, LinkedList<SpotBean>> {
 
     public interface SuccessCallback extends Serializable {
         void successCallback(LinkedList<SpotBean> results);
@@ -48,13 +48,13 @@ public class FetchSpot extends AsyncTask<Location, Void, LinkedList<SpotBean>> {
     }
 
     @Override
-    protected LinkedList<SpotBean> doInBackground(Location... locations) {
+    protected LinkedList<SpotBean> doInBackground(LatLng... locations) {
         final LinkedList<SpotBean> results = new LinkedList<>();
 
         // Landmark 정보
         String requestUrl = "https://apis.sktelecom.com/v1/zonepoi/pois?latitude=" +
-                locations[0].getLatitude() +
-                "&longitude=" + locations[0].getLongitude() +
+                locations[0].latitude +
+                "&longitude=" + locations[0].longitude +
                 "&radiusCode=5&resultSize=20";
 
         try {
@@ -93,7 +93,7 @@ public class FetchSpot extends AsyncTask<Location, Void, LinkedList<SpotBean>> {
 
         // 서버에 저장된 정보
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(locations[0].getLatitude(), locations[0].getLongitude()), 10);
+        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(locations[0].latitude, locations[0].longitude), 10);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {

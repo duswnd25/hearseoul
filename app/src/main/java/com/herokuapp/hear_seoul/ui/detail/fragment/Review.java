@@ -12,10 +12,8 @@ import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.ReviewBean;
-import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.detail.FetchReview;
 import com.herokuapp.hear_seoul.controller.detail.ReviewListAdapter;
-import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
 
 import java.util.LinkedList;
 
@@ -31,7 +29,7 @@ public class Review extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recycler, container, false);
+        return inflater.inflate(R.layout.template_recycler_with_refresher, container, false);
     }
 
     @Override
