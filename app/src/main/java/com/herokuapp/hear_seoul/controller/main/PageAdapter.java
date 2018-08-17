@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.herokuapp.hear_seoul.ui.TestFragment;
 import com.herokuapp.hear_seoul.ui.main.fragment.Event;
-import com.herokuapp.hear_seoul.ui.main.fragment.List;
 import com.herokuapp.hear_seoul.ui.main.fragment.Main;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -23,9 +22,6 @@ public class PageAdapter extends FragmentPagerAdapter {
                 temp = new Main();
                 break;
             case 1:
-                temp = new List();
-                break;
-            case 2:
                 temp = new Event();
                 break;
             default:
@@ -36,6 +32,6 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 }
