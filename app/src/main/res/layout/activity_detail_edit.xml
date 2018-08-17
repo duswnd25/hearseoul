@@ -23,55 +23,79 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <Button
+                android:id="@+id/detail_edit_cancel"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_weight="1"
+                android:text="@android:string/cancel" />
+
+            <Button
+                android:id="@+id/detail_edit_save"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_weight="1"
+                android:text="@android:string/ok" />
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/detail_edit_content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_default"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="@dimen/padding_default">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="120dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/padding_default">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/padding_default"
-                    android:layout_weight="9">
-
-                    <EditText
-                        android:id="@+id/detail_edit_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_for_location" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/detail_edit_image"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:padding="@dimen/padding_half"
-                    android:src="@drawable/ic_add" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/padding_default"
+                        android:layout_weight="9">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/detail_edit_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_for_location"
+                            android:inputType="text" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/detail_edit_image"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:padding="@dimen/padding_half"
+                        android:src="@drawable/ic_add" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -111,7 +135,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:text=" ~ "
+                            android:text="@string/from_to"
                             android:textAlignment="center"
                             android:textColor="@android:color/black" />
 
@@ -130,7 +154,7 @@
                         android:layout_height="1dp"
                         android:layout_marginBottom="@dimen/padding_default"
                         android:layout_marginTop="@dimen/padding_default"
-                        android:background="@android:color/darker_gray" />
+                        android:background="?android:attr/dividerVertical" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -140,11 +164,11 @@
                             android:id="@+id/detail_edit_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/hint_for_location_description" />
+                            android:hint="@string/hint_for_location_description"
+                            android:inputType="textMultiLine" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-        </ScrollView>
-    </LinearLayout>
-
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -49,11 +49,13 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListAdapter.ViewHo
         options.centerCrop();
         String imageUrl = itemList.get(position).getImgSrc();
 
+        /*
         if (imageUrl != null && imageUrl.length() < 10) {
             Glide.with(context).load(imageUrl).apply(options).into(holder.image);
         } else {
             Glide.with(context).load(R.drawable.placeholder).apply(options).into(holder.image);
         }
+        */
 
         int typeImageId;
         switch (itemList.get(position).getType()) {
@@ -65,12 +67,9 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListAdapter.ViewHo
         }
         Glide.with(context).load(typeImageId).apply(options).into(holder.sub);
 
-        holder.container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                context.startActivity(intent);
-            }
+        holder.container.setOnClickListener(view -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            context.startActivity(intent);
         });
     }
 

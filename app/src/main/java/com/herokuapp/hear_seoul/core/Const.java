@@ -5,6 +5,7 @@ public class Const {
         public static class SPOT {
             public static final String TABLE_NAME = "Spot";
             public static final String TITLE = "title";
+            public static final String TIME = "time";
             public static final String DESCRIPTION = "description";
             public static final String LOCATION = "location";
             public static final String VISIT = "visit";

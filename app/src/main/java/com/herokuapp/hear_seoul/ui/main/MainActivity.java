@@ -16,6 +16,8 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.controller.main.PageAdapter;
 import com.herokuapp.hear_seoul.ui.setting.SettingsActivity;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

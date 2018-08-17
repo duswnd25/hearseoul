@@ -70,12 +70,7 @@ public class List extends Fragment implements OnSuccessListener<Location> {
         mFusedLocationClient.getLastLocation().addOnSuccessListener(Objects.requireNonNull(getActivity()), this);
 
         pullToRefreshView = view.findViewById(R.id.pull_to_refresh);
-        pullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchLandmark();
-            }
-        });
+        pullToRefreshView.setOnRefreshListener(() -> fetchLandmark());
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -99,21 +94,15 @@ public class List extends Fragment implements OnSuccessListener<Location> {
             final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.fragment_recycler_common);
             shimmerRecyclerView.showShimmerAdapter();
 
-            new FetchSpot(Objects.requireNonNull(getActivity()).getApplicationContext(), new FetchSpot.SuccessCallback() {
-                @Override
-                public void successCallback(LinkedList<SpotBean> results) {
-                    view.findViewById(R.id.empty_view).setVisibility(View.GONE);
-                    spotList.clear();
-                    spotList.addAll(results);
-                    spotListAdapter.notifyDataSetChanged();
-                    shimmerRecyclerView.hideShimmerAdapter();
-                    pullToRefreshView.setRefreshing(false);
-                }
-            }, new FetchSpot.FailCallback() {
-                @Override
-                public void failCallback(LinkedList<SpotBean> results) {
+            new FetchSpot(Objects.requireNonNull(getActivity()).getApplicationContext(), (FetchSpot.SuccessCallback) results -> {
+                view.findViewById(R.id.empty_view).setVisibility(View.GONE);
+                spotList.clear();
+                spotList.addAll(results);
+                spotListAdapter.notifyDataSetChanged();
+                shimmerRecyclerView.hideShimmerAdapter();
+                pullToRefreshView.setRefreshing(false);
+            }, (FetchSpot.FailCallback) results -> {
 
-                }
             }).execute(location);
         } else {
             pullToRefreshView.setRefreshing(false);
