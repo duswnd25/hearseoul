@@ -32,11 +32,7 @@ import java.util.Objects;
 
 public class List extends Fragment implements OnSuccessListener<Location> {
 
-    private LinkedList<SpotBean> spotList = new LinkedList<>();
-    private SpotListAdapter spotListAdapter;
-    private View view;
-    private Location location;
-    private PullToRefreshView pullToRefreshView;
+
 
     public List() {
     }
@@ -53,33 +49,7 @@ public class List extends Fragment implements OnSuccessListener<Location> {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
-        ShimmerRecyclerView noticeListView = view.findViewById(R.id.fragment_recycler_common);
-        noticeListView.setHasFixedSize(true);
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),
-                mLayoutManager.getOrientation());
-
-        noticeListView.addItemDecoration(dividerItemDecoration);
-        mLayoutManager.setSmoothScrollbarEnabled(true);
-        noticeListView.setLayoutManager(mLayoutManager);
-
-        spotListAdapter = new SpotListAdapter(getActivity(), spotList);
-        noticeListView.setAdapter(spotListAdapter);
-        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(Objects.requireNonNull(getActivity()), this);
-
-        pullToRefreshView = view.findViewById(R.id.pull_to_refresh);
-        pullToRefreshView.setOnRefreshListener(() -> fetchLandmark());
-
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Subscribe
@@ -89,25 +59,6 @@ public class List extends Fragment implements OnSuccessListener<Location> {
         fetchLandmark();
     }
 
-    private void fetchLandmark() {
-        if (location != null) {
-            final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.fragment_recycler_common);
-            shimmerRecyclerView.showShimmerAdapter();
-
-            new FetchSpot(Objects.requireNonNull(getActivity()).getApplicationContext(), (FetchSpot.SuccessCallback) results -> {
-                view.findViewById(R.id.empty_view).setVisibility(View.GONE);
-                spotList.clear();
-                spotList.addAll(results);
-                spotListAdapter.notifyDataSetChanged();
-                shimmerRecyclerView.hideShimmerAdapter();
-                pullToRefreshView.setRefreshing(false);
-            }, (FetchSpot.FailCallback) results -> {
-
-            }).execute(location);
-        } else {
-            pullToRefreshView.setRefreshing(false);
-        }
-    }
 
     // GPS 좌표 가져오기
     @Override

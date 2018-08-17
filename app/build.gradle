@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.herokuapp.hear_seoul"
         minSdkVersion 24
