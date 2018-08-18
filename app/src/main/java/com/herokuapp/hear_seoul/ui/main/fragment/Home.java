@@ -109,11 +109,11 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
-        // Shimmerview 설정
+        // Shimmer view 설정
         ShimmerRecyclerView spotListView = view.findViewById(R.id.fragment_recycler_common);
         spotListView.setHasFixedSize(true);
 
-        // Recycler뷰의 레이아웃 타입과 구분선 설정
+        // Recycler 뷰의 레이아웃 타입과 구분선 설정
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),
                 mLayoutManager.getOrientation());
@@ -257,6 +257,11 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         super.onResume();
         if (mMapView != null) {
             mMapView.onResume();
+
+            if (googleMap != null && currentLocation !=null) {
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
         }
     }
 
