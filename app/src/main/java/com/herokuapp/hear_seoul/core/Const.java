@@ -1,6 +1,12 @@
 package com.herokuapp.hear_seoul.core;
 
 public class Const {
+    public static class INTENT_EXTRA {
+        public static final String LOCATION = "location";
+        public static final String IS_NEW_INFORMATION = "is_new_information";
+        public static final String OBJECT_ID = "objectId";
+    }
+
     public static class BAAS {
         public static class SPOT {
             public static final String TABLE_NAME = "Spot";
@@ -8,7 +14,6 @@ public class Const {
             public static final String TIME = "time";
             public static final String DESCRIPTION = "description";
             public static final String LOCATION = "location";
-            public static final String VISIT = "visit";
             public static final String IMG_SRC = "img_src";
         }
 

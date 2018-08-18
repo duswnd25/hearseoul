@@ -114,12 +114,7 @@ public class FetchSpot extends AsyncTask<LatLng, Void, LinkedList<SpotBean>> {
                         BaasGeoPoint geoPoint = (BaasGeoPoint) item.get(Const.BAAS.SPOT.LOCATION);
                         temp.setLatitude(geoPoint.getLatitude());
                         temp.setLongitude(geoPoint.getLongitude());
-
-                        boolean isVisit = false;
-                        for (Object o : ((ArrayList) item.get(Const.BAAS.SPOT.VISIT))) {
-                            isVisit = (o).toString().contains("");// TODO 사용자 닉네임으로 교체해야함
-                        }
-                        temp.setVisit(isVisit);
+                        temp.setVisit(false);
 
                         results.add(temp);
                     }

@@ -3,4 +3,6 @@
     <string name="empty">표시할 내용이 없습니다!</string>
     <string name="open">열기</string>
     <string name="from_to">~</string>
+    <string name="upload">업로드 하였습니다</string>
+    <string name="error">오류가 발생하였습니다</string>
 </resources>

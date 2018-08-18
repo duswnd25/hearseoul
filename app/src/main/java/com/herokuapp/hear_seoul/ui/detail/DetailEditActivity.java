@@ -3,47 +3,41 @@ package com.herokuapp.hear_seoul.ui.detail;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.core.Const;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.skt.baas.api.BaasGeoPoint;
 import com.skt.baas.api.BaasObject;
 import com.skt.baas.callback.BaasSaveCallback;
 import com.skt.baas.callback.BaasUpsertCallback;
 import com.skt.baas.exception.BaasException;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Objects;
 
 public class DetailEditActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+
+    private String TAG = "큰 지도 화면 액티비티";
+    private String recentObjectId;
     private TextView startView, endView;
     private boolean isNewInformation;
-    private String recentObjectId;
-    private double latitude = 0, longitude = 0;
+    private boolean isFullTime = false;
+    private LatLng location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +47,16 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = getIntent();
-        isNewInformation = intent.getBooleanExtra("is_new_information", true);
-        recentObjectId = intent.getStringExtra("objectId");
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle("정보 수정");
-            actionBar.setHomeButtonEnabled(true);
+            Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         }
+
+        Intent intent = getIntent();
+        isNewInformation = intent.getBooleanExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
+        location = intent.getParcelableExtra(Const.INTENT_EXTRA.LOCATION);
+        recentObjectId = isNewInformation ? null : intent.getStringExtra(Const.INTENT_EXTRA.OBJECT_ID);
 
         Switch isFullTimeSwitch = findViewById(R.id.detail_edit_is_full_time);
         isFullTimeSwitch.setChecked(false);
@@ -97,6 +92,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         findViewById(R.id.detail_edit_time_container).setVisibility(b ? View.GONE : View.VISIBLE);
+        isFullTime = b;
     }
 
     @Override
@@ -109,7 +105,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
                 new TimePickerDialog(this, endTimePickerListener, 15, 24, false).show();
                 break;
             case R.id.detail_edit_save:
-                saveInformation();
+                saveDataToServer();
                 break;
             case R.id.detail_edit_cancel:
                 finish();
@@ -118,11 +114,21 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         }
     }
 
-    private void saveInformation() {
-        String time = startView.getText() + "/" + endView.getText();
+    private void saveJobFinish(BaasException e) {
+        StyleableToast.Builder styleableToast = new StyleableToast.Builder(getApplicationContext());
+        styleableToast.textColor(Color.WHITE);
+        styleableToast.backgroundColor(getColor(R.color.colorAccent));
+        styleableToast.text(e == null ? getString(R.string.upload) : getString(R.string.error) + e.getCode());
+        styleableToast.show();
+        if (e != null) Log.e(TAG, e.getLocalizedMessage());
+    }
+
+    private void saveDataToServer() {
+        String time = isFullTime ? "FULL" : startView.getText() + "/" + endView.getText();
         String title = ((EditText) findViewById(R.id.detail_edit_title)).getText().toString();
         String description = ((EditText) findViewById(R.id.detail_edit_description)).getText().toString();
-        BaasGeoPoint location = new BaasGeoPoint(latitude, longitude);
+
+        BaasGeoPoint location = new BaasGeoPoint(this.location.latitude, this.location.longitude);
 
         BaasObject baasObject = new BaasObject(Const.BAAS.SPOT.TABLE_NAME);
         baasObject.set(Const.BAAS.SPOT.TITLE, title);
@@ -130,14 +136,12 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         baasObject.set(Const.BAAS.SPOT.TIME, time);
 
         if (isNewInformation) {
-            baasObject.set(Const.BAAS.SPOT.LOCATION, location);
             // 새 장소
+            baasObject.set(Const.BAAS.SPOT.LOCATION, location);
             baasObject.serverSaveInBackground(new BaasSaveCallback() {
                 @Override
                 public void onSuccess(BaasException e) {
-                    if (e != null) {
-                        // 에러 처리
-                    }
+                    saveJobFinish(e);
                 }
             });
         } else {
@@ -146,11 +150,19 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
             baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
                 @Override
                 public void onSuccess(BaasException e) {
-                    if (e != null) {
-                        // 에러 처리
-                    }
+                    saveJobFinish(e);
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
