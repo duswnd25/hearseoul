@@ -44,7 +44,7 @@ public class Event extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
-        ShimmerRecyclerView eventListView = view.findViewById(R.id.fragment_recycler_common);
+        ShimmerRecyclerView eventListView = view.findViewById(R.id.template_recycler_common);
         eventListView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -65,7 +65,7 @@ public class Event extends Fragment {
     }
 
     private void fetchEvent() {
-        final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.fragment_recycler_common);
+        final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
         shimmerRecyclerView.showShimmerAdapter();
         new FetchEvent((FetchEvent.SuccessCallback) results -> {
             eventList.clear();

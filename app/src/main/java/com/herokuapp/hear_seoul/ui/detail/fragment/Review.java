@@ -36,7 +36,7 @@ public class Review extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView noticeListView = view.findViewById(R.id.fragment_recycler_common);
+        RecyclerView noticeListView = view.findViewById(R.id.template_recycler_common);
         noticeListView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

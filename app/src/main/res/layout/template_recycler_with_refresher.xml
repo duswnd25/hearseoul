@@ -2,17 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <include layout="@layout/template_empty_view" />
 
     <com.yalantis.taurus.PullToRefreshView
         android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-            android:id="@+id/fragment_recycler_common"
+            android:id="@+id/template_recycler_common"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/background_light"

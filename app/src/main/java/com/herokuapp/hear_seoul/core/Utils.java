@@ -7,7 +7,7 @@ import android.net.Uri;
 
 public class Utils {
 
-    public static void getUserName() {
+    public static void showErrorToast() {
 
     }
 

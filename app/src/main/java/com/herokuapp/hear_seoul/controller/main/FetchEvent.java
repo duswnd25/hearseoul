@@ -1,27 +1,38 @@
+/*
+ * Copyright 2018 YeonJung Kim
+ * GitHub : @duswnd25
+ * Site   : https://yeonjung.herokuapp.com/
+ *
+ * fetch event list from seoul city's public data
+ * originally it provided aar
+ * but it's difficult to apply so i decompile library and write this class
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.herokuapp.hear_seoul.controller.main;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
-import com.herokuapp.hear_seoul.bean.EventBean;
-import com.herokuapp.hear_seoul.core.Const;
-import com.skt.baas.api.BaasGeoPoint;
-import com.skt.baas.api.BaasObject;
-import com.skt.baas.api.BaasQuery;
-import com.skt.baas.callback.BaasListCallback;
-import com.skt.baas.exception.BaasException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 import okhttp3.OkHttpClient;
@@ -51,10 +62,10 @@ public class FetchEvent extends AsyncTask<Context, Void, LinkedList<EventBean>> 
     protected LinkedList<EventBean> doInBackground(Context... params) {
         final LinkedList<EventBean> results = new LinkedList<>();
 
-        String eventRequestUrl = "http://openapi.seoul.go.kr:8088/" + params[0].getString(R.string.seoul_event_key) + "/json/SearchConcertDetailService/1/1000";
+        String requestUrl = String.format("http://openapi.seoul.go.kr:8088/%s/json/SearchConcertDetailService/1/1000", params[0].getString(R.string.seoul_event_key));
 
         try {
-            Request request = new Request.Builder().url(eventRequestUrl).build();
+            Request request = new Request.Builder().url(requestUrl).build();
             Response response = new OkHttpClient().newCall(request).execute();
             JSONObject requestResponse = new JSONObject(Objects.requireNonNull(response.body()).string()).getJSONObject("SearchConcertDetailService");
             JSONArray responseArray = requestResponse.getJSONArray("row");

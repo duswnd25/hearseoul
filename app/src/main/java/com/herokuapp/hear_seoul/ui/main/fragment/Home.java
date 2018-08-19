@@ -1,9 +1,9 @@
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,6 +29,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -39,7 +43,6 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.main.FetchSpot;
 import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
@@ -54,13 +57,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
 
-@SuppressLint("MissingPermission")
+
 public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener {
 
-    private String TAG = "홈 프래그먼트";
-    private View view;
-    private MapView mMapView;
+    private final String TAG = "메인 (홈)";
+    private int PLACE_PICKER_REQUEST = 1;
+    private View rootView;
+    private MapView mapView;
     private GoogleMap googleMap;
     private Bundle savedInstanceState;
     private LinkedList<SpotBean> spotList = new LinkedList<>();
@@ -80,10 +85,9 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
 
     @Subscribe
     @SuppressWarnings("unused")
-    @SuppressLint("MissingPermission")
     public void PermissionEvent(PermissionEvent event) {
         if (event.isPermissionGranted()) {
-            view.findViewById(R.id.home_map_replace_text).setVisibility(View.GONE);
+            rootView.findViewById(R.id.home_map_replace_text).setVisibility(View.GONE);
             initMap();
         }
     }
@@ -94,11 +98,10 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.view = view;
+        this.rootView = view;
         this.savedInstanceState = savedInstanceState;
 
         // 권한 체크
@@ -109,8 +112,8 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
-        // Shimmer view 설정
-        ShimmerRecyclerView spotListView = view.findViewById(R.id.fragment_recycler_common);
+        // Shimmer rootView 설정
+        ShimmerRecyclerView spotListView = view.findViewById(R.id.template_recycler_common);
         spotListView.setHasFixedSize(true);
 
         // Recycler 뷰의 레이아웃 타입과 구분선 설정
@@ -149,12 +152,16 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     // 위치 권한 있음
     @Override
     public void onPermissionGranted() {
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(120000); // two minute interval
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
         OttoProvider.getInstance().post(new PermissionEvent(true));
     }
 
@@ -168,25 +175,24 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .backgroundColor(getContext().getColor(R.color.colorAccent))
                 .show();
 
-        Snackbar.make(view, getString(R.string.permission_deny_description), Snackbar.LENGTH_LONG)
+        Snackbar.make(rootView, getString(R.string.permission_deny_description), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.open), view -> Utils.startAppInformationActivity(getContext())).show();
     }
 
-    @SuppressLint("MissingPermission")
     private void initMap() {
-        mMapView = view.findViewById(R.id.map_view);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume(); // 즉시 지도를 가져오기 위해 필요함
+        mapView = rootView.findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume(); // 즉시 지도를 가져오기 위해 필요함
         try {
             MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
-        mMapView.getMapAsync(this);
+        mapView.getMapAsync(this);
     }
 
     // 위치 콜백
-    private LocationCallback mLocationCallback = new LocationCallback() {
+    private LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
@@ -203,9 +209,12 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     };
 
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         this.googleMap = googleMap;
         this.googleMap.setMyLocationEnabled(true);
         this.googleMap.getUiSettings().setAllGesturesEnabled(false);
@@ -220,21 +229,44 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
 
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
-        final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.fragment_recycler_common);
+        ShimmerRecyclerView shimmerRecyclerView = rootView.findViewById(R.id.template_recycler_common);
         shimmerRecyclerView.showShimmerAdapter();
         new FetchSpot(Objects.requireNonNull(getActivity()).getApplicationContext(), (FetchSpot.SuccessCallback) results -> {
-            view.findViewById(R.id.empty_view).setVisibility(View.GONE);
+            shimmerRecyclerView.hideShimmerAdapter();
+            pullToRefreshView.setRefreshing(false);
+
+            // 데이터 교체
             spotList.clear();
             spotList.addAll(results);
             spotListAdapter.notifyDataSetChanged();
-            shimmerRecyclerView.hideShimmerAdapter();
-            pullToRefreshView.setRefreshing(false);
             for (SpotBean s : results) {
                 addMarker(s);
             }
         }, (FetchSpot.FailCallback) results -> {
 
         }).execute(location);
+    }
+
+    // Place Picker 호출
+    private void placePickerStart() {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(Objects.requireNonNull(getActivity())), PLACE_PICKER_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Place Picker 결과
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, Objects.requireNonNull(getContext()));
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(getContext(), toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     // 지도 마커 추가
@@ -246,8 +278,8 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     @Override
     public void onDestroy() {
         OttoProvider.getInstance().unregister(this);
-        if (mMapView != null) {
-            mMapView.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
         }
         super.onDestroy();
     }
@@ -255,10 +287,10 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     @Override
     public void onResume() {
         super.onResume();
-        if (mMapView != null) {
-            mMapView.onResume();
+        if (mapView != null) {
+            mapView.onResume();
 
-            if (googleMap != null && currentLocation !=null) {
+            if (googleMap != null && currentLocation != null) {
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
@@ -268,19 +300,19 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     @Override
     public void onPause() {
         super.onPause();
-        if (mMapView != null) {
-            mMapView.onPause();
+        if (mapView != null) {
+            mapView.onPause();
         }
         if (mFusedLocationClient != null) {
-            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        if (mMapView != null) {
-            mMapView.onLowMemory();
+        if (mapView != null) {
+            mapView.onLowMemory();
         }
     }
 
@@ -298,6 +330,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_search:
+                placePickerStart();
                 break;
             default:
         }

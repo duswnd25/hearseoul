@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'org.jsoup:jsoup:1.11.2'
     implementation 'me.grantland:autofittextview:0.2.1'

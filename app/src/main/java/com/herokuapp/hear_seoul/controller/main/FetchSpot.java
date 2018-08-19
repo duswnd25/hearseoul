@@ -1,10 +1,26 @@
+/*
+ * Copyright 2018 YeonJung Kim
+ * GitHub : @duswnd25
+ * Site   : https://yeonjung.herokuapp.com/
+ *
+ * get data from backend service
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.herokuapp.hear_seoul.controller.main;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.skt.baas.api.BaasGeoPoint;
@@ -13,87 +29,29 @@ import com.skt.baas.api.BaasQuery;
 import com.skt.baas.callback.BaasListCallback;
 import com.skt.baas.exception.BaasException;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+public class FetchSpot {
+    private FetchSpot.callback callback;
 
+    public interface callback extends Serializable {
+        void onDataFetchSuccess(LinkedList<SpotBean> result);
 
-public class FetchSpot extends AsyncTask<LatLng, Void, LinkedList<SpotBean>> {
-
-    public interface SuccessCallback extends Serializable {
-        void successCallback(LinkedList<SpotBean> results);
+        void onDataFetchFail(String message);
     }
 
-    public interface FailCallback extends Serializable {
-        void failCallback(LinkedList<SpotBean> results);
+    public FetchSpot() {
+
     }
 
-    private SuccessCallback successCallback;
-    private FailCallback failCallback;
-    private String skZonePoiKey;
-
-    public FetchSpot(Context context, SuccessCallback successCallback, FailCallback failCallback) {
-        this.successCallback = successCallback;
-        this.failCallback = failCallback;
-        this.skZonePoiKey = context.getString(R.string.tdc_project_key);
-    }
-
-    @Override
-    protected LinkedList<SpotBean> doInBackground(LatLng... locations) {
-        final LinkedList<SpotBean> results = new LinkedList<>();
-
-        // Landmark 정보
-        String requestUrl = "https://apis.sktelecom.com/v1/zonepoi/pois?latitude=" +
-                locations[0].latitude +
-                "&longitude=" + locations[0].longitude +
-                "&radiusCode=5&resultSize=20";
-
-        try {
-            Request request = new Request.Builder()
-                    .header("TDCProjectKey", skZonePoiKey)
-                    .url(requestUrl)
-                    .build();
-
-            skZonePoiKey = null;
-
-            Response response = new OkHttpClient().newCall(request).execute();
-
-            JSONArray responseArray = new JSONArray(
-                    new JSONObject(Objects.requireNonNull(response.body()).string()).getString("results")
-            );
-
-            for (int i = 0; i < responseArray.length(); i++) {
-                JSONObject jsonObject = responseArray.getJSONObject(i);
-
-                SpotBean temp = new SpotBean();
-                temp.setId(jsonObject.getString("poiId"));
-                temp.setTitle(jsonObject.getString("name"));
-                temp.setDescription(jsonObject.getString("classNm"));
-                temp.setImgSrc("NO");
-
-                temp.setLatitude(Double.parseDouble(jsonObject.getString("latitude")));
-                temp.setLongitude(Double.parseDouble(jsonObject.getString("longitude")));
-                temp.setType("SK");
-
-                temp.setVisit(false);
-                results.add(temp);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void get(LatLng location, int distance, FetchSpot.callback newCallback) {
+        LinkedList<SpotBean> result = new LinkedList<>();
+        this.callback = newCallback;
         // 서버에 저장된 정보
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(locations[0].latitude, locations[0].longitude), 10);
+        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), distance);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
@@ -116,21 +74,13 @@ public class FetchSpot extends AsyncTask<LatLng, Void, LinkedList<SpotBean>> {
                         temp.setLongitude(geoPoint.getLongitude());
                         temp.setVisit(false);
 
-                        results.add(temp);
+                        result.add(temp);
                     }
+                    callback.onDataFetchSuccess(result);
+                } else {
+                    callback.onDataFetchFail(e.getMessage());
                 }
             }
         });
-        return results;
-    }
-
-
-    @Override
-    protected void onPostExecute(LinkedList<SpotBean> results) {
-        if (results.size() > 0) {
-            successCallback.successCallback(results);
-        } else {
-            failCallback.failCallback(results);
-        }
     }
 }

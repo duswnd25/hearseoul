@@ -7,8 +7,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -29,7 +29,6 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.main.FetchSpot;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
 import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
@@ -56,8 +55,9 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
 
         setContentView(R.layout.activity_map_large);
 
-        ActionBar actionBar = getSupportActionBar();
-        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         // 권한 체크
         TedPermission.with(Objects.requireNonNull(this))
