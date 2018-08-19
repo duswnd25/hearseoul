@@ -26,12 +26,6 @@ public class FetchLandMark extends Thread {
     private String skZonePoiKey;
     private LatLng location;
 
-    public interface callback extends Serializable {
-        void onPlaceSearchSuccess(LinkedList<ZonePoiBean> result);
-
-        void onPlaceSearchFail(String message);
-    }
-
     public FetchLandMark(String skZonePoiKey, LatLng location, FetchLandMark.callback callback) {
         this.skZonePoiKey = skZonePoiKey;
         this.location = location;
@@ -69,5 +63,11 @@ public class FetchLandMark extends Thread {
         } catch (Exception e) {
             callback.onPlaceSearchFail(e.getMessage());
         }
+    }
+
+    public interface callback extends Serializable {
+        void onPlaceSearchSuccess(LinkedList<ZonePoiBean> result);
+
+        void onPlaceSearchFail(String message);
     }
 }

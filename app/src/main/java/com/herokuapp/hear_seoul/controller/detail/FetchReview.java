@@ -23,14 +23,6 @@ import java.util.List;
 
 public class FetchReview extends AsyncTask<String, Void, LinkedList<ReviewBean>> {
 
-    public interface SuccessCallback extends Serializable {
-        void successCallback(LinkedList<ReviewBean> results);
-    }
-
-    public interface FailCallback extends Serializable {
-        void failCallback(LinkedList<ReviewBean> results);
-    }
-
     private SuccessCallback successCallback;
     private FailCallback failCallback;
 
@@ -66,7 +58,6 @@ public class FetchReview extends AsyncTask<String, Void, LinkedList<ReviewBean>>
         return results;
     }
 
-
     @Override
     protected void onPostExecute(LinkedList<ReviewBean> results) {
         if (results.size() > 0) {
@@ -74,5 +65,14 @@ public class FetchReview extends AsyncTask<String, Void, LinkedList<ReviewBean>>
         } else {
             failCallback.failCallback(results);
         }
+    }
+
+    public interface SuccessCallback extends Serializable {
+        void successCallback(LinkedList<ReviewBean> results);
+    }
+
+
+    public interface FailCallback extends Serializable {
+        void failCallback(LinkedList<ReviewBean> results);
     }
 }

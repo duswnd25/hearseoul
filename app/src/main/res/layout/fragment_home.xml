@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. YeonJung Kim
   ~
   ~  GitHub : @duswnd25
@@ -42,9 +41,9 @@
         <include layout="@layout/template_recycler_with_refresher" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/home_search"
             android:layout_gravity="bottom|end"
             android:src="@drawable/ic_search_white"
             app:fabSize="normal"

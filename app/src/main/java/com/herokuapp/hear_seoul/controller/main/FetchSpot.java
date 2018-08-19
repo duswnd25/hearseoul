@@ -27,12 +27,6 @@ public class FetchSpot extends Thread {
     private LatLng location;
     private int distance;
 
-    public interface callback extends Serializable {
-        void onDataFetchSuccess(LinkedList<SpotBean> result);
-
-        void onDataFetchFail(String message);
-    }
-
     public FetchSpot(LatLng location, int distance, FetchSpot.callback callback) {
         this.location = location;
         this.distance = distance;
@@ -76,5 +70,11 @@ public class FetchSpot extends Thread {
                 }
             }
         });
+    }
+
+    public interface callback extends Serializable {
+        void onDataFetchSuccess(LinkedList<SpotBean> result);
+
+        void onDataFetchFail(String message);
     }
 }

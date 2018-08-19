@@ -77,22 +77,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         return itemList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView dDay, title, date, gCode;
-        private ImageView mainImage;
-        private CircleImageView subImage;
-
-        ViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.item_event_list_cultural_title);
-            dDay = view.findViewById(R.id.item_event_list_d_day);
-            date = view.findViewById(R.id.item_event_list_cultural_date);
-            gCode = view.findViewById(R.id.item_event_list_cultural_g_code);
-            mainImage = view.findViewById(R.id.item_event_list_main_image);
-            subImage = view.findViewById(R.id.item_event_list_sub_image);
-        }
-    }
-
     private String makeCorrectImageUrl(String imageUrl) {
         // 이 부분은 서울시 API 라이브러리를 디컴파일 해서 가져온 로직이다.
         // 이렇게 별도 가공을 하지 않으면 No content provider 오류가 발생한다.
@@ -126,5 +110,21 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             e.printStackTrace();
         }
         return "";
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView dDay, title, date, gCode;
+        private ImageView mainImage;
+        private CircleImageView subImage;
+
+        ViewHolder(View view) {
+            super(view);
+            title = view.findViewById(R.id.item_event_list_cultural_title);
+            dDay = view.findViewById(R.id.item_event_list_d_day);
+            date = view.findViewById(R.id.item_event_list_cultural_date);
+            gCode = view.findViewById(R.id.item_event_list_cultural_g_code);
+            mainImage = view.findViewById(R.id.item_event_list_main_image);
+            subImage = view.findViewById(R.id.item_event_list_sub_image);
+        }
     }
 }

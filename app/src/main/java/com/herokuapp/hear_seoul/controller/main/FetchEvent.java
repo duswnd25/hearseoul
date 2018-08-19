@@ -27,14 +27,6 @@ import okhttp3.Response;
 
 public class FetchEvent extends AsyncTask<Context, Void, LinkedList<EventBean>> {
 
-    public interface SuccessCallback extends Serializable {
-        void successCallback(LinkedList<EventBean> results);
-    }
-
-    public interface FailCallback extends Serializable {
-        void failCallback(LinkedList<EventBean> results);
-    }
-
     private SuccessCallback successCallback;
     private FailCallback failCallback;
 
@@ -81,7 +73,6 @@ public class FetchEvent extends AsyncTask<Context, Void, LinkedList<EventBean>> 
         return results;
     }
 
-
     @Override
     protected void onPostExecute(LinkedList<EventBean> results) {
         if (results.size() > 0) {
@@ -89,5 +80,14 @@ public class FetchEvent extends AsyncTask<Context, Void, LinkedList<EventBean>> 
         } else {
             failCallback.failCallback(results);
         }
+    }
+
+    public interface SuccessCallback extends Serializable {
+        void successCallback(LinkedList<EventBean> results);
+    }
+
+
+    public interface FailCallback extends Serializable {
+        void failCallback(LinkedList<EventBean> results);
     }
 }

@@ -83,6 +83,22 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
     private ShimmerRecyclerView spotListView;
+    // 위치 콜백
+    private LocationCallback locationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                Location location = locationList.get(locationList.size() - 1);
+                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
+                if (googleMap != null) {
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+                fetchSpot(currentLocation);
+            }
+        }
+    };
 
     public Home() {
     }
@@ -204,24 +220,6 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         }
         mapView.getMapAsync(this);
     }
-
-    // 위치 콜백
-    private LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                Location location = locationList.get(locationList.size() - 1);
-                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
-                if (googleMap != null) {
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-                fetchSpot(currentLocation);
-            }
-        }
-    };
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

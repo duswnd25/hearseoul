@@ -26,12 +26,6 @@ public class SearchNearByPlace {
     private Context context;
     private SearchNearByPlace.callback callback;
 
-    public interface callback extends Serializable {
-        void onPlaceSearchSuccess(LinkedList<Place> results);
-
-        void onPlaceSearchFail(String message);
-    }
-
     public SearchNearByPlace(Context context) {
         this.context = context;
     }
@@ -54,5 +48,11 @@ public class SearchNearByPlace {
                 callback.onPlaceSearchSuccess(placesList);
             });
         }
+    }
+
+    public interface callback extends Serializable {
+        void onPlaceSearchSuccess(LinkedList<Place> results);
+
+        void onPlaceSearchFail(String message);
     }
 }

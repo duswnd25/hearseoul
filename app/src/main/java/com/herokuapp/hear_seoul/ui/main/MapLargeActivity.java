@@ -56,6 +56,21 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
     private GoogleMap googleMap;
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                Location location = locationList.get(locationList.size() - 1);
+                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
+                if (googleMap != null) {
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+                fetchSpot(currentLocation);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,22 +133,6 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
         }
         mMapView.getMapAsync(this);
     }
-
-    private LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                Location location = locationList.get(locationList.size() - 1);
-                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
-                if (googleMap != null) {
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-                fetchSpot(currentLocation);
-            }
-        }
-    };
 
     @SuppressLint("MissingPermission")
     @Override

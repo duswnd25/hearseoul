@@ -45,6 +45,14 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
     private boolean isNewInformation;
     private boolean isFullTime = false;
     private LatLng location;
+    @SuppressLint("SetTextI18n")
+    private TimePickerDialog.OnTimeSetListener startTimePickerListener = (view, hourOfDay, minute) -> {
+        startView.setText(hourOfDay + ":" + minute);
+    };
+    @SuppressLint("SetTextI18n")
+    private TimePickerDialog.OnTimeSetListener endTimePickerListener = (view, hourOfDay, minute) -> {
+        endView.setText(hourOfDay + ":" + minute);
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,16 +93,6 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
         findViewById(R.id.detail_edit_cancel).setOnClickListener(this);
     }
-
-    @SuppressLint("SetTextI18n")
-    private TimePickerDialog.OnTimeSetListener startTimePickerListener = (view, hourOfDay, minute) -> {
-        startView.setText(hourOfDay + ":" + minute);
-    };
-
-    @SuppressLint("SetTextI18n")
-    private TimePickerDialog.OnTimeSetListener endTimePickerListener = (view, hourOfDay, minute) -> {
-        endView.setText(hourOfDay + ":" + minute);
-    };
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
