@@ -29,17 +29,19 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.main.FetchSpot;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
 import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 @SuppressLint("MissingPermission")
-public class MapLargeActivity extends AppCompatActivity implements PermissionListener, OnMapReadyCallback {
+public class MapLargeActivity extends AppCompatActivity implements PermissionListener, OnMapReadyCallback, FetchSpot.callback {
 
     private String TAG = "큰 지도 액티비티";
     private MapView mMapView;
@@ -139,13 +141,7 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
 
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
-        new FetchSpot(this.getApplicationContext(), (FetchSpot.SuccessCallback) results -> {
-            for (SpotBean s : results) {
-                addMarker(s);
-            }
-        }, (FetchSpot.FailCallback) results -> {
-
-        }).execute(location);
+        new FetchSpot(location, 10, this).start();
     }
 
     // 지도 마커 추가
@@ -199,5 +195,17 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDataFetchSuccess(LinkedList<SpotBean> result) {
+        for (SpotBean s : result) {
+            addMarker(s);
+        }
+    }
+
+    @Override
+    public void onDataFetchFail(String message) {
+
     }
 }

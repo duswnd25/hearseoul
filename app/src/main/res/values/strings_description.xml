@@ -3,6 +3,5 @@
     <string name="permission_deny_description">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="hint_for_location">장소명</string>
     <string name="hint_for_location_description">세부내용</string>
-    <string name="hint_for_time">영업시간</string>
     <string name="hint_for_time_full">종일</string>
 </resources>
