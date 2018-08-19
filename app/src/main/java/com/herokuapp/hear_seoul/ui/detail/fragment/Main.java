@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2018. YeonJung Kim
+ *
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
+ */
+
 package com.herokuapp.hear_seoul.ui.detail.fragment;
 
 import android.content.Intent;
@@ -6,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +20,13 @@ import android.view.ViewGroup;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.ui.detail.DetailEditActivity;
+import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 
 import java.util.Objects;
 
 
-public class Main extends Fragment {
+public class Main extends Fragment implements View.OnClickListener {
+    private SpotBean spotBean;
 
     public Main() {
     }
@@ -34,14 +41,21 @@ public class Main extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SpotBean spotBean = (SpotBean) Objects.requireNonNull(getActivity()).getIntent().getSerializableExtra(Const.INTENT_EXTRA.LOCATION);
-        Log.e("TEST", spotBean.getTitle());
+        spotBean = Objects.requireNonNull(getActivity()).getIntent().getParcelableExtra(Const.INTENT_EXTRA.LOCATION);
+        Objects.requireNonNull(((DetailActivity) getActivity()).getSupportActionBar()).setTitle(spotBean.getTitle());
         FloatingActionButton fab = view.findViewById(R.id.detail_edit);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), DetailEditActivity.class));
-            }
-        });
+        fab.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.detail_edit:
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(Const.INTENT_EXTRA.LOCATION, spotBean);
+                startActivity(intent);
+                break;
+            default:
+        }
     }
 }

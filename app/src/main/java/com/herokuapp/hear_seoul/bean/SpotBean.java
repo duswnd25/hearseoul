@@ -1,30 +1,18 @@
 /*
- * Copyright 2018 YeonJung Kim
- * GitHub : @duswnd25
- * Site   : https://yeonjung.herokuapp.com/
+ * Copyright (c) 2018. YeonJung Kim
  *
- * Java Bean for Spot data
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
  */
 
 package com.herokuapp.hear_seoul.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
-
-public class SpotBean implements Serializable {
+public class SpotBean implements Parcelable {
     private String title, description, id, imgSrc;
     private LatLng location;
     private boolean visit;
@@ -89,4 +77,41 @@ public class SpotBean implements Serializable {
         this.imgSrc = imgSrc;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeString(this.id);
+        dest.writeString(this.imgSrc);
+        dest.writeParcelable(this.location, flags);
+        dest.writeByte(this.visit ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.type);
+    }
+
+    private SpotBean(Parcel in) {
+        this.title = in.readString();
+        this.description = in.readString();
+        this.id = in.readString();
+        this.imgSrc = in.readString();
+        this.location = in.readParcelable(LatLng.class.getClassLoader());
+        this.visit = in.readByte() != 0;
+        this.type = in.readInt();
+    }
+
+    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
+        @Override
+        public SpotBean createFromParcel(Parcel source) {
+            return new SpotBean(source);
+        }
+
+        @Override
+        public SpotBean[] newArray(int size) {
+            return new SpotBean[size];
+        }
+    };
 }

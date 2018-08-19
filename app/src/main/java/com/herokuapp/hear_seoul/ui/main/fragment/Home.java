@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2018. YeonJung Kim
+ *
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
+ */
+
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.Manifest;
@@ -261,9 +268,12 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                     spotBean.setTitle(place.getName().toString());
                     spotBean.setLocation(place.getLatLng());
                     spotBean.setDescription(place.getId());
+                    spotBean.setImgSrc("NO");
 
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra(Const.INTENT_EXTRA.LOCATION, spotBean);
+
+                    getContext().startActivity(intent);
                 } else {
                     Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
                 }

@@ -1,3 +1,10 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
 <resources>
     <string name="daum_kakao_key">6f504f9b73ad280372b2aff0036b6f32</string>
     <string name="baas_key">d1cd1f6f-0a5a-4947-9d56-8e76582559cc</string>

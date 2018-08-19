@@ -1,23 +1,8 @@
 /*
- * Copyright 2018 YeonJung Kim
- * GitHub : @duswnd25
- * Site   : https://yeonjung.herokuapp.com/
+ * Copyright (c) 2018. YeonJung Kim
  *
- * fetch event list from seoul city's public data
- * originally it provided aar
- * but it's difficult to apply so i decompile library and write this class
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
  */
 
 package com.herokuapp.hear_seoul.controller.main;

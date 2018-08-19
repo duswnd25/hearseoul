@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2018. YeonJung Kim
+ *
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
+ */
+
 package com.herokuapp.hear_seoul.ui.main;
 
 import android.content.Intent;
