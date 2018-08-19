@@ -20,6 +20,8 @@
 
 package com.herokuapp.hear_seoul.controller.main;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
@@ -33,8 +35,10 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FetchSpot {
+public class FetchSpot extends Thread {
     private FetchSpot.callback callback;
+    private LatLng location;
+    private int distance;
 
     public interface callback extends Serializable {
         void onDataFetchSuccess(LinkedList<SpotBean> result);
@@ -42,20 +46,23 @@ public class FetchSpot {
         void onDataFetchFail(String message);
     }
 
-    public FetchSpot() {
-
+    public FetchSpot(LatLng location, int distance, FetchSpot.callback callback) {
+        this.location = location;
+        this.distance = distance;
+        this.callback = callback;
     }
 
-    public void get(LatLng location, int distance, FetchSpot.callback newCallback) {
+    @Override
+    public void run() {
+        super.run();
         LinkedList<SpotBean> result = new LinkedList<>();
-        this.callback = newCallback;
         // 서버에 저장된 정보
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
         baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), distance);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
-                if (e == null || fetchResult != null) {
+                if (e == null) {
                     for (BaasObject item : fetchResult) {
                         SpotBean temp = new SpotBean();
                         temp.setId(item.getObjectId());
@@ -74,6 +81,7 @@ public class FetchSpot {
                         temp.setLongitude(geoPoint.getLongitude());
                         temp.setVisit(false);
 
+                        Log.e("TEST",temp.getTitle());
                         result.add(temp);
                     }
                     callback.onDataFetchSuccess(result);
