@@ -43,6 +43,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.main.FetchSpot;
 import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
@@ -60,7 +61,7 @@ import java.util.Objects;
 import static android.app.Activity.RESULT_OK;
 
 
-public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener {
+public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener, FetchSpot.callback {
 
     private final String TAG = "메인 (홈)";
     private int PLACE_PICKER_REQUEST = 1;
@@ -73,6 +74,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     private PullToRefreshView pullToRefreshView;
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private ShimmerRecyclerView spotListView;
 
     public Home() {
     }
@@ -113,7 +115,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .check();
 
         // Shimmer rootView 설정
-        ShimmerRecyclerView spotListView = view.findViewById(R.id.template_recycler_common);
+        spotListView = view.findViewById(R.id.template_recycler_common);
         spotListView.setHasFixedSize(true);
 
         // Recycler 뷰의 레이아웃 타입과 구분선 설정
@@ -152,6 +154,11 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     // 위치 권한 있음
     @Override
     public void onPermissionGranted() {
+        initLocation();
+        OttoProvider.getInstance().post(new PermissionEvent(true));
+    }
+
+    private void initLocation() {
         if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -162,7 +169,6 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
-        OttoProvider.getInstance().post(new PermissionEvent(true));
     }
 
     // 위치 권한 없음
@@ -229,22 +235,8 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
 
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
-        ShimmerRecyclerView shimmerRecyclerView = rootView.findViewById(R.id.template_recycler_common);
-        shimmerRecyclerView.showShimmerAdapter();
-        new FetchSpot(Objects.requireNonNull(getActivity()).getApplicationContext(), (FetchSpot.SuccessCallback) results -> {
-            shimmerRecyclerView.hideShimmerAdapter();
-            pullToRefreshView.setRefreshing(false);
-
-            // 데이터 교체
-            spotList.clear();
-            spotList.addAll(results);
-            spotListAdapter.notifyDataSetChanged();
-            for (SpotBean s : results) {
-                addMarker(s);
-            }
-        }, (FetchSpot.FailCallback) results -> {
-
-        }).execute(location);
+        spotListView.showShimmerAdapter();
+        new FetchSpot(location, 10, this).start();
     }
 
     // Place Picker 호출
@@ -294,6 +286,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
+            initLocation();
         }
     }
 
@@ -334,5 +327,23 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 break;
             default:
         }
+    }
+
+    @Override
+    public void onDataFetchSuccess(LinkedList<SpotBean> result) {
+        spotListView.hideShimmerAdapter();
+        pullToRefreshView.setRefreshing(false);
+        // 데이터 교체
+        spotList.clear();
+        spotList.addAll(result);
+        spotListAdapter.notifyDataSetChanged();
+        for (SpotBean s : result) {
+            addMarker(s);
+        }
+    }
+
+    @Override
+    public void onDataFetchFail(String message) {
+        Log.e(TAG, message);
     }
 }
