@@ -146,8 +146,7 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
 
     // 지도 마커 추가
     private void addMarker(SpotBean item) {
-        LatLng temp = new LatLng(item.getLatitude(), item.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(temp).title(item.getTitle()).snippet(item.getDescription()));
+        googleMap.addMarker(new MarkerOptions().position(item.getLocation()).title(item.getTitle()).snippet(item.getDescription()));
     }
 
     @Override

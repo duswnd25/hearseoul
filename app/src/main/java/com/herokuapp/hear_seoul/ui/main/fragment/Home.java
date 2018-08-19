@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -45,9 +44,11 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.main.FetchSpot;
 import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
+import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
 import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
+import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.herokuapp.hear_seoul.ui.main.MapLargeActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.squareup.otto.Subscribe;
@@ -181,7 +182,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 .backgroundColor(getContext().getColor(R.color.colorAccent))
                 .show();
 
-        Snackbar.make(rootView, getString(R.string.permission_deny_description), Snackbar.LENGTH_LONG)
+        Snackbar.make(Objects.requireNonNull(getView()), getString(R.string.permission_deny_description), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.open), view -> Utils.startAppInformationActivity(getContext())).show();
     }
 
@@ -255,16 +256,26 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, Objects.requireNonNull(getContext()));
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(getContext(), toastMsg, Toast.LENGTH_LONG).show();
+                if (Utils.calcDistance(currentLocation, place.getLatLng()) < 500) {
+                    SpotBean spotBean = new SpotBean();
+                    spotBean.setTitle(place.getName().toString());
+                    spotBean.setLocation(place.getLatLng());
+                    spotBean.setDescription(place.getId());
+
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    intent.putExtra(Const.INTENT_EXTRA.LOCATION, spotBean);
+                } else {
+                    Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
+                }
+            } else {
+                Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
             }
         }
     }
 
     // 지도 마커 추가
     private void addMarker(SpotBean item) {
-        LatLng temp = new LatLng(item.getLatitude(), item.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(temp).title(item.getTitle()).snippet(item.getDescription()));
+        googleMap.addMarker(new MarkerOptions().position(item.getLocation()).title(item.getTitle()).snippet(item.getDescription()));
     }
 
     @Override

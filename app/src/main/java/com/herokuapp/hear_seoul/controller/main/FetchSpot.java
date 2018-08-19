@@ -77,11 +77,10 @@ public class FetchSpot extends Thread {
                         }
 
                         BaasGeoPoint geoPoint = (BaasGeoPoint) item.get(Const.BAAS.SPOT.LOCATION);
-                        temp.setLatitude(geoPoint.getLatitude());
-                        temp.setLongitude(geoPoint.getLongitude());
+                        temp.setLocation(new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
                         temp.setVisit(false);
 
-                        Log.e("TEST",temp.getTitle());
+                        Log.e("TEST", temp.getTitle());
                         result.add(temp);
                     }
                     callback.onDataFetchSuccess(result);

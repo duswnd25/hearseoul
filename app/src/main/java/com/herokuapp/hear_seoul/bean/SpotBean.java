@@ -20,11 +20,13 @@
 
 package com.herokuapp.hear_seoul.bean;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 
 public class SpotBean implements Serializable {
     private String title, description, id, imgSrc;
-    private double latitude, longitude;
+    private LatLng location;
     private boolean visit;
     private int type;
 
@@ -47,20 +49,12 @@ public class SpotBean implements Serializable {
         this.visit = visit;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public LatLng getLocation() {
+        return location;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLocation(LatLng location) {
+        this.location = location;
     }
 
     public String getTitle() {
