@@ -29,12 +29,6 @@
                 android:layout_height="200dp"
                 app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="여기쯤 점령자의 이미지" />
-
                 <ImageView
                     android:id="@+id/detail_image"
                     android:layout_width="match_parent"
@@ -82,6 +76,13 @@
                         android:src="@drawable/ic_declaration" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/detail_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                app:sizeToFit="true" />
         </LinearLayout>
     </ScrollView>
 
