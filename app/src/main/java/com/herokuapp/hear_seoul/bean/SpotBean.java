@@ -28,20 +28,20 @@ public class SpotBean implements Parcelable {
     private LatLng location;
     private boolean visit;
     private int type;
+
     public SpotBean() {
     }
-    private SpotBean(Parcel in) {
+
+    protected SpotBean(Parcel in) {
         this.title = in.readString();
         this.description = in.readString();
         this.id = in.readString();
         this.imgSrc = in.readString();
+        this.address = in.readString();
+        this.time = in.readString();
         this.location = in.readParcelable(LatLng.class.getClassLoader());
         this.visit = in.readByte() != 0;
         this.type = in.readInt();
-    }
-
-    public static Creator<SpotBean> getCREATOR() {
-        return CREATOR;
     }
 
     public String getTime() {
@@ -127,6 +127,8 @@ public class SpotBean implements Parcelable {
         dest.writeString(this.description);
         dest.writeString(this.id);
         dest.writeString(this.imgSrc);
+        dest.writeString(this.address);
+        dest.writeString(this.time);
         dest.writeParcelable(this.location, flags);
         dest.writeByte(this.visit ? (byte) 1 : (byte) 0);
         dest.writeInt(this.type);
