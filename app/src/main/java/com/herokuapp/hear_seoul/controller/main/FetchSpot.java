@@ -61,7 +61,6 @@ public class FetchSpot extends Thread {
                         temp.setLocation(new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
                         temp.setVisit(false);
 
-                        Log.e("TEST", temp.getTitle());
                         result.add(temp);
                     }
                     callback.onDataFetchSuccess(result);
