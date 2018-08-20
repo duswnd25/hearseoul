@@ -261,16 +261,18 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, Objects.requireNonNull(getContext()));
-                if (Utils.calcDistance(currentLocation, place.getLatLng()) < 500) {
+                if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
                     SpotBean spotBean = new SpotBean();
                     spotBean.setTitle(place.getName().toString());
                     spotBean.setLocation(place.getLatLng());
                     spotBean.setDescription(place.getId());
                     spotBean.setImgSrc("NO");
                     spotBean.setTime("NO");
+                    spotBean.setId(place.getId());
 
+                    Log.d("TEST", spotBean.getTime());
                     Intent intent = new Intent(getContext(), DetailActivity.class);
-                    intent.putExtra(Const.INTENT_EXTRA.LOCATION, spotBean);
+                    intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
 
                     getContext().startActivity(intent);
                 } else {

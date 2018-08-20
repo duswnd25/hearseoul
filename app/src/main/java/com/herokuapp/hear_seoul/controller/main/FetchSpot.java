@@ -7,8 +7,6 @@
 
 package com.herokuapp.hear_seoul.controller.main;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;

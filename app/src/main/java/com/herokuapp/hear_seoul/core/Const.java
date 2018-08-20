@@ -10,6 +10,7 @@ package com.herokuapp.hear_seoul.core;
 public class Const {
     public static class INTENT_EXTRA {
         public static final String LOCATION = "location";
+        public static final String SPOT = "spot";
         public static final String IS_NEW_INFORMATION = "is_new_information";
         public static final String OBJECT_ID = "objectId";
     }
