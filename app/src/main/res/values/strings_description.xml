@@ -11,4 +11,7 @@
     <string name="hint_for_location">장소명</string>
     <string name="hint_for_location_description">세부내용</string>
     <string name="hint_for_time_full">종일</string>
+    <string name="like_button_description">추천</string>
+    <string name="share_button_description">공유</string>
+    <string name="declaration_button_description">신고</string>
 </resources>

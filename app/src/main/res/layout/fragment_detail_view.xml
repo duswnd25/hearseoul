@@ -39,38 +39,49 @@
                     android:id="@+id/detail_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginTop="@dimen/padding_half"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/detail_like"
+                        android:layout_width="@dimen/detail_icon_size"
+                        android:layout_height="@dimen/detail_icon_size"
+                        android:clickable="true"
+                        android:contentDescription="@string/like_button_description"
+                        android:focusable="true"
+                        android:padding="@dimen/padding_quarter"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_like" />
+
+                    <ImageView
+                        android:id="@+id/detail_share"
+                        android:layout_width="@dimen/detail_icon_size"
+                        android:layout_height="@dimen/detail_icon_size"
+                        android:clickable="true"
+                        android:contentDescription="@string/share_button_description"
+                        android:focusable="true"
+                        android:padding="@dimen/padding_quarter"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_share" />
+
+                    <ImageView
+                        android:id="@+id/detail_declaration"
+                        android:layout_width="@dimen/detail_icon_size"
+                        android:layout_height="@dimen/detail_icon_size"
+                        android:clickable="true"
+                        android:contentDescription="@string/declaration_button_description"
+                        android:focusable="true"
+
+                        android:padding="@dimen/padding_quarter"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_declaration" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="@dimen/padding_half"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/detail_like"
-                    android:layout_width="@dimen/detail_icon_size"
-                    android:layout_height="@dimen/detail_icon_size"
-                    android:padding="@dimen/padding_quarter"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_like" />
-
-                <ImageView
-                    android:id="@+id/detail_share"
-                    android:layout_width="@dimen/detail_icon_size"
-                    android:layout_height="@dimen/detail_icon_size"
-                    android:padding="@dimen/padding_quarter"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_share" />
-
-                <ImageView
-                    android:id="@+id/detail_declaration"
-                    android:layout_width="@dimen/detail_icon_size"
-                    android:layout_height="@dimen/detail_icon_size"
-                    android:padding="@dimen/padding_quarter"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_declaration" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
