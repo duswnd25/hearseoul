@@ -24,7 +24,7 @@ public class SpotBean implements Parcelable {
             return new SpotBean[size];
         }
     };
-    private String title, description, id, imgSrc, address;
+    private String title, description, id, imgSrc, address, time;
     private LatLng location;
     private boolean visit;
     private int type;
@@ -42,6 +42,14 @@ public class SpotBean implements Parcelable {
 
     public static Creator<SpotBean> getCREATOR() {
         return CREATOR;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getAddress() {
