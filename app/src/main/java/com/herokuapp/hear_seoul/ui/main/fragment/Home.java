@@ -267,6 +267,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                     spotBean.setLocation(place.getLatLng());
                     spotBean.setDescription(place.getId());
                     spotBean.setImgSrc("NO");
+                    spotBean.setTitle("NO");
 
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra(Const.INTENT_EXTRA.LOCATION, spotBean);
