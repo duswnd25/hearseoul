@@ -25,10 +25,10 @@ import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import java.util.Objects;
 
 
-public class Main extends Fragment implements View.OnClickListener {
+public class Info extends Fragment implements View.OnClickListener {
     private SpotBean spotBean;
 
-    public Main() {
+    public Info() {
     }
 
     @Override
