@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/HearSeoulTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
         <meta-data
@@ -49,15 +49,12 @@
         <activity
             android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_setting"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/HearSeoulTheme" />
         <activity
             android:name=".ui.main.MapLargeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.detail.DetailEditActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
