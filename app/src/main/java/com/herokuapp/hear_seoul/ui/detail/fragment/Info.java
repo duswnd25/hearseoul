@@ -90,7 +90,8 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
         switch (v.getId()) {
             case R.id.detail_edit:
                 Intent intent = new Intent(getContext(), DetailEditActivity.class);
-                intent.putExtra(Const.INTENT_EXTRA.LOCATION, spotBean);
+                intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
+                intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, isNew);
                 startActivity(intent);
                 break;
             default:
@@ -99,7 +100,7 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
 
     @Override
     public void onInfoFetchSuccess(boolean isExist, SpotBean result) {
-        this.isNew = isExist;
+        this.isNew = !isExist;
         if (isExist && result != null) {
             Info.this.spotBean = result;
         }
