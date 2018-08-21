@@ -40,6 +40,7 @@ public class FetchInfoById extends Thread {
                 if (e == null) {
                     if (baasObject != null) {
                         SpotBean spotBean = new SpotBean();
+                        spotBean.setObjectId(baasObject.getObjectId());
                         spotBean.setId(baasObject.getString(Const.BAAS.SPOT.ID));
                         spotBean.setTitle(baasObject.getString(Const.BAAS.SPOT.TITLE));
                         spotBean.setDescription(baasObject.getString(Const.BAAS.SPOT.DESCRIPTION));
