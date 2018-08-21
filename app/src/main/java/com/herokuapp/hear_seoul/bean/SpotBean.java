@@ -13,33 +13,20 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 
 public class SpotBean implements Parcelable {
-    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
-        @Override
-        public SpotBean createFromParcel(Parcel source) {
-            return new SpotBean(source);
-        }
 
-        @Override
-        public SpotBean[] newArray(int size) {
-            return new SpotBean[size];
-        }
-    };
-    private String title, description, id, imgSrc, address, time;
+    private String title, description, id, imgSrc, address, time, objectId;
     private LatLng location;
     private boolean visit;
 
     public SpotBean() {
     }
 
-    protected SpotBean(Parcel in) {
-        this.title = in.readString();
-        this.description = in.readString();
-        this.id = in.readString();
-        this.imgSrc = in.readString();
-        this.address = in.readString();
-        this.time = in.readString();
-        this.location = in.readParcelable(LatLng.class.getClassLoader());
-        this.visit = in.readByte() != 0;
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String getTime() {
@@ -122,7 +109,32 @@ public class SpotBean implements Parcelable {
         dest.writeString(this.imgSrc);
         dest.writeString(this.address);
         dest.writeString(this.time);
+        dest.writeString(this.objectId);
         dest.writeParcelable(this.location, flags);
         dest.writeByte(this.visit ? (byte) 1 : (byte) 0);
     }
+
+    protected SpotBean(Parcel in) {
+        this.title = in.readString();
+        this.description = in.readString();
+        this.id = in.readString();
+        this.imgSrc = in.readString();
+        this.address = in.readString();
+        this.time = in.readString();
+        this.objectId = in.readString();
+        this.location = in.readParcelable(LatLng.class.getClassLoader());
+        this.visit = in.readByte() != 0;
+    }
+
+    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
+        @Override
+        public SpotBean createFromParcel(Parcel source) {
+            return new SpotBean(source);
+        }
+
+        @Override
+        public SpotBean[] newArray(int size) {
+            return new SpotBean[size];
+        }
+    };
 }
