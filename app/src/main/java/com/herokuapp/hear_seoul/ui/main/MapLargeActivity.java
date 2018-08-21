@@ -36,7 +36,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.main.FetchSpot;
+import com.herokuapp.hear_seoul.controller.main.FetchSpotList;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
 import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.Objects;
 
 @SuppressLint("MissingPermission")
-public class MapLargeActivity extends AppCompatActivity implements PermissionListener, OnMapReadyCallback, FetchSpot.callback {
+public class MapLargeActivity extends AppCompatActivity implements PermissionListener, OnMapReadyCallback, FetchSpotList.callback {
 
     private String TAG = "큰 지도 액티비티";
     private MapView mMapView;
@@ -147,7 +147,7 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
 
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
-        new FetchSpot(location, 10, this).start();
+        new FetchSpotList(location, 10, this).start();
     }
 
     // 지도 마커 추가

@@ -49,7 +49,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.main.FetchSpot;
+import com.herokuapp.hear_seoul.controller.main.FetchSpotList;
 import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Utils;
@@ -69,7 +69,7 @@ import java.util.Objects;
 import static android.app.Activity.RESULT_OK;
 
 
-public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener, FetchSpot.callback {
+public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener, FetchSpotList.callback {
 
     private final String TAG = "메인 (홈)";
     private int PLACE_PICKER_REQUEST = 1;
@@ -242,7 +242,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
         spotListView.showShimmerAdapter();
-        new FetchSpot(location, 10, this).start();
+        new FetchSpotList(location, 10, this).start();
     }
 
     // Place Picker 호출
@@ -263,12 +263,12 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 Place place = PlacePicker.getPlace(data, Objects.requireNonNull(getContext()));
                 if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
                     SpotBean spotBean = new SpotBean();
+                    spotBean.setId(place.getId());
                     spotBean.setTitle(place.getName().toString());
                     spotBean.setLocation(place.getLatLng());
                     spotBean.setDescription(place.getId());
                     spotBean.setImgSrc("NO");
                     spotBean.setTime("NO");
-                    spotBean.setId(place.getId());
 
                     Log.d("TEST", spotBean.getTime());
                     Intent intent = new Intent(getContext(), DetailActivity.class);
