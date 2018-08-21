@@ -72,8 +72,9 @@ public class Event extends Fragment implements FetchEvent.callback {
     }
 
     private void fetchEvent() {
-        final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
-        shimmerRecyclerView.showShimmerAdapter();
+        ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
+        //shimmerRecyclerView.showShimmerAdapter();
+
         new FetchEvent(getString(R.string.seoul_event_key), this).start();
     }
 
