@@ -12,7 +12,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,8 +23,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
+import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.skt.baas.api.BaasGeoPoint;
@@ -40,11 +39,11 @@ import java.util.Objects;
 public class DetailEditActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     private String TAG = "큰 지도 화면 액티비티";
-    private String recentObjectId;
     private TextView startView, endView;
     private boolean isNewInformation;
     private boolean isFullTime = false;
-    private LatLng location;
+    private SpotBean spotBean;
+
     @SuppressLint("SetTextI18n")
     private TimePickerDialog.OnTimeSetListener startTimePickerListener = (view, hourOfDay, minute) -> {
         startView.setText(hourOfDay + ":" + minute);
@@ -63,32 +62,53 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("정보 수정");
-            Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
-        }
 
         Intent intent = getIntent();
         isNewInformation = intent.getBooleanExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
-        location = intent.getParcelableExtra(Const.INTENT_EXTRA.LOCATION);
-        recentObjectId = isNewInformation ? null : intent.getStringExtra(Const.INTENT_EXTRA.OBJECT_ID);
+        spotBean = intent.getParcelableExtra(Const.INTENT_EXTRA.SPOT);
 
+        if (actionBar != null) {
+            actionBar.setTitle(isNewInformation ? getString(R.string.upload_new_data) : getString(R.string.edit_data));
+            Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
+        }
+
+        initViewData();
+    }
+
+    private void initViewData() {
+        // 장소명
+        EditText titleEdit = findViewById(R.id.detail_edit_title);
+        titleEdit.setEnabled(false);
+        titleEdit.setFocusable(false);
+        titleEdit.setText(spotBean.getTitle());
+
+        // 설명
+        ((EditText) findViewById(R.id.detail_edit_description)).setText(spotBean.getDescription());
+
+        // 영업시간
         Switch isFullTimeSwitch = findViewById(R.id.detail_edit_is_full_time);
-        isFullTimeSwitch.setChecked(false);
         isFullTimeSwitch.setOnCheckedChangeListener(this);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 1);
         startView = findViewById(R.id.detail_edit_start);
         startView.setText("개점 시간");
-        startView.setOnClickListener(this);
-
         endView = findViewById(R.id.detail_edit_end);
         endView.setText("폐점 시간");
-        endView.setOnClickListener(this);
 
-        NestedScrollView contentScrollView = findViewById(R.id.detail_edit_content_container);
-        contentScrollView.setSmoothScrollingEnabled(true);
+        if (isNewInformation) {
+            // 새 데이터 입력
+            isFullTimeSwitch.setChecked(false);
+        } else if (spotBean.getTime().equals("FULL")) {
+            isFullTimeSwitch.setChecked(true);
+        } else {
+            String[] data = spotBean.getTime().split("/");
+            startView.setText(data[0]);
+            endView.setText(data[1]);
+        }
+
+        startView.setOnClickListener(this);
+        endView.setOnClickListener(this);
 
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
         findViewById(R.id.detail_edit_cancel).setOnClickListener(this);
@@ -130,14 +150,20 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
 
     private void saveDataToServer() {
         String time = isFullTime ? "FULL" : startView.getText() + "/" + endView.getText();
+        if (time.contains("시간")) {
+            return;
+        }
         String title = ((EditText) findViewById(R.id.detail_edit_title)).getText().toString();
         String description = ((EditText) findViewById(R.id.detail_edit_description)).getText().toString();
 
-        BaasGeoPoint location = new BaasGeoPoint(this.location.latitude, this.location.longitude);
+        BaasGeoPoint location = new BaasGeoPoint(spotBean.getLocation().latitude, spotBean.getLocation().longitude);
 
         BaasObject baasObject = new BaasObject(Const.BAAS.SPOT.TABLE_NAME);
+        baasObject.set(Const.BAAS.SPOT.ID, spotBean.getId());
         baasObject.set(Const.BAAS.SPOT.TITLE, title);
         baasObject.set(Const.BAAS.SPOT.DESCRIPTION, description);
+        baasObject.set(Const.BAAS.SPOT.LOCATION, location);
+        baasObject.set(Const.BAAS.SPOT.ADDRESS, spotBean.getAddress());
         baasObject.set(Const.BAAS.SPOT.TIME, time);
 
         if (isNewInformation) {
@@ -151,7 +177,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
             });
         } else {
             // 기존 장소
-            baasObject.setObjectId(recentObjectId);
+            baasObject.setObjectId(spotBean.getObjectId());
             baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
                 @Override
                 public void onSuccess(BaasException e) {
