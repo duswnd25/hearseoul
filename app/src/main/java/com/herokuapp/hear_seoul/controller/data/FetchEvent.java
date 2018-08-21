@@ -7,10 +7,6 @@
 
 package com.herokuapp.hear_seoul.controller.data;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
-import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
 
 import org.json.JSONArray;
@@ -25,21 +21,23 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class FetchEvent extends AsyncTask<Context, Void, LinkedList<EventBean>> {
+public class FetchEvent extends Thread {
 
-    private SuccessCallback successCallback;
-    private FailCallback failCallback;
+    private callback callback;
+    private String apiKey;
 
-    public FetchEvent(SuccessCallback successCallback, FailCallback failCallback) {
-        this.successCallback = successCallback;
-        this.failCallback = failCallback;
+    public FetchEvent(String apiKey, callback callback) {
+        this.callback = callback;
+        this.apiKey = apiKey;
     }
 
+
     @Override
-    protected LinkedList<EventBean> doInBackground(Context... params) {
+    public void run() {
+        super.run();
         final LinkedList<EventBean> results = new LinkedList<>();
 
-        String requestUrl = String.format("http://openapi.seoul.go.kr:8088/%s/json/SearchConcertDetailService/1/1000", params[0].getString(R.string.seoul_event_key));
+        String requestUrl = String.format("http://openapi.seoul.go.kr:8088/%s/json/SearchConcertDetailService/1/1000", apiKey);
 
         try {
             Request request = new Request.Builder().url(requestUrl).build();
@@ -67,27 +65,15 @@ public class FetchEvent extends AsyncTask<Context, Void, LinkedList<EventBean>> 
                 temp.setGcode(jsonObject.getString("GCODE"));
                 results.add(temp);
             }
+            callback.onEventFetchSuccess(results);
         } catch (Exception e) {
-            e.getLocalizedMessage();
-        }
-        return results;
-    }
-
-    @Override
-    protected void onPostExecute(LinkedList<EventBean> results) {
-        if (results.size() > 0) {
-            successCallback.successCallback(results);
-        } else {
-            failCallback.failCallback(results);
+            callback.onEventFetchFail(e.getMessage());
         }
     }
 
-    public interface SuccessCallback extends Serializable {
-        void successCallback(LinkedList<EventBean> results);
-    }
+    public interface callback extends Serializable {
+        void onEventFetchSuccess(LinkedList<EventBean> result);
 
-
-    public interface FailCallback extends Serializable {
-        void failCallback(LinkedList<EventBean> results);
+        void onEventFetchFail(String message);
     }
 }

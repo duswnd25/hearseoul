@@ -21,15 +21,15 @@ import android.view.ViewGroup;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
-import com.herokuapp.hear_seoul.controller.main.EventListAdapter;
 import com.herokuapp.hear_seoul.controller.data.FetchEvent;
+import com.herokuapp.hear_seoul.controller.main.EventListAdapter;
 import com.yalantis.taurus.PullToRefreshView;
 
 import java.util.LinkedList;
 import java.util.Objects;
 
 
-public class Event extends Fragment {
+public class Event extends Fragment implements FetchEvent.callback {
 
     private LinkedList<EventBean> eventList = new LinkedList<>();
     private EventListAdapter eventListAdapter;
@@ -74,12 +74,21 @@ public class Event extends Fragment {
     private void fetchEvent() {
         final ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
         shimmerRecyclerView.showShimmerAdapter();
-        new FetchEvent((FetchEvent.SuccessCallback) results -> {
-            eventList.clear();
-            eventList.addAll(results);
-            eventListAdapter.notifyDataSetChanged();
-            pullToRefreshView.setRefreshing(false);
-            shimmerRecyclerView.hideShimmerAdapter();
-        }, (FetchEvent.FailCallback) results -> fetchEvent()).execute(Objects.requireNonNull(getActivity()).getApplicationContext());
+        new FetchEvent(getString(R.string.seoul_event_key), this).start();
+    }
+
+    @Override
+    public void onEventFetchSuccess(LinkedList<EventBean> result) {
+        ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
+        eventList.clear();
+        eventList.addAll(result);
+        eventListAdapter.notifyDataSetChanged();
+        pullToRefreshView.setRefreshing(false);
+        shimmerRecyclerView.hideShimmerAdapter();
+    }
+
+    @Override
+    public void onEventFetchFail(String message) {
+        fetchEvent();
     }
 }
