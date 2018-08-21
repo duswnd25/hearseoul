@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.search;
+package com.herokuapp.hear_seoul.controller.data;
 
 import android.Manifest;
 import android.content.Context;

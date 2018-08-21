@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.main;
+package com.herokuapp.hear_seoul.controller.data;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.bean.SpotBean;

@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.ReviewBean;
-import com.herokuapp.hear_seoul.controller.detail.FetchReview;
+import com.herokuapp.hear_seoul.controller.data.FetchReview;
 import com.herokuapp.hear_seoul.controller.detail.ReviewListAdapter;
 
 import java.util.LinkedList;

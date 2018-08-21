@@ -22,7 +22,7 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
 import com.herokuapp.hear_seoul.controller.main.EventListAdapter;
-import com.herokuapp.hear_seoul.controller.main.FetchEvent;
+import com.herokuapp.hear_seoul.controller.data.FetchEvent;
 import com.yalantis.taurus.PullToRefreshView;
 
 import java.util.LinkedList;
