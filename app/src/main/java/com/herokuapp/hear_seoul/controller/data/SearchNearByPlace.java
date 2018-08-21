@@ -18,7 +18,6 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.Task;
-import com.herokuapp.hear_seoul.core.Logger;
 
 import java.io.Serializable;
 import java.util.LinkedList;
