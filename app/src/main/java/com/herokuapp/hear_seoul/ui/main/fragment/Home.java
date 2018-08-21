@@ -267,13 +267,11 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                     spotBean.setTitle(place.getName().toString());
                     spotBean.setLocation(place.getLatLng());
                     spotBean.setDescription(place.getId());
-                    spotBean.setImgSrc("NO");
                     spotBean.setTime("NO");
+                    spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
 
-                    Log.d("TEST", spotBean.getTime());
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
-
                     getContext().startActivity(intent);
                 } else {
                     Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
