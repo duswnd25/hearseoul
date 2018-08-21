@@ -92,7 +92,7 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
                 Intent intent = new Intent(getContext(), DetailEditActivity.class);
                 intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
                 intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, isNew);
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
                 startActivity(intent);
                 break;
             default:
