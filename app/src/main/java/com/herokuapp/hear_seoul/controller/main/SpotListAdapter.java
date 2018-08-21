@@ -63,16 +63,6 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListAdapter.ViewHo
         }
         */
 
-        int typeImageId;
-        switch (itemList.get(position).getType()) {
-            case 0:
-                typeImageId = R.drawable.ic_landmark;
-                break;
-            default:
-                typeImageId = R.drawable.ic_user_place;
-        }
-        Glide.with(context).load(typeImageId).apply(options).into(holder.sub);
-
         holder.container.setOnClickListener(view -> {
             Intent intent = new Intent(context, DetailActivity.class);
             context.startActivity(intent);
