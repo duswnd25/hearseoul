@@ -17,12 +17,14 @@ public class Const {
 
     public static class BAAS {
         public static class SPOT {
+            public static final String ID = "id";
             public static final String TABLE_NAME = "Spot";
             public static final String TITLE = "title";
             public static final String TIME = "time";
             public static final String DESCRIPTION = "description";
             public static final String LOCATION = "location";
             public static final String IMG_SRC = "img_src";
+            public static final String ADDRESS = "address";
         }
 
         public static class REVIEW {
