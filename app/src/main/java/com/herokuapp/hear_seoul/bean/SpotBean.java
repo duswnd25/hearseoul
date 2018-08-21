@@ -109,6 +109,9 @@ public class SpotBean implements Parcelable {
     }
 
     public String getImgSrc() {
+        if (imgSrc.equals("NO") || imgSrc.length() < 10 || imgSrc == null) {
+            return "NO";
+        }
         return imgSrc;
     }
 
