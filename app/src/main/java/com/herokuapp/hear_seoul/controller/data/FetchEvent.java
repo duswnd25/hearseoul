@@ -8,6 +8,7 @@
 package com.herokuapp.hear_seoul.controller.data;
 
 import com.herokuapp.hear_seoul.bean.EventBean;
+import com.herokuapp.hear_seoul.core.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,6 +68,7 @@ public class FetchEvent extends Thread {
             }
             callback.onEventFetchSuccess(results);
         } catch (Exception e) {
+            Logger.e(e.getMessage());
             callback.onEventFetchFail(e.getMessage());
         }
     }

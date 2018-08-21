@@ -10,6 +10,7 @@ package com.herokuapp.hear_seoul.controller.data;
 import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.skt.baas.api.BaasGeoPoint;
 import com.skt.baas.api.BaasObject;
 import com.skt.baas.api.BaasQuery;
@@ -59,6 +60,7 @@ public class FetchSpotList extends Thread {
                     }
                     callback.onDataFetchSuccess(result);
                 } else {
+                    Logger.e(e.getMessage());
                     callback.onDataFetchFail(e.getMessage());
                 }
             }

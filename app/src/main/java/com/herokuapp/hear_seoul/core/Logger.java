@@ -10,13 +10,13 @@ package com.herokuapp.hear_seoul.core;
 import android.util.Log;
 
 public class Logger {
-    private String APP_NAME = "여기, 서울";
+    private static final String APP_NAME = "여기, 서울";
 
-    public void d(String message) {
+    public static void d(String message) {
         Log.d(APP_NAME, message);
     }
 
-    public void e(String message) {
+    public static void e(String message) {
         Log.e(APP_NAME, message);
     }
 }
