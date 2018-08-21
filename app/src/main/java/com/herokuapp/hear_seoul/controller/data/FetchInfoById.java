@@ -18,11 +18,11 @@ import com.skt.baas.exception.BaasException;
 
 import java.io.Serializable;
 
-public class FetchInfo extends Thread {
-    private FetchInfo.callback callback;
+public class FetchInfoById extends Thread {
+    private FetchInfoById.callback callback;
     private String id;
 
-    public FetchInfo(String id, FetchInfo.callback callback) {
+    public FetchInfoById(String id, FetchInfoById.callback callback) {
         this.id = id;
         this.callback = callback;
     }
