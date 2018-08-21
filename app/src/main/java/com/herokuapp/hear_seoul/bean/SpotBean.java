@@ -27,7 +27,6 @@ public class SpotBean implements Parcelable {
     private String title, description, id, imgSrc, address, time;
     private LatLng location;
     private boolean visit;
-    private int type;
 
     public SpotBean() {
     }
@@ -41,7 +40,6 @@ public class SpotBean implements Parcelable {
         this.time = in.readString();
         this.location = in.readParcelable(LatLng.class.getClassLoader());
         this.visit = in.readByte() != 0;
-        this.type = in.readInt();
     }
 
     public String getTime() {
@@ -58,14 +56,6 @@ public class SpotBean implements Parcelable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public boolean isVisit() {
@@ -109,7 +99,7 @@ public class SpotBean implements Parcelable {
     }
 
     public String getImgSrc() {
-        if (imgSrc.equals("NO") || imgSrc.length() < 10 || imgSrc == null) {
+        if (imgSrc == null || imgSrc.equals("NO") || imgSrc.length() < 10) {
             return "NO";
         }
         return imgSrc;
@@ -134,6 +124,5 @@ public class SpotBean implements Parcelable {
         dest.writeString(this.time);
         dest.writeParcelable(this.location, flags);
         dest.writeByte(this.visit ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.type);
     }
 }
