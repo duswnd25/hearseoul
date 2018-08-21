@@ -38,19 +38,23 @@ public class FetchInfoById extends Thread {
             @Override
             public void onSuccess(BaasObject baasObject, BaasException e) {
                 if (e == null) {
-                    SpotBean spotBean = new SpotBean();
-                    spotBean.setId(baasObject.getString(Const.BAAS.SPOT.ID));
-                    spotBean.setTitle(baasObject.getString(Const.BAAS.SPOT.TITLE));
-                    spotBean.setDescription(baasObject.getString(Const.BAAS.SPOT.DESCRIPTION));
-                    spotBean.setImgSrc(baasObject.getString(Const.BAAS.SPOT.IMG_SRC));
-                    spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
-                    spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
-                    spotBean.setTime(baasObject.getString(Const.BAAS.SPOT.TIME));
+                    if (baasObject != null) {
+                        SpotBean spotBean = new SpotBean();
+                        spotBean.setId(baasObject.getString(Const.BAAS.SPOT.ID));
+                        spotBean.setTitle(baasObject.getString(Const.BAAS.SPOT.TITLE));
+                        spotBean.setDescription(baasObject.getString(Const.BAAS.SPOT.DESCRIPTION));
+                        spotBean.setImgSrc(baasObject.getString(Const.BAAS.SPOT.IMG_SRC));
+                        spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
+                        spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
+                        spotBean.setTime(baasObject.getString(Const.BAAS.SPOT.TIME));
 
-                    BaasGeoPoint temp = (BaasGeoPoint) baasObject.get(Const.BAAS.SPOT.LOCATION);
-                    spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
+                        BaasGeoPoint temp = (BaasGeoPoint) baasObject.get(Const.BAAS.SPOT.LOCATION);
+                        spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
+                        callback.onInfoFetchSuccess(true, spotBean);
+                    } else {
+                        callback.onInfoFetchSuccess(false, null);
+                    }
 
-                    callback.onInfoFetchSuccess(spotBean);
                 } else {
                     Logger.e(e.getMessage());
                     callback.onInfoFetchFail(e.getMessage());
@@ -60,7 +64,7 @@ public class FetchInfoById extends Thread {
     }
 
     public interface callback extends Serializable {
-        void onInfoFetchSuccess(SpotBean result);
+        void onInfoFetchSuccess(boolean isExist, SpotBean result);
 
         void onInfoFetchFail(String message);
     }
