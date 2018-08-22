@@ -82,7 +82,7 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
 
         // 영업시간
         AutofitTextView infoTimeView = view.findViewById(R.id.detail_time);
-        infoTimeView.setText((spotBean.getTime()).equals("NO") ? getString(R.string.no_data) : spotBean.getTime());
+        infoTimeView.setText((spotBean.getTime()).equals("NO") ? getString(R.string.no_data) : spotBean.getTime().equals("FULL") ? getString(R.string.full_time) : spotBean.getTitle());
     }
 
     @Override

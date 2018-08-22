@@ -266,7 +266,6 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                     spotBean.setId(place.getId());
                     spotBean.setTitle(place.getName().toString());
                     spotBean.setLocation(place.getLatLng());
-                    spotBean.setDescription(place.getId());
                     spotBean.setTime("NO");
                     spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
 
