@@ -235,7 +235,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         this.googleMap.setOnMapClickListener(latLng -> {
             Intent intent = new Intent(getActivity(), MapLargeActivity.class);
-            intent.putExtra("location", currentLocation);
+            intent.putExtra(Const.INTENT_EXTRA.LOCATION, currentLocation);
             startActivity(intent);
         });
     }
