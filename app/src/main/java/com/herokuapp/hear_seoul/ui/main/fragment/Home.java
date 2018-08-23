@@ -92,6 +92,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
             if (locationList.size() > 0) {
                 Location location = locationList.get(locationList.size() - 1);
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                Utils.saveLocation(getContext(), currentLocation);
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
                 if (googleMap != null) {
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -232,7 +233,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
         this.googleMap.setMyLocationEnabled(true);
         this.googleMap.getUiSettings().setAllGesturesEnabled(false);
         this.googleMap.getUiSettings().setCompassEnabled(false);
-        this.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         this.googleMap.setOnMapClickListener(latLng -> {
             Intent intent = new Intent(getActivity(), MapLargeActivity.class);
             intent.putExtra(Const.INTENT_EXTRA.LOCATION, currentLocation);
@@ -332,6 +333,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
             }
             initLocation();
         }
+        fetchSpot(Utils.getSavedLocation(getContext()));
     }
 
     @Override

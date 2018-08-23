@@ -10,8 +10,10 @@ package com.herokuapp.hear_seoul.core;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
@@ -54,5 +56,16 @@ public class Utils {
             Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
             context.startActivity(intent);
         }
+    }
+
+    public static LatLng getSavedLocation(Context context) {
+        SharedPreferences savedData = PreferenceManager.getDefaultSharedPreferences(context);
+        String[] data = savedData.getString(Const.PREFERENCE.SAVED_LOCATION, "37.541/126.986").split("/");
+        return new LatLng(Double.parseDouble(data[0]), Double.parseDouble(data[1]));
+    }
+
+    public static void saveLocation(Context context, LatLng location) {
+        SharedPreferences savedData = PreferenceManager.getDefaultSharedPreferences(context);
+        savedData.edit().putString(Const.PREFERENCE.SAVED_LOCATION, location.latitude + "/" + location.longitude).apply();
     }
 }

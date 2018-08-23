@@ -88,8 +88,6 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
     private void initViewData() {
         // 장소명
         EditText titleEdit = findViewById(R.id.detail_edit_title);
-        titleEdit.setEnabled(false);
-        titleEdit.setFocusable(false);
         titleEdit.setText(spotBean.getTitle());
 
         // 이미지
@@ -191,6 +189,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
 
     // 데이터 업로드
     private void saveDataToServer() {
+        spotBean.setTitle(((EditText) (findViewById(R.id.detail_edit_title))).getText().toString());
         String description = ((EditText) findViewById(R.id.detail_edit_description)).getText().toString();
         spotBean.setDescription(description);
 

@@ -15,6 +15,10 @@ public class Const {
         public static final String OBJECT_ID = "objectId";
     }
 
+    public static class PREFERENCE {
+        public static final String SAVED_LOCATION = "saved_location";
+    }
+
     public static class BAAS {
         public static class SPOT {
             public static final String ID = "id";
