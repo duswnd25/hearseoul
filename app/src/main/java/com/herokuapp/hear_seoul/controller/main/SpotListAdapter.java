@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
@@ -54,13 +55,10 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListAdapter.ViewHo
         options.centerCrop();
         String imageUrl = itemList.get(position).getImgSrc();
 
-        /*
-        if (imageUrl != null && imageUrl.length() < 10) {
+        if (!imageUrl.equals("NO")) {
             Glide.with(context).load(imageUrl).apply(options).into(holder.image);
-        } else {
-            Glide.with(context).load(R.drawable.placeholder).apply(options).into(holder.image);
         }
-        */
+
 
         holder.container.setOnClickListener(view -> {
             Intent intent = new Intent(context, DetailActivity.class);
