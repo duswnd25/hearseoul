@@ -69,7 +69,7 @@ import java.util.Objects;
 import static android.app.Activity.RESULT_OK;
 
 
-public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener, FetchSpotList.callback {
+public class Home extends Fragment implements PermissionListener, OnMapReadyCallback, PullToRefreshView.OnRefreshListener, View.OnClickListener {
 
     private final String TAG = "메인 (홈)";
     private int PLACE_PICKER_REQUEST = 1;
@@ -83,6 +83,7 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
     private ShimmerRecyclerView spotListView;
+
     // 위치 콜백
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -242,7 +243,31 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
         spotListView.showShimmerAdapter();
-        new FetchSpotList(location, 10, this).start();
+        new FetchSpotList(location, 10, new FetchSpotList.callback() {
+            @Override
+            public void onDataFetchSuccess(LinkedList<SpotBean> result) {
+                spotListView.hideShimmerAdapter();
+                pullToRefreshView.setRefreshing(false);
+                // 데이터 교체
+                spotList.clear();
+                spotList.addAll(result);
+                spotListAdapter.notifyDataSetChanged();
+
+                if (spotList.size() == 0) {
+                    rootView.findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
+                } else {
+                    rootView.findViewById(R.id.empty_view).setVisibility(View.GONE);
+                    for (SpotBean s : result) {
+                        addMarker(s);
+                    }
+                }
+            }
+
+            @Override
+            public void onDataFetchFail(String message) {
+                Log.e(TAG, message);
+            }
+        }).start();
     }
 
     // Place Picker 호출
@@ -346,23 +371,5 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 break;
             default:
         }
-    }
-
-    @Override
-    public void onDataFetchSuccess(LinkedList<SpotBean> result) {
-        spotListView.hideShimmerAdapter();
-        pullToRefreshView.setRefreshing(false);
-        // 데이터 교체
-        spotList.clear();
-        spotList.addAll(result);
-        spotListAdapter.notifyDataSetChanged();
-        for (SpotBean s : result) {
-            addMarker(s);
-        }
-    }
-
-    @Override
-    public void onDataFetchFail(String message) {
-        Log.e(TAG, message);
     }
 }
