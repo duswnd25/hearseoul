@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 
 import java.util.LinkedList;
@@ -62,6 +63,7 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListAdapter.ViewHo
 
         holder.container.setOnClickListener(view -> {
             Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra(Const.INTENT_EXTRA.SPOT, itemList.get(position));
             context.startActivity(intent);
         });
     }
