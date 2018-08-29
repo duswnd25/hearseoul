@@ -9,6 +9,7 @@ package com.herokuapp.hear_seoul.ui.detail;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -51,6 +52,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
     private SpotBean spotBean;
     private CircleImageView infoImageView;
     private Bitmap bmp;
+    private ProgressDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     private TimePickerDialog.OnTimeSetListener startTimePickerListener = (view, hourOfDay, minute) -> {
@@ -79,6 +81,10 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
             actionBar.setTitle(isNewInformation ? getString(R.string.upload_new_data) : getString(R.string.edit_data));
             Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         }
+
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setCancelable(false);
+        loadingDialog.setMessage(getString(R.string.loading));
 
         initViewData();
     }
@@ -208,14 +214,18 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         spotBean.setTime(time);
 
         if (isTimeDateModified && bmp != null && description.length() > 10) {
+            loadingDialog.show();
             new UpdateInfo(spotBean, bmp, isNewInformation, new UpdateInfo.callback() {
                 @Override
                 public void onUpdateSuccess() {
+                    loadingDialog.dismiss();
                     Utils.showStyleToast(DetailEditActivity.this, getString(R.string.upload));
+                    finish();
                 }
 
                 @Override
                 public void onUpdateFail(String message) {
+                    loadingDialog.dismiss();
                     Snackbar.make(findViewById(R.id.detail_edit_content_container), message, Snackbar.LENGTH_SHORT).show();
                 }
             }).start();

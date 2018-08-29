@@ -8,6 +8,7 @@
 package com.herokuapp.hear_seoul.ui.detail.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
     private ActionBar actionBar;
     private Context context;
     private boolean isNew;
+    private ProgressDialog loadingDialog;
 
     public Info() {
     }
@@ -59,6 +61,10 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
         this.context = getContext();
 
         spotBean = Objects.requireNonNull(getActivity()).getIntent().getParcelableExtra(Const.INTENT_EXTRA.SPOT);
+        loadingDialog = new ProgressDialog(getContext());
+        loadingDialog.setCancelable(false);
+        loadingDialog.setMessage(getString(R.string.loading));
+        loadingDialog.show();
 
         // FAB
         FloatingActionButton fab = view.findViewById(R.id.detail_edit);
@@ -104,6 +110,9 @@ public class Info extends Fragment implements View.OnClickListener, FetchInfoByI
         this.isNew = !isExist;
         if (isExist && result != null) {
             Info.this.spotBean = result;
+        }
+        if (loadingDialog != null) {
+            loadingDialog.hide();
         }
         initViewData();
     }
