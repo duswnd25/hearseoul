@@ -21,7 +21,7 @@ public class BaasImageManager {
 
     public void uploadImage(String fileName, Bitmap bmp, uploadCallback callback) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
         byte[] byteArray = stream.toByteArray();
         bmp.recycle();
         BaasFile file = new BaasFile(fileName + ".png", byteArray);
