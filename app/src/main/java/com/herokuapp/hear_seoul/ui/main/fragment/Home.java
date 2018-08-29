@@ -52,6 +52,7 @@ import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.controller.main.SpotListAdapter;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.core.otto.OttoProvider;
 import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
@@ -289,27 +290,34 @@ public class Home extends Fragment implements PermissionListener, OnMapReadyCall
                 Place place = PlacePicker.getPlace(data, Objects.requireNonNull(getContext()));
                 if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
                     SpotBean spotBean = new SpotBean();
-                    spotBean.setId(place.getId());
-                    spotBean.setTitle(place.getName().toString());
-                    spotBean.setLocation(place.getLatLng());
-                    spotBean.setTime("NO");
-                    spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-
+                    try {
+                        spotBean.setId(place.getId());
+                        spotBean.setTitle(place.getName().toString());
+                        spotBean.setLocation(place.getLatLng());
+                        spotBean.setTime("NO");
+                        spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
+                    } catch (Exception e) {
+                        Logger.e(e.getMessage());
+                    }
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
                     getContext().startActivity(intent);
                 } else {
-                    Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
+                    Utils.showStyleToast(getContext(), getString(R.string.select_near_location));
                 }
             } else {
-                Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
+                Utils.showStyleToast(getContext(), getString(R.string.select_near_location));
             }
         }
     }
 
     // 지도 마커 추가
     private void addMarker(SpotBean item) {
-        googleMap.addMarker(new MarkerOptions().position(item.getLocation()).title(item.getTitle()).snippet(item.getDescription()));
+        try {
+            googleMap.addMarker(new MarkerOptions().position(item.getLocation()).title(item.getTitle()).snippet(item.getDescription()));
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
     }
 
     @Override
