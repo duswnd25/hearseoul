@@ -8,4 +8,8 @@
 <resources>
     <string name="title_activity_detail">상세보기</string>
     <string name="title_setting">설정</string>
+    <string name="title_review">리뷰</string>
+    <string name="title_info">정보</string>
+    <string name="title_home">홈</string>
+    <string name="title_event">행사</string>
 </resources>

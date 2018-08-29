@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        tabLayout.addTab(tabLayout.newTab().setText("Home"));
-        tabLayout.addTab(tabLayout.newTab().setText("Event"));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.title_home)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.title_event)));
     }
 
 

@@ -41,8 +41,8 @@ public class DetailActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        tabLayout.addTab(tabLayout.newTab().setText("Detail"));
-        tabLayout.addTab(tabLayout.newTab().setText("Review"));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.title_info)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.title_review)));
 
     }
 
@@ -56,9 +56,10 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
