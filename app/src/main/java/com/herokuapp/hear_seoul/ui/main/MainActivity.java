@@ -29,9 +29,9 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity implements LocationByIP.callback, FetchSpotList.callback {
 
+    ViewPager viewPager;
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
-    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
