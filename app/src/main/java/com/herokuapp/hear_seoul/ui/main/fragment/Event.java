@@ -34,7 +34,6 @@ public class Event extends Fragment implements FetchEvent.callback {
     private LinkedList<EventBean> eventList = new LinkedList<>();
     private EventListAdapter eventListAdapter;
     private PullToRefreshView pullToRefreshView;
-    private View view;
 
     public Event() {
     }
@@ -49,7 +48,6 @@ public class Event extends Fragment implements FetchEvent.callback {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.view = view;
 
         ShimmerRecyclerView eventListView = view.findViewById(R.id.template_recycler_common);
         eventListView.setHasFixedSize(true);
@@ -72,20 +70,15 @@ public class Event extends Fragment implements FetchEvent.callback {
     }
 
     private void fetchEvent() {
-        ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
-        //shimmerRecyclerView.showShimmerAdapter();
-
         new FetchEvent(getString(R.string.seoul_event_key), this).start();
     }
 
     @Override
     public void onEventFetchSuccess(LinkedList<EventBean> result) {
-        ShimmerRecyclerView shimmerRecyclerView = view.findViewById(R.id.template_recycler_common);
         eventList.clear();
         eventList.addAll(result);
         eventListAdapter.notifyDataSetChanged();
         pullToRefreshView.setRefreshing(false);
-        shimmerRecyclerView.hideShimmerAdapter();
     }
 
     @Override
