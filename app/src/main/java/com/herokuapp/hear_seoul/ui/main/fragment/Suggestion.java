@@ -23,19 +23,20 @@ import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.controller.location.LocationByIP;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
+import com.herokuapp.hear_seoul.core.Utils;
 
 import java.util.LinkedList;
 
 import me.relex.circleindicator.CircleIndicator;
 
 
-public class Home extends Fragment implements LocationByIP.callback, FetchSpotList.callback {
+public class Suggestion extends Fragment implements LocationByIP.callback, FetchSpotList.callback {
 
 
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
 
-    public Home() {
+    public Suggestion() {
     }
 
     @Override
@@ -48,7 +49,7 @@ public class Home extends Fragment implements LocationByIP.callback, FetchSpotLi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_suggestion, container, false);
     }
 
     @Override
@@ -71,6 +72,7 @@ public class Home extends Fragment implements LocationByIP.callback, FetchSpotLi
 
     @Override
     public void onLocationFetchSuccess(String city, double latitude, double longitude) {
+        Utils.saveLocation(getContext(), new LatLng(latitude, longitude));
         new FetchSpotList(new LatLng(latitude, longitude), 100, this).start();
     }
 

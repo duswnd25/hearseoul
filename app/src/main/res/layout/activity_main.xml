@@ -41,8 +41,7 @@
             android:id="@+id/main_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/main_bottom_menu"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_above="@id/main_bottom_menu">
 
         </FrameLayout>
 
@@ -54,7 +53,6 @@
             app:itemBackground="@color/colorPrimary"
             app:itemIconTint="@color/colorAccent"
             app:itemTextColor="@android:color/black"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:menu="@menu/menu_main" />
     </RelativeLayout>
 

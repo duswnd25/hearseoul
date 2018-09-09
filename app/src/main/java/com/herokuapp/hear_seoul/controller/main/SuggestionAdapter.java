@@ -60,7 +60,7 @@ public class SuggestionAdapter extends PagerAdapter {
                 .format(DecodeFormat.DEFAULT)
                 .error(R.drawable.placeholder);
 
-        Glide.with(context).load(itemList.get(position).getImgSrc()).apply(options).into(image);
+        Glide.with(context).load(itemList.get(position).getImgSrc()).apply(options).thumbnail(0.4f).into(image);
 
         view.findViewById(R.id.item_main_suggestion_container).setOnClickListener(view1 -> {
             Intent intent = new Intent(context, DetailActivity.class);

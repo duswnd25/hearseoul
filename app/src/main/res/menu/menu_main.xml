@@ -8,15 +8,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_suggestion"
         android:enabled="true"
         android:icon="@drawable/ic_feed"
         android:title="@string/menu_suggestion"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_discover"
         android:icon="@drawable/ic_discover"
         android:title="@string/menu_discover"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_map"
         android:enabled="true"
         android:icon="@drawable/ic_map"
         android:title="@string/menu_map"

@@ -51,7 +51,7 @@
             android:label="@string/title_setting"
             android:theme="@style/HearSeoulTheme" />
         <activity
-            android:name=".ui.main.MapLargeActivity"
+            android:name=".ui.main.fragment.Map"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
             android:name=".ui.detail.DetailEditActivity"

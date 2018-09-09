@@ -16,7 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.herokuapp.hear_seoul.R;
-import com.herokuapp.hear_seoul.ui.main.fragment.Home;
+import com.herokuapp.hear_seoul.ui.TestFragment;
+import com.herokuapp.hear_seoul.ui.main.fragment.Suggestion;
+import com.herokuapp.hear_seoul.ui.main.fragment.Map;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -29,28 +31,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        loadFragment(new Home());
+        loadFragment(new Suggestion());
 
         BottomNavigationView navigation = findViewById(R.id.main_bottom_menu);
         navigation.setOnNavigationItemSelectedListener(this);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            default:
-        }
-        return false;
-    }
 
-    private boolean loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_fragment, fragment)
                     .commit();
-            return true;
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        menuItem.setChecked(true);
+        switch (menuItem.getItemId()) {
+            case R.id.menu_suggestion:
+                loadFragment(new Suggestion());
+                break;
+            case R.id.menu_map:
+                loadFragment(new Map());
+                break;
+            default:
+                loadFragment(new TestFragment());
         }
         return false;
     }
