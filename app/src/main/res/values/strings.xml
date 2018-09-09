@@ -11,7 +11,6 @@
     <string name="open">열기</string>
     <string name="from_to">~</string>
     <string name="upload">업로드 하였습니다</string>
-    <string name="error">오류가 발생하였습니다</string>
     <string name="no_data">정보없음</string>
     <string name="edit_data">정보 수정</string>
     <string name="upload_new_data">정보 등록</string>

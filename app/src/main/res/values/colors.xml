@@ -8,6 +8,6 @@
 <resources>
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">@android:color/black</color>
-    <color name="colorAccent">#3F51B5</color>
+    <color name="colorAccent">#5F4B8B</color>
     <color name="shimmer_background_color">#b1b1b1</color>
 </resources>

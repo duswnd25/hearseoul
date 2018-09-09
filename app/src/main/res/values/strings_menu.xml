@@ -6,5 +6,7 @@
   -->
 
 <resources>
-    <string name="action_settings">설정</string>
+    <string name="menu_suggestion">추천</string>
+    <string name="menu_map">지도</string>
+    <string name="menu_discover">탐색</string>
 </resources>

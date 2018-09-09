@@ -6,13 +6,19 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.herokuapp.hear_seoul.ui.main.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:icon="@android:drawable/ic_menu_add"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:icon="@drawable/ic_feed"
+        android:title="@string/menu_suggestion"
+        app:showAsAction="ifRoom" />
+    <item
+        android:icon="@drawable/ic_discover"
+        android:title="@string/menu_discover"
+        app:showAsAction="ifRoom" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/ic_map"
+        android:title="@string/menu_map"
+        app:showAsAction="ifRoom" />
 </menu>
