@@ -9,39 +9,51 @@ package com.herokuapp.hear_seoul.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
-import com.herokuapp.hear_seoul.controller.main.PageAdapter;
+import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
+import com.herokuapp.hear_seoul.controller.location.LocationByIP;
+import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.ui.setting.SettingsActivity;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.LinkedList;
+
+import me.relex.circleindicator.CircleIndicator;
+
+public class MainActivity extends AppCompatActivity implements LocationByIP.callback, FetchSpotList.callback {
+
+    private LinkedList<SpotBean> result = new LinkedList<>();
+    private SuggestionAdapter adapter;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.template_common_tab_layout);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        PageAdapter mSectionsPagerAdapter = new PageAdapter(getSupportFragmentManager());
+        viewPager = findViewById(R.id.main_pager);
+        viewPager.setClipToPadding(false);
+        viewPager.setPadding(80, 60, 60, 40);
+        viewPager.setPageMargin(20);
 
-        ViewPager mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        adapter = new SuggestionAdapter(this, result);
+        viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        CircleIndicator indicator = findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.title_home)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.title_event)));
+        new LocationByIP(this).start();
     }
 
 
@@ -60,5 +72,26 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLocationFetchSuccess(String city, double latitude, double longitude) {
+        new FetchSpotList(new LatLng(latitude, longitude), 100, this).start();
+    }
+
+    @Override
+    public void onLocationFetchFail(String message) {
+
+    }
+
+    @Override
+    public void onDataFetchSuccess(LinkedList<SpotBean> result) {
+        this.result.addAll(result);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDataFetchFail(String message) {
+
     }
 }
