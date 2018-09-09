@@ -33,6 +33,7 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.UpdateInfo;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 
 import java.io.BufferedInputStream;
@@ -95,7 +96,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         int height = bmp.getHeight();
 
         Matrix matrix = new Matrix();
-        matrix.postRotate(90);
+        matrix.postRotate(-90);
 
         Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
         bmp.recycle();
@@ -200,10 +201,12 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
                     BufferedInputStream bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(inputStream));
                     bmp = BitmapFactory.decodeStream(bufferedInputStream);
 
-                    if(bmp.getHeight() < bmp.getWidth()){
+                    Logger.d(String.valueOf(bmp.getHeight()));
+                    Logger.d(String.valueOf(bmp.getWidth()));
+                    if (bmp.getHeight() > bmp.getWidth()) {
                         bmp = imgRotate(bmp);
                     }
-                    
+
                     infoImageView.setImageBitmap(bmp);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
