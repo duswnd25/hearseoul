@@ -80,7 +80,7 @@ public class MapLargeActivity extends AppCompatActivity implements PermissionLis
 
         setContentView(R.layout.activity_map_large);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

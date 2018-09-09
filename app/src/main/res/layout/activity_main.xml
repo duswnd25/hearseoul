@@ -20,7 +20,7 @@
         android:theme="@style/HearSeoulTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_weight="1"
@@ -38,33 +38,16 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
+            android:id="@+id/main_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottom_navigation"
+            android:layout_above="@id/main_bottom_menu"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/main_pager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="24dp" />
-
-            <me.relex.circleindicator.CircleIndicator
-                android:id="@+id/indicator"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="16dp"
-                app:ci_animator="@animator/indicator_animator"
-                app:ci_animator_reverse="@animator/indicator_animator_reverse"
-                app:ci_drawable="@drawable/primary_radius_square"
-                app:ci_height="4dp"
-                app:ci_margin="6dp"
-                app:ci_width="10dp" />
         </FrameLayout>
 
         <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+            android:id="@+id/main_bottom_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

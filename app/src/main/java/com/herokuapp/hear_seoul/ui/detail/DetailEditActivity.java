@@ -70,7 +70,7 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_edit);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
