@@ -14,6 +14,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -87,6 +88,19 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
         loadingDialog.setMessage(getString(R.string.loading));
 
         initViewData();
+    }
+
+    private Bitmap imgRotate(Bitmap bmp) {
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
+        bmp.recycle();
+
+        return resizedBitmap;
     }
 
     // 뷰의 데이터 설정
@@ -185,6 +199,11 @@ public class DetailEditActivity extends AppCompatActivity implements CompoundBut
                     InputStream inputStream = getContentResolver().openInputStream(Objects.requireNonNull(data.getData()));
                     BufferedInputStream bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(inputStream));
                     bmp = BitmapFactory.decodeStream(bufferedInputStream);
+
+                    if(bmp.getHeight() < bmp.getWidth()){
+                        bmp = imgRotate(bmp);
+                    }
+                    
                     infoImageView.setImageBitmap(bmp);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
