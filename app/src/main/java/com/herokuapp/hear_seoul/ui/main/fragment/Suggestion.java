@@ -45,7 +45,6 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
 
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -67,6 +66,7 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
         CircleIndicator indicator = view.findViewById(R.id.main_indicator);
         indicator.setViewPager(viewPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
+
         new LocationByIP(this).start();
     }
 
@@ -78,7 +78,7 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
 
     @Override
     public void onLocationFetchFail(String message) {
-
+        new LocationByIP(this).start();
     }
 
     @Override
@@ -89,6 +89,6 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
 
     @Override
     public void onDataFetchFail(String message) {
-
+        new FetchSpotList(Utils.getSavedLocation(getContext()), 100, this).start();
     }
 }

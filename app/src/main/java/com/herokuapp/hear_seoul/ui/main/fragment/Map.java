@@ -46,12 +46,10 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
-import com.herokuapp.hear_seoul.core.otto.OttoProvider;
-import com.herokuapp.hear_seoul.core.otto.PermissionEvent;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -96,21 +94,12 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        OttoProvider.getInstance().register(this);
-    }
-
-    @Subscribe
-    @SuppressWarnings("unused")
-    public void PermissionEvent(PermissionEvent event) {
-        if (event.isPermissionGranted()) {
-            initMap();
-        }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.template_map, container, false);
+        return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
     @Override
@@ -119,7 +108,9 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         this.rootView = view;
         this.savedInstanceState = savedInstanceState;
         this.currentLocation = Utils.getSavedLocation(getContext());
-        
+
+        view.findViewById(R.id.map_find).setOnClickListener(this);
+
         // 권한 체크
         TedPermission.with(Objects.requireNonNull(getContext()))
                 .setPermissionListener(Map.this)
@@ -133,7 +124,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     @Override
     public void onPermissionGranted() {
         initLocation();
-        OttoProvider.getInstance().post(new PermissionEvent(true));
+        initMap();
     }
 
     private void initLocation() {
@@ -239,14 +230,19 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                     spotBean.setTime("NO");
                     spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
 
+                    Logger.d(String.valueOf(place.getPhoneNumber()));
+                    Logger.d(String.valueOf(place.getPriceLevel()));
+                    Logger.d(String.valueOf(place.getPlaceTypes()));
+                    Logger.d(String.valueOf(place.getWebsiteUri()));
+
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
                     getContext().startActivity(intent);
                 } else {
-                    Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
+                    Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
                 }
             } else {
-                Utils.showStyleToast(getContext(), "근처의 위치를 선택하세요");
+                Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
             }
         }
     }
@@ -258,7 +254,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
     @Override
     public void onDestroy() {
-        OttoProvider.getInstance().unregister(this);
         if (mapView != null) {
             mapView.onDestroy();
         }
@@ -270,7 +265,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         super.onResume();
         if (mapView != null) {
             mapView.onResume();
-
             if (googleMap != null && currentLocation != null) {
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -300,6 +294,10 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.map_find:
+                placePickerStart();
+                break;
+        }
     }
 }

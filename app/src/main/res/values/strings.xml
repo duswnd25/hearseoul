@@ -21,4 +21,5 @@
     <string name="check_data">내용을 확인해주세요</string>
     <string name="select_near_location">근처의 위치를 선택하세요</string>
     <string name="loading">잠시만 기다려주세요</string>
+    <string name="select_nearby_place">근처의 위치를 선택하세요</string>
 </resources>
