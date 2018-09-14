@@ -47,7 +47,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DetailEditActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     public static final int PICK_IMAGE = 100;
-    private String TAG = "큰 지도 화면 액티비티";
     private TextView openTimeView, closeTimeView;
     private boolean isNewInformation;
     private boolean isFullTime = false;

@@ -46,7 +46,6 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -219,31 +218,25 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     // Place Picker 결과
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, Objects.requireNonNull(getContext()));
-                if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
-                    SpotBean spotBean = new SpotBean();
-                    spotBean.setId(place.getId());
-                    spotBean.setTitle(place.getName().toString());
-                    spotBean.setLocation(place.getLatLng());
-                    spotBean.setTime("NO");
-                    spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
+        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
 
-                    Logger.d(String.valueOf(place.getPhoneNumber()));
-                    Logger.d(String.valueOf(place.getPriceLevel()));
-                    Logger.d(String.valueOf(place.getPlaceTypes()));
-                    Logger.d(String.valueOf(place.getWebsiteUri()));
+            Place place = PlacePicker.getPlace(Objects.requireNonNull(getContext()), data);
+            if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
+                SpotBean spotBean = new SpotBean();
+                spotBean.setId(place.getId());
+                spotBean.setTitle(place.getName().toString());
+                spotBean.setLocation(place.getLatLng());
+                spotBean.setTime("NO");
+                spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
 
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
-                    getContext().startActivity(intent);
-                } else {
-                    Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
-                }
-            } else {
-                Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
+                intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
+
+                getContext().startActivity(intent);
             }
+        } else {
+            Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
         }
     }
 
