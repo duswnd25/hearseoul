@@ -49,8 +49,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     private static ProgressDialog loadingDialog;
 
     private ImageView mainImage;
-    private EditText titleEdit, timeEdit, tagEdit, phoneEdit;
-    private ActionBar actionBar;
+    private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -103,11 +102,13 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         timeEdit = findViewById(R.id.detail_edit_time);
         tagEdit = findViewById(R.id.detail_edit_tag);
         phoneEdit = findViewById(R.id.detail_edit_phone);
+        descriptionEdit = findViewById(R.id.detail_edit_description);
 
         titleEdit.setText(spotBean.getTitle());
         timeEdit.setText(spotBean.getTime());
         tagEdit.setText(spotBean.getTag());
         phoneEdit.setText(spotBean.getPhone());
+        descriptionEdit.setText(spotBean.getDescription());
 
         findViewById(R.id.detail_edit_rotate_image).setOnClickListener(this);
         mainImage.setOnClickListener(this);
@@ -124,6 +125,9 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.detail_edit_rotate_image:
                 rotateInfoImage();
+                break;
+            case R.id.detail_edit_save:
+                saveDataToServer();
                 break;
             default:
         }
@@ -179,8 +183,14 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
-
         loadingDialog.show();
+
+        spotBean.setTitle(titleEdit.getText().toString());
+        spotBean.setTime(timeEdit.getText().toString());
+        spotBean.setPhone(phoneEdit.getText().toString());
+        spotBean.setTag(tagEdit.getText().toString());
+        spotBean.setDescription(descriptionEdit.getText().toString());
+
         new UpdateInfo(spotBean, bmp, isNewInformation, new UpdateInfo.callback() {
             @Override
             public void onUpdateSuccess() {

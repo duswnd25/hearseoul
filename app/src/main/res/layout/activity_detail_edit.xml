@@ -111,6 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/padding_default"
+        android:src="@drawable/ic_save"
         app:fabSize="normal"
         app:useCompatPadding="true" />
 

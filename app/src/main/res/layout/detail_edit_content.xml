@@ -14,12 +14,6 @@
     android:padding="@dimen/padding_default"
     tools:context=".ui.main.MainActivity">
 
-
-    <TextView
-        android:id="@+id/detail_edit_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -110,6 +104,37 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_for_phone"
                 android:inputType="phone" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_half">
+
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
+            android:layout_gravity="top"
+            android:layout_marginTop="@dimen/padding_half"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_content" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_default"
+            android:layout_weight="9">
+
+            <EditText
+                android:id="@+id/detail_edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_for_location_description"
+                android:inputType="textMultiLine" />
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
