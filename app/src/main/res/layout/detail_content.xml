@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_kakao"
+            app:backgroundTint="@color/kakao"
             app:fabSize="auto"
             app:useCompatPadding="true" />
 
@@ -44,13 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_facebook"
-            app:fabSize="auto"
-            app:useCompatPadding="true" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_instagram"
+            app:backgroundTint="@color/facebook"
             app:fabSize="auto"
             app:useCompatPadding="true" />
 
@@ -58,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_twitter"
+            app:backgroundTint="@color/twitter"
             app:fabSize="auto"
             app:useCompatPadding="true" />
     </LinearLayout>
