@@ -43,11 +43,10 @@ import java.util.Objects;
 public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int PICK_IMAGE = 100;
+    private static ProgressDialog loadingDialog;
     private boolean isNewInformation;
     private SpotBean spotBean;
     private Bitmap bmp;
-    private static ProgressDialog loadingDialog;
-
     private ImageView mainImage;
     private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit;
 
