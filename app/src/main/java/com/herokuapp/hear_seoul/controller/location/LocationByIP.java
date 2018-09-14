@@ -27,7 +27,7 @@ public class LocationByIP extends Thread {
     @Override
     public void run() {
         super.run();
-        String city = "";
+        String countryCode = "", country = "";
         double latitude = 0, longitude = 0;
         OkHttpClient client = new OkHttpClient();
 
@@ -37,17 +37,18 @@ public class LocationByIP extends Thread {
             JSONObject responseJson = new JSONObject(response.body().string());
             latitude = (responseJson.getDouble("lat"));
             longitude = (responseJson.getDouble("lon"));
-            city = (responseJson.getString("city"));
+            countryCode = (responseJson.getString("countryCode"));
+            country = (responseJson.getString("country"));
         } catch (Exception e) {
             e.printStackTrace();
             Logger.e(e.getMessage());
             callback.onLocationFetchFail(e.getMessage());
         }
-        callback.onLocationFetchSuccess(city, latitude, longitude);
+        callback.onLocationFetchSuccess(country, countryCode, latitude, longitude);
     }
 
     public interface callback extends Serializable {
-        void onLocationFetchSuccess(String city, double latitude, double longitude);
+        void onLocationFetchSuccess(String country, String city, double latitude, double longitude);
 
         void onLocationFetchFail(String message);
     }

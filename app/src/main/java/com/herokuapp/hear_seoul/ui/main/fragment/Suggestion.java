@@ -7,8 +7,12 @@
 
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +30,7 @@ import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Utils;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -35,6 +40,8 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
 
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
+    private AlertDialog locationAlert;
+    private ProgressDialog locationLoading;
 
     public Suggestion() {
     }
@@ -67,13 +74,33 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
         indicator.setViewPager(viewPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
+        locationAlert = new AlertDialog.Builder(getContext())
+                .setMessage("현재 위치가 한국이 아닌 것 같습니다.")
+                .setPositiveButton("다시 확인", (dialog, which) -> {
+                    locationLoading.show();
+                    new LocationByIP(Suggestion.this).start();
+                })
+                .setNegativeButton("종료", (dialog12, which) -> Objects.requireNonNull(getActivity()).finish())
+                .create();
+
+        locationLoading = new ProgressDialog(getContext());
+        locationLoading.setMessage(getString(R.string.loading));
+        locationLoading.setCancelable(false);
+
+        locationLoading.show();
         new LocationByIP(this).start();
     }
 
     @Override
-    public void onLocationFetchSuccess(String city, double latitude, double longitude) {
-        Utils.saveLocation(getContext(), new LatLng(latitude, longitude));
-        new FetchSpotList(new LatLng(latitude, longitude), 100, this).start();
+    public void onLocationFetchSuccess(String country, String countryCode, double latitude, double longitude) {
+        locationLoading.dismiss();
+        Handler mHandler = new Handler(Looper.getMainLooper());
+        if (countryCode.equals("KR")) {
+            Utils.saveLocation(getContext(), new LatLng(latitude, longitude));
+            new FetchSpotList(new LatLng(latitude, longitude), 100, this).start();
+        } else {
+            mHandler.postDelayed(() -> locationAlert.show(), 0);
+        }
     }
 
     @Override
