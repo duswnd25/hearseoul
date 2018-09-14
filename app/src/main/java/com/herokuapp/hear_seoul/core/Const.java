@@ -29,6 +29,8 @@ public class Const {
             public static final String LOCATION = "location";
             public static final String IMG_SRC = "img_src";
             public static final String ADDRESS = "address";
+            public static final String PHONE = "phone";
+            public static final String TAG = "tag";
         }
 
         public static class REVIEW {

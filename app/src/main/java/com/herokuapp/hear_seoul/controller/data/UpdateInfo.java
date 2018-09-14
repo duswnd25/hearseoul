@@ -7,8 +7,6 @@
 
 package com.herokuapp.hear_seoul.controller.data;
 
-import android.graphics.Bitmap;
-
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
@@ -24,13 +22,11 @@ public class UpdateInfo extends Thread {
 
     private boolean isNew;
     private SpotBean spotBean;
-    private Bitmap bitmap;
     private callback callback;
 
-    public UpdateInfo(SpotBean spotBean, Bitmap bitmap, boolean isNew, callback callback) {
+    public UpdateInfo(SpotBean spotBean, boolean isNew, callback callback) {
         this.isNew = isNew;
         this.spotBean = spotBean;
-        this.bitmap = bitmap;
         this.callback = callback;
     }
 
@@ -47,50 +43,39 @@ public class UpdateInfo extends Thread {
         baasObject.set(Const.BAAS.SPOT.LOCATION, location);
         baasObject.set(Const.BAAS.SPOT.ADDRESS, spotBean.getAddress());
         baasObject.set(Const.BAAS.SPOT.TIME, spotBean.getTime());
+        baasObject.set(Const.BAAS.SPOT.IMG_SRC, spotBean.getImgSrc());
+        baasObject.set(Const.BAAS.SPOT.TAG, spotBean.getTag());
+        baasObject.set(Const.BAAS.SPOT.PHONE, spotBean.getPhone());
+
         if (isNew) {
             // 새 장소
             baasObject.set(Const.BAAS.SPOT.LOCATION, location);
+            baasObject.serverSaveInBackground(new BaasSaveCallback() {
+                @Override
+                public void onSuccess(BaasException e) {
+                    if (e == null) {
+                        callback.onUpdateSuccess();
+                    } else {
+                        Logger.e(e.getMessage());
+                        callback.onUpdateFail(String.valueOf(e.getCode()));
+                    }
+                }
+            });
         } else {
             // 기존 장소
             baasObject.setObjectId(spotBean.getObjectId());
-        }
-
-        new BaasImageManager().uploadImage(spotBean.getId(), bitmap, new BaasImageManager.uploadCallback() {
-            @Override
-            public void onImageUploadSuccess(String url) {
-                baasObject.set(Const.BAAS.SPOT.IMG_SRC, url);
-                if (isNew) {
-                    baasObject.serverSaveInBackground(new BaasSaveCallback() {
-                        @Override
-                        public void onSuccess(BaasException e) {
-                            if (e == null) {
-                                callback.onUpdateSuccess();
-                            } else {
-                                Logger.e(e.getMessage());
-                                callback.onUpdateFail(String.valueOf(e.getCode()));
-                            }
-                        }
-                    });
-                } else {
-                    baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
-                        @Override
-                        public void onSuccess(BaasException e) {
-                            if (e == null) {
-                                callback.onUpdateSuccess();
-                            } else {
-                                Logger.e(e.getMessage());
-                                callback.onUpdateFail(String.valueOf(e.getCode()));
-                            }
-                        }
-                    });
+            baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
+                @Override
+                public void onSuccess(BaasException e) {
+                    if (e == null) {
+                        callback.onUpdateSuccess();
+                    } else {
+                        Logger.e(e.getMessage());
+                        callback.onUpdateFail(String.valueOf(e.getCode()));
+                    }
                 }
-            }
-
-            @Override
-            public void onImageUploadFail(String message) {
-                callback.onUpdateFail(String.valueOf(message));
-            }
-        });
+            });
+        }
     }
 
     public interface callback extends Serializable {

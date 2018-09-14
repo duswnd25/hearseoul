@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -25,10 +26,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.data.BaasImageManager;
 import com.herokuapp.hear_seoul.controller.data.UpdateInfo;
 import com.herokuapp.hear_seoul.core.BitmapRotate;
 import com.herokuapp.hear_seoul.core.Const;
@@ -43,12 +49,17 @@ import java.util.Objects;
 public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int PICK_IMAGE = 100;
-    private static ProgressDialog loadingDialog;
-    private boolean isNewInformation;
+    private ProgressDialog loadingDialog;
+    private boolean isNewInformation, isImageChange = false;
     private SpotBean spotBean;
-    private Bitmap bmp;
+    private Bitmap bitmap;
     private ImageView mainImage;
     private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit;
+    private RequestOptions glideOptions = new RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.placeholder)
+            .format(DecodeFormat.DEFAULT)
+            .error(R.drawable.placeholder);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +120,21 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         phoneEdit.setText(spotBean.getPhone());
         descriptionEdit.setText(spotBean.getDescription());
 
+        Glide.with(this).asBitmap().load(spotBean.getImgSrc()).apply(glideOptions).thumbnail(0.4f).listener(new RequestListener<Bitmap>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                DetailEditActivity.this.bitmap = resource;
+                return false;
+            }
+        }).into(mainImage);
+
         findViewById(R.id.detail_edit_rotate_image).setOnClickListener(this);
+        findViewById(R.id.detail_edit_save).setOnClickListener(this);
         mainImage.setOnClickListener(this);
     }
 
@@ -117,6 +142,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.detail_edit_main_image:
+                isImageChange = true;
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -126,29 +152,47 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 rotateInfoImage();
                 break;
             case R.id.detail_edit_save:
-                saveDataToServer();
+                loadingDialog.show();
+
+                spotBean.setTitle(titleEdit.getText().toString());
+                spotBean.setTime(timeEdit.getText().toString());
+                spotBean.setPhone(phoneEdit.getText().toString());
+                spotBean.setTag(tagEdit.getText().toString());
+                spotBean.setDescription(descriptionEdit.getText().toString());
+
+                if (isImageChange) {
+                    new BaasImageManager().uploadImage(spotBean.getId(), bitmap, new BaasImageManager.uploadCallback() {
+                        @Override
+                        public void onImageUploadSuccess(String url) {
+                            spotBean.setImgSrc(url);
+                            saveDataToServer();
+                        }
+
+                        @Override
+                        public void onImageUploadFail(String message) {
+                            Utils.showStyleToast(DetailEditActivity.this, "실패");
+                        }
+                    });
+                } else {
+                    saveDataToServer();
+                }
                 break;
             default:
         }
     }
 
     private void rotateInfoImage() {
-        if (bmp == null) {
+        if (bitmap == null) {
             return;
         }
 
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.placeholder)
-                .format(DecodeFormat.DEFAULT)
-                .error(R.drawable.placeholder);
-
         loadingDialog.show();
-        new BitmapRotate(bmp, (BitmapRotate.callback) bitmap -> {
+
+        new BitmapRotate(bitmap, (BitmapRotate.callback) bitmap -> {
             runOnUiThread(() -> {
-                bmp.recycle();
-                bmp = bitmap;
-                Glide.with(DetailEditActivity.this).load(bmp).apply(options).into(mainImage);
+                this.bitmap.recycle();
+                this.bitmap = bitmap;
+                Glide.with(DetailEditActivity.this).load(this.bitmap).apply(glideOptions).into(mainImage);
                 loadingDialog.dismiss();
             });
         }).start();
@@ -162,19 +206,15 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         if (requestCode == PICK_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data == null) {
-                    //Display an error
                     return;
                 }
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(Objects.requireNonNull(data.getData()));
                     BufferedInputStream bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(inputStream));
-                    bmp = BitmapFactory.decodeStream(bufferedInputStream);
-
-                    Logger.d(String.valueOf(bmp.getHeight()));
-                    Logger.d(String.valueOf(bmp.getWidth()));
-                    mainImage.setImageBitmap(bmp);
+                    bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+                    Glide.with(DetailEditActivity.this).load(this.bitmap).apply(glideOptions).into(mainImage);
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    Logger.e(e.getMessage());
                 }
             }
         }
@@ -182,15 +222,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
-        loadingDialog.show();
-
-        spotBean.setTitle(titleEdit.getText().toString());
-        spotBean.setTime(timeEdit.getText().toString());
-        spotBean.setPhone(phoneEdit.getText().toString());
-        spotBean.setTag(tagEdit.getText().toString());
-        spotBean.setDescription(descriptionEdit.getText().toString());
-
-        new UpdateInfo(spotBean, bmp, isNewInformation, new UpdateInfo.callback() {
+        new UpdateInfo(spotBean, isNewInformation, new UpdateInfo.callback() {
             @Override
             public void onUpdateSuccess() {
                 loadingDialog.dismiss();

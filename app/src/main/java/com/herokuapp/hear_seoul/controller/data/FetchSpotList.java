@@ -52,6 +52,8 @@ public class FetchSpotList extends Thread {
                         spotBean.setAddress(item.getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setAddress(item.getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setTime(item.getString(Const.BAAS.SPOT.TIME));
+                        spotBean.setTag(item.getString(Const.BAAS.SPOT.TAG));
+                        spotBean.setPhone(item.getString(Const.BAAS.SPOT.PHONE));
 
                         BaasGeoPoint temp = (BaasGeoPoint) item.get(Const.BAAS.SPOT.LOCATION);
                         spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));

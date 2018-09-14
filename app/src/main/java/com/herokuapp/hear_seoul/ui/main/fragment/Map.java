@@ -8,6 +8,7 @@
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -69,6 +70,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     private LinkedList<SpotBean> spotList = new LinkedList<>();
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
+    private ProgressDialog loadingProgress;
 
     // 위치 콜백
     private LocationCallback locationCallback = new LocationCallback() {
@@ -109,6 +111,10 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         this.currentLocation = Utils.getSavedLocation(getContext());
 
         view.findViewById(R.id.map_find).setOnClickListener(this);
+
+        loadingProgress = new ProgressDialog(getContext());
+        loadingProgress.setCancelable(false);
+        loadingProgress.setMessage(getString(R.string.loading));
 
         // 권한 체크
         TedPermission.with(Objects.requireNonNull(getContext()))
@@ -154,6 +160,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     }
 
     private void initMap() {
+        loadingProgress.show();
         mapView = rootView.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.onResume(); // 즉시 지도를 가져오기 위해 필요함
@@ -163,6 +170,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             Log.e(TAG, e.getLocalizedMessage());
         }
         mapView.getMapAsync(this);
+        loadingProgress.dismiss();
     }
 
     @Override
