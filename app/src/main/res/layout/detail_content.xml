@@ -15,18 +15,6 @@
     android:padding="@dimen/padding_default"
     tools:context=".ui.main.MainActivity">
 
-    <me.grantland.widget.AutofitTextView
-        android:id="@+id/detail_tag"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/padding_default"
-        android:padding="@dimen/padding_half"
-        android:textAlignment="center"
-        app:sizeToFit="true"
-        tools:background="@color/colorAccent"
-        tools:text="태그" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -107,7 +95,7 @@
             android:src="@drawable/ic_price" />
 
         <me.grantland.widget.AutofitTextView
-            android:id="@+id/detail_price"
+            android:id="@+id/detail_tag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
