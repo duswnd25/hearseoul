@@ -63,7 +63,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     private boolean isNewInformation, isImageChange = false;
     private ViewPager viewPager;
     private EditImageAdapter adapter;
-    private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit;
+    private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit, addressEdit;
     private ArrayList<String> originalImageSrc = new ArrayList<>();
     private RequestOptions glideOptions = new RequestOptions()
             .centerCrop()
@@ -133,6 +133,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         tagEdit = findViewById(R.id.detail_edit_tag);
         phoneEdit = findViewById(R.id.detail_edit_phone);
         descriptionEdit = findViewById(R.id.detail_edit_description);
+        addressEdit = findViewById(R.id.detail_edit_address);
 
         // 값 초기화
         titleEdit.setText(spotBean.getTitle());
@@ -140,6 +141,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         tagEdit.setText(spotBean.getTag());
         phoneEdit.setText(spotBean.getPhone());
         descriptionEdit.setText(spotBean.getDescription());
+        addressEdit.setText(spotBean.getAddress());
 
         if (!isNewInformation) {
             originalImageSrc.addAll(spotBean.getImgUrlList());
@@ -179,6 +181,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setPhone(phoneEdit.getText().toString());
                 spotBean.setTag(tagEdit.getText().toString());
                 spotBean.setDescription(descriptionEdit.getText().toString());
+                spotBean.setAddress(addressEdit.getText().toString());
 
                 if (isImageChange) {
                     new BaasImageManager().uploadImage(spotBean.getId(), imageList, new BaasImageManager.uploadCallback() {

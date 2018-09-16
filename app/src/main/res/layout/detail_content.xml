@@ -132,6 +132,31 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_half">
+
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
+            android:layout_marginEnd="@dimen/padding_half"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_address" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingStart="@dimen/padding_half"
+            app:sizeToFit="true"
+            tools:ignore="RtlSymmetry"
+            tools:text="위치" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/detail_correction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

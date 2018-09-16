@@ -93,11 +93,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         AutofitTextView tagView = findViewById(R.id.detail_tag);
         AutofitTextView timeView = findViewById(R.id.detail_time);
         AutofitTextView phoneView = findViewById(R.id.detail_phone);
+        AutofitTextView addressView = findViewById(R.id.detail_address);
 
         titleView.setText(spotBean.getTitle());
         tagView.setText(spotBean.getTag());
         timeView.setText(spotBean.getTime());
         phoneView.setText(spotBean.getPhone());
+        addressView.setText(spotBean.getAddress());
 
         if (isExist) {
             // 이미지 뷰 페이저

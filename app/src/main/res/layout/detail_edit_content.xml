@@ -14,13 +14,6 @@
     android:padding="@dimen/padding_default"
     tools:context=".ui.main.MainActivity">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="@dimen/padding_half"
-        android:layout_marginTop="@dimen/padding_half"
-        android:background="@android:color/darker_gray" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +24,7 @@
         <ImageView
             android:layout_width="@dimen/detail_icon_size"
             android:layout_height="@dimen/detail_icon_size"
+            android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
             android:src="@drawable/ic_clock" />
 
@@ -60,6 +54,7 @@
         <ImageView
             android:layout_width="@dimen/detail_icon_size"
             android:layout_height="@dimen/detail_icon_size"
+            android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
             android:src="@drawable/ic_price" />
 
@@ -89,6 +84,7 @@
         <ImageView
             android:layout_width="@dimen/detail_icon_size"
             android:layout_height="@dimen/detail_icon_size"
+            android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
             android:src="@drawable/ic_phone" />
 
@@ -118,7 +114,38 @@
         <ImageView
             android:layout_width="@dimen/detail_icon_size"
             android:layout_height="@dimen/detail_icon_size"
+            android:layout_marginEnd="@dimen/padding_half"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_address" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_default"
+            android:layout_weight="9">
+
+            <EditText
+                android:id="@+id/detail_edit_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_for_address"
+                android:inputType="phone" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_half">
+
+        <ImageView
+            android:layout_width="@dimen/detail_icon_size"
+            android:layout_height="@dimen/detail_icon_size"
             android:layout_gravity="top"
+            android:layout_marginEnd="@dimen/padding_half"
             android:layout_marginTop="@dimen/padding_half"
             android:scaleType="centerInside"
             android:src="@drawable/ic_content" />
