@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.herokuapp.hear_seoul"
         minSdkVersion 23
-        multiDexEnabled true
+        multiDexEnabled false
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -21,7 +21,17 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            zipAlignEnabled true
+            //useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     buildToolsVersion '28.0.2'
@@ -50,7 +60,6 @@ dependencies {
     // Else
     implementation 'me.grantland:autofittextview:0.2.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'gun0912.ted:tedpermission:2.0.0'
     implementation 'com.muddzdev:styleabletoast:2.0.0'
