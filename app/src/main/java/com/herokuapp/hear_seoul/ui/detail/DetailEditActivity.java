@@ -7,12 +7,13 @@
 
 package com.herokuapp.hear_seoul.ui.detail;
 
-import android.app.Activity;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -32,27 +34,26 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.data.BaasImageManager;
 import com.herokuapp.hear_seoul.controller.data.UpdateInfo;
-import com.herokuapp.hear_seoul.core.BitmapRotate;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener {
+import gun0912.tedbottompicker.TedBottomPicker;
 
-    public static final int PICK_IMAGE = 100;
+public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener, TedBottomPicker.OnMultiImageSelectedListener {
+
+    private LinkedList<ImageView> imageViewList = new LinkedList<>();
     private ProgressDialog loadingDialog;
     private boolean isNewInformation, isImageChange = false;
     private SpotBean spotBean;
-    private Bitmap bitmap;
     private ImageView mainImage;
     private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit;
     private RequestOptions glideOptions = new RequestOptions()
@@ -120,18 +121,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         phoneEdit.setText(spotBean.getPhone());
         descriptionEdit.setText(spotBean.getDescription());
 
-        Glide.with(this).asBitmap().load(spotBean.getImgSrc()).apply(glideOptions).thumbnail(0.4f).listener(new RequestListener<Bitmap>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                DetailEditActivity.this.bitmap = resource;
-                return false;
-            }
-        }).into(mainImage);
+        Glide.with(this).asBitmap().load(spotBean.getImgSrc()).apply(glideOptions).thumbnail(0.4f).into(mainImage);
 
         findViewById(R.id.detail_edit_rotate_image).setOnClickListener(this);
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
@@ -143,23 +133,19 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.detail_edit_main_image:
                 isImageChange = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                selectImage();
                 break;
             case R.id.detail_edit_rotate_image:
-                rotateInfoImage();
                 break;
             case R.id.detail_edit_save:
                 loadingDialog.show();
-
                 spotBean.setTitle(titleEdit.getText().toString());
                 spotBean.setTime(timeEdit.getText().toString());
                 spotBean.setPhone(phoneEdit.getText().toString());
                 spotBean.setTag(tagEdit.getText().toString());
                 spotBean.setDescription(descriptionEdit.getText().toString());
 
+                /*
                 if (isImageChange) {
                     new BaasImageManager().uploadImage(spotBean.getId(), bitmap, new BaasImageManager.uploadCallback() {
                         @Override
@@ -176,48 +162,38 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 } else {
                     saveDataToServer();
                 }
+                */
                 break;
             default:
         }
     }
 
-    private void rotateInfoImage() {
-        if (bitmap == null) {
-            return;
-        }
+    private void selectImage() {
+        // 권한 체크
+        TedPermission.with(this)
+                .setPermissionListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        TedBottomPicker bottomSheetDialogFragment = new TedBottomPicker.Builder(DetailEditActivity.this)
+                                .setOnMultiImageSelectedListener(DetailEditActivity.this)
+                                .setPeekHeight(1600)
+                                .showTitle(false)
+                                .setCompleteButtonText("Done")
+                                .setSelectMaxCount(5)
+                                .setEmptySelectionText("No Select")
+                                .create();
+                        bottomSheetDialogFragment.show(getSupportFragmentManager());
+                    }
 
-        loadingDialog.show();
-
-        new BitmapRotate(bitmap, (BitmapRotate.callback) bitmap -> {
-            runOnUiThread(() -> {
-                this.bitmap.recycle();
-                this.bitmap = bitmap;
-                Glide.with(DetailEditActivity.this).load(this.bitmap).apply(glideOptions).into(mainImage);
-                loadingDialog.dismiss();
-            });
-        }).start();
-        loadingDialog.dismiss();
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data == null) {
-                    return;
-                }
-                try {
-                    InputStream inputStream = getContentResolver().openInputStream(Objects.requireNonNull(data.getData()));
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(inputStream));
-                    bitmap = BitmapFactory.decodeStream(bufferedInputStream);
-                    Glide.with(DetailEditActivity.this).load(this.bitmap).apply(glideOptions).into(mainImage);
-                } catch (FileNotFoundException e) {
-                    Logger.e(e.getMessage());
-                }
-            }
-        }
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                        Utils.showStyleToast(DetailEditActivity.this, getString(R.string.permission_deny_description));
+                    }
+                })
+                .setRationaleMessage(getString(R.string.storage_permission_description))
+                .setDeniedMessage(getString(R.string.permission_deny_description))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
     }
 
     // 데이터 업로드
@@ -246,5 +222,28 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // 이미지 선택
+    @Override
+    public void onImagesSelected(ArrayList<Uri> uriList) {
+        imageViewList.clear();
+        try {
+            for (Uri current : uriList) {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), current);
+                ImageView imageView = new ImageView(this);
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(120, 120));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Glide.with(this).asBitmap().load(bitmap).apply(glideOptions).thumbnail(0.4f).into(imageView);
+                imageViewList.add(imageView);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LinearLayout imageContainer = findViewById(R.id.detail_edit_more_image_container);
+        imageContainer.removeAllViews();
+        for (ImageView imageView : imageViewList) {
+            imageContainer.addView(imageView);
+        }
     }
 }

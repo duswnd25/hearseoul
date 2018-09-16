@@ -97,7 +97,7 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
         Handler mHandler = new Handler(Looper.getMainLooper());
         if (countryCode.equals("KR")) {
             Utils.saveLocation(getContext(), new LatLng(latitude, longitude));
-            new FetchSpotList(new LatLng(latitude, longitude), 100, this).start();
+            new FetchSpotList(new LatLng(latitude, longitude), 100, 4, this).start();
         } else {
             mHandler.postDelayed(() -> locationAlert.show(), 0);
         }
@@ -116,6 +116,6 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
 
     @Override
     public void onDataFetchFail(String message) {
-        new FetchSpotList(Utils.getSavedLocation(getContext()), 100, this).start();
+        new FetchSpotList(Utils.getSavedLocation(getContext()), 100, 4, this).start();
     }
 }

@@ -24,11 +24,12 @@ import java.util.List;
 public class FetchSpotList extends Thread {
     private FetchSpotList.callback callback;
     private LatLng location;
-    private int distance;
+    private int distance, max;
 
-    public FetchSpotList(LatLng location, int distance, FetchSpotList.callback callback) {
+    public FetchSpotList(LatLng location, int distance, int max, FetchSpotList.callback callback) {
         this.location = location;
         this.distance = distance;
+        this.max = max;
         this.callback = callback;
     }
 
@@ -39,6 +40,8 @@ public class FetchSpotList extends Thread {
         // 서버에 저장된 정보
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
         baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), distance);
+        baasQuery.setLimit(max);
+        baasQuery.orderByAscending("updatedAt");
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {

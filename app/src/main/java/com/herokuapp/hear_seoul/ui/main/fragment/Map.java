@@ -194,7 +194,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
-        new FetchSpotList(location, 10, new FetchSpotList.callback() {
+        new FetchSpotList(location, 10, -1, new FetchSpotList.callback() {
             @Override
             public void onDataFetchSuccess(LinkedList<SpotBean> result) {
                 // 데이터 교체
@@ -229,21 +229,22 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
 
             Place place = PlacePicker.getPlace(Objects.requireNonNull(getContext()), data);
-            if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
-                SpotBean spotBean = new SpotBean();
-                spotBean.setId(place.getId());
-                spotBean.setTitle(place.getName().toString());
-                spotBean.setLocation(place.getLatLng());
-                spotBean.setTime("NO");
-                spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-                spotBean.setPhone(String.valueOf(place.getPhoneNumber()));
+            // if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
+            // }
+            SpotBean spotBean = new SpotBean();
+            spotBean.setId(place.getId());
+            spotBean.setTitle(place.getName().toString());
+            spotBean.setLocation(place.getLatLng());
+            spotBean.setTime("NO");
+            spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
+            spotBean.setPhone(String.valueOf(place.getPhoneNumber()));
 
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
-                intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
+            Intent intent = new Intent(getContext(), DetailActivity.class);
+            intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
+            intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
 
-                getContext().startActivity(intent);
-            }
+            getContext().startActivity(intent);
+
         } else {
             Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
         }

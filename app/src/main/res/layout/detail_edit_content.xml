@@ -14,6 +14,49 @@
     android:padding="@dimen/padding_default"
     tools:context=".ui.main.MainActivity">
 
+    <LinearLayout
+        android:id="@+id/detail_edit_more_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/detail_edit_extra_image_1"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_quarter"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_add" />
+
+        <ImageView
+            android:id="@+id/detail_edit_extra_image_2"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_quarter"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_add" />
+
+        <ImageView
+            android:id="@+id/detail_edit_extra_image_3"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_quarter"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_add" />
+
+        <ImageView
+            android:id="@+id/detail_edit_extra_image_4"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_quarter"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_add" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
