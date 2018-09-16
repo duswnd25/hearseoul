@@ -42,7 +42,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.4"
                     android:background="@drawable/shadow"
                     android:clickable="false" />
 

@@ -32,10 +32,10 @@ public class BaasImageManager {
 
         for (Bitmap bmp : bitmapList) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 30, stream);
             byte[] byteArray = stream.toByteArray();
             bmp.recycle();
-            BaasFile file = new BaasFile(fileName + ".png", byteArray);
+            BaasFile file = new BaasFile(fileName + ".jpg", byteArray);
             file.serverSaveInBackground(new BaasSaveCallback() {
                 @Override
                 public void onSuccess(BaasException e) {

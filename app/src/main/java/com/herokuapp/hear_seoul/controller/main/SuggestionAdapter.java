@@ -66,7 +66,6 @@ public class SuggestionAdapter extends PagerAdapter {
         view.findViewById(R.id.item_main_suggestion_container).setOnClickListener(view1 -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra(Const.INTENT_EXTRA.SPOT, itemList.get(position));
-            Logger.d("TEST");
             context.startActivity(intent);
         });
 

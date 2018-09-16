@@ -161,7 +161,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         }
 
         // Click 이벤트
-        findViewById(R.id.detail_edit_rotate_image).setOnClickListener(this);
         findViewById(R.id.detail_edit_add_image).setOnClickListener(this);
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
     }
@@ -172,8 +171,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
             case R.id.detail_edit_add_image:
                 isImageChange = true;
                 selectImage();
-                break;
-            case R.id.detail_edit_rotate_image:
                 break;
             case R.id.detail_edit_save:
                 loadingDialog.show();
