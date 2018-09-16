@@ -9,6 +9,9 @@ package com.herokuapp.hear_seoul.ui.detail;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -46,6 +49,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        Drawable navIcon = toolbar.getNavigationIcon();
+
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.detail_collapsing_toolbar_layout);
         AppBarLayout appBarLayout = findViewById(R.id.detail_appbar_layout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -57,11 +62,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
-                if (scrollRange + verticalOffset == 0) {
+                if (scrollRange + verticalOffset <= 145) {
+                    navIcon.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
                     collapsingToolbarLayout.setTitle(spotBean.getTitle());
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");
+                    navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
                     isShow = false;
                 }
             }

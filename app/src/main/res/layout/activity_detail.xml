@@ -16,7 +16,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail_appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         android:theme="@style/HearSeoulTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -28,7 +28,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax">
 
@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0.4"
-                    android:background="@android:color/black"
+                    android:background="@drawable/shadow"
                     android:clickable="false" />
 
                 <me.relex.circleindicator.CircleIndicator
@@ -66,7 +66,7 @@
                 android:id="@+id/detail_title"
                 style="@style/Base.TextAppearance.AppCompat.Headline"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="match_parent"
                 android:alpha="1"
                 android:gravity="center"
                 android:maxLines="1"
