@@ -21,8 +21,8 @@
     <item
         android:id="@+id/menu_event"
         android:enabled="true"
-        android:icon="@drawable/ic_map"
-        android:title="@string/menu_map"
+        android:icon="@drawable/ic_event"
+        android:title="@string/menu_event"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_map"
