@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.ui.TestFragment;
+import com.herokuapp.hear_seoul.ui.main.fragment.Event;
 import com.herokuapp.hear_seoul.ui.main.fragment.Map;
 import com.herokuapp.hear_seoul.ui.main.fragment.Suggestion;
 
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.menu_map:
                 loadFragment(new Map());
+                break;
+            case R.id.menu_event:
+                loadFragment(new Event());
                 break;
             default:
                 loadFragment(new TestFragment());

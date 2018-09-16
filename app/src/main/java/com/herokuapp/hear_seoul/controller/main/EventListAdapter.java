@@ -28,8 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
 
     private LinkedList<EventBean> itemList;
@@ -115,7 +113,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView dDay, title, date, gCode;
         private ImageView mainImage;
-        private CircleImageView subImage;
+        private ImageView subImage;
 
         ViewHolder(View view) {
             super(view);

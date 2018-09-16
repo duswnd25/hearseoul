@@ -37,6 +37,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,17 +47,17 @@
         </activity>
         <activity
             android:name=".ui.detail.DetailActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_detail"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
             android:name=".ui.setting.SettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_setting"
             android:theme="@style/HearSeoulTheme" />
         <activity
-            android:name=".ui.main.fragment.Map"
-            android:theme="@style/HearSeoulTheme.NoActionBar" />
-        <activity
             android:name=".ui.detail.DetailEditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
     </application>
 

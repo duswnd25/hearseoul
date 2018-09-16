@@ -8,22 +8,23 @@
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
 import com.herokuapp.hear_seoul.controller.data.FetchEvent;
 import com.herokuapp.hear_seoul.controller.main.EventListAdapter;
-import com.yalantis.taurus.PullToRefreshView;
+import com.herokuapp.hear_seoul.core.Logger;
 
 import java.util.LinkedList;
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class Event extends Fragment implements FetchEvent.callback {
 
     private LinkedList<EventBean> eventList = new LinkedList<>();
     private EventListAdapter eventListAdapter;
-    private PullToRefreshView pullToRefreshView;
+    private ProgressDialog locationLoading;
 
     public Event() {
     }
@@ -41,7 +42,7 @@ public class Event extends Fragment implements FetchEvent.callback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.template_recycler_with_refresher, container, false);
+        return inflater.inflate(R.layout.fragment_event, container, false);
     }
 
     @SuppressLint("MissingPermission")
@@ -49,7 +50,7 @@ public class Event extends Fragment implements FetchEvent.callback {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ShimmerRecyclerView eventListView = view.findViewById(R.id.template_recycler_common);
+        RecyclerView eventListView = view.findViewById(R.id.event_recycler);
         eventListView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -63,13 +64,15 @@ public class Event extends Fragment implements FetchEvent.callback {
         eventListAdapter = new EventListAdapter(getActivity(), eventList);
         eventListView.setAdapter(eventListAdapter);
 
-        pullToRefreshView = view.findViewById(R.id.pull_to_refresh);
-        pullToRefreshView.setOnRefreshListener(this::fetchEvent);
+        locationLoading = new ProgressDialog(getContext());
+        locationLoading.setMessage(getString(R.string.loading));
+        locationLoading.setCancelable(false);
 
         fetchEvent();
     }
 
     private void fetchEvent() {
+        locationLoading.show();
         new FetchEvent(getString(R.string.seoul_event_key), this).start();
     }
 
@@ -77,8 +80,9 @@ public class Event extends Fragment implements FetchEvent.callback {
     public void onEventFetchSuccess(LinkedList<EventBean> result) {
         eventList.clear();
         eventList.addAll(result);
+        Logger.d(String.valueOf(eventList.size()));
         eventListAdapter.notifyDataSetChanged();
-        pullToRefreshView.setRefreshing(false);
+        locationLoading.dismiss();
     }
 
     @Override

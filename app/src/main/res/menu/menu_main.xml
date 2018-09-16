@@ -18,6 +18,12 @@
         android:title="@string/menu_discover"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_event"
+        android:enabled="true"
+        android:icon="@drawable/ic_map"
+        android:title="@string/menu_map"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_map"
         android:enabled="true"
         android:icon="@drawable/ic_map"
