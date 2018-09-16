@@ -13,6 +13,7 @@ android {
     defaultConfig {
         applicationId "com.herokuapp.hear_seoul"
         minSdkVersion 23
+        multiDexEnabled true
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

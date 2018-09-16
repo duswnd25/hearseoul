@@ -8,7 +8,6 @@
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,7 +33,6 @@ public class Event extends Fragment implements FetchEvent.callback {
 
     private LinkedList<EventBean> eventList = new LinkedList<>();
     private EventListAdapter eventListAdapter;
-    private ProgressDialog locationLoading;
 
     public Event() {
     }
@@ -64,16 +62,11 @@ public class Event extends Fragment implements FetchEvent.callback {
         eventListAdapter = new EventListAdapter(getActivity(), eventList);
         eventListView.setAdapter(eventListAdapter);
 
-        locationLoading = new ProgressDialog(getContext());
-        locationLoading.setMessage(getString(R.string.loading));
-        locationLoading.setCancelable(false);
-
         fetchEvent();
     }
 
     private void fetchEvent() {
-        locationLoading.show();
-        new FetchEvent(getString(R.string.seoul_event_key), this).start();
+        new FetchEvent(getContext(), getString(R.string.seoul_event_key), this).execute();
     }
 
     @Override
@@ -82,11 +75,5 @@ public class Event extends Fragment implements FetchEvent.callback {
         eventList.addAll(result);
         Logger.d(String.valueOf(eventList.size()));
         eventListAdapter.notifyDataSetChanged();
-        locationLoading.dismiss();
-    }
-
-    @Override
-    public void onEventFetchFail(String message) {
-        fetchEvent();
     }
 }

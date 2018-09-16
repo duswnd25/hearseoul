@@ -7,6 +7,11 @@
 
 package com.herokuapp.hear_seoul.controller.location;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+
+import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.core.Logger;
 
 import org.json.JSONObject;
@@ -17,18 +22,39 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LocationByIP extends Thread {
+public class LocationByIP extends AsyncTask<Void, Integer, Void> {
     private callback callback;
+    private String countryCode = "", country = "";
+    private double latitude = 0, longitude = 0;
+    private String errorMessage = "";
+    private ProgressDialog locationLoading;
 
-    public LocationByIP(callback callback) {
+    public LocationByIP(Context context, callback callback) {
         this.callback = callback;
+        locationLoading = new ProgressDialog(context);
+        locationLoading.setMessage(context.getString(R.string.loading));
+        locationLoading.setCancelable(false);
     }
 
     @Override
-    public void run() {
-        super.run();
-        String countryCode = "", country = "";
-        double latitude = 0, longitude = 0;
+    protected void onPreExecute() {
+        super.onPreExecute();
+        locationLoading.show();
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        locationLoading.dismiss();
+        if (errorMessage.equals("")) {
+            callback.onLocationFetchSuccess(country, countryCode, latitude, longitude);
+        } else {
+            callback.onLocationFetchFail(errorMessage);
+        }
+    }
+
+    @Override
+    protected Void doInBackground(Void... voids) {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder().url("http://ip-api.com/json").build();
@@ -40,11 +66,10 @@ public class LocationByIP extends Thread {
             countryCode = (responseJson.getString("countryCode"));
             country = (responseJson.getString("country"));
         } catch (Exception e) {
-            e.printStackTrace();
-            Logger.e(e.getMessage());
-            callback.onLocationFetchFail(e.getMessage());
+            errorMessage = e.getMessage();
+            Logger.e(errorMessage);
         }
-        callback.onLocationFetchSuccess(country, countryCode, latitude, longitude);
+        return null;
     }
 
     public interface callback extends Serializable {
