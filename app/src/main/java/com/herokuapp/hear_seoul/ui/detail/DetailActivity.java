@@ -67,8 +67,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        findViewById(R.id.detail_edit).setOnClickListener(this);
-
         loadingProgress = new ProgressDialog(this);
         loadingProgress.setMessage(getString(R.string.loading));
         loadingProgress.show();
@@ -105,6 +103,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             indicator.setViewPager(viewPager);
             adapter.registerDataSetObserver(indicator.getDataSetObserver());
         }
+
+        findViewById(R.id.detail_correction).setOnClickListener(this);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.detail_edit:
+            case R.id.detail_correction:
                 Intent intent = new Intent(this, DetailEditActivity.class);
                 intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
                 intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, isNewInformation);
