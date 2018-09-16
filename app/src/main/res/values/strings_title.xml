@@ -8,6 +8,4 @@
 <resources>
     <string name="title_activity_detail">상세보기</string>
     <string name="title_setting">설정</string>
-    <string name="title_review">리뷰</string>
-    <string name="title_info">정보</string>
 </resources>

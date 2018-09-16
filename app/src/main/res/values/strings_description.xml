@@ -12,9 +12,6 @@
     <string name="hint_for_location_name">장소명</string>
     <string name="hint_for_location_description">상세내용</string>
     <string name="hint_for_edit_time">영업시간</string>
-    <string name="like_button_description">추천</string>
-    <string name="share_button_description">공유</string>
     <string name="hint_for_tag">#로 구분해 주세요</string>
     <string name="hint_for_phone">전화번호</string>
-    <string name="declaration_button_description">신고</string>
 </resources>
