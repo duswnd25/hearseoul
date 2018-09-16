@@ -21,22 +21,17 @@ import java.util.ArrayList;
 
 public class UpdateInfo extends Thread {
 
-    private boolean isNew;
+    private boolean isNew, isImageUpdate;
     private SpotBean spotBean;
     private callback callback;
     private ArrayList<String> originalImageSrc;
 
-    public UpdateInfo(SpotBean spotBean, boolean isNew, callback callback) {
-        this.isNew = isNew;
-        this.spotBean = spotBean;
-        this.callback = callback;
-    }
-
-    public UpdateInfo(SpotBean spotBean, ArrayList<String> originalImageSrc, boolean isNew, callback callback) {
+    public UpdateInfo(SpotBean spotBean, ArrayList<String> originalImageSrc, boolean isNew, boolean isImageUpdate, callback callback) {
         this.isNew = isNew;
         this.spotBean = spotBean;
         this.originalImageSrc = originalImageSrc;
         this.callback = callback;
+        this.isImageUpdate = isImageUpdate;
     }
 
     @Override
@@ -72,13 +67,25 @@ public class UpdateInfo extends Thread {
             });
         } else {
             // 기존 장소
+
+            baasObject.addToArrayUnique(Const.BAAS.SPOT.IMG_SRC, spotBean.getImgUrlList());
             baasObject.setObjectId(spotBean.getObjectId());
-            baasObject.removeToArray(Const.BAAS.SPOT.IMG_SRC, originalImageSrc);
+            Logger.d(baasObject.toString());
             baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
                 @Override
                 public void onSuccess(BaasException e) {
                     if (e == null) {
-                        callback.onUpdateSuccess();
+                        if (isImageUpdate) {
+                            baasObject.removeToArray(Const.BAAS.SPOT.IMG_SRC, originalImageSrc);
+                            baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
+                                @Override
+                                public void onSuccess(BaasException e) {
+                                    callback.onUpdateSuccess();
+                                }
+                            });
+                        } else {
+                            callback.onUpdateSuccess();
+                        }
                     } else {
                         Logger.e(e.getMessage());
                         callback.onUpdateFail(String.valueOf(e.getCode()));

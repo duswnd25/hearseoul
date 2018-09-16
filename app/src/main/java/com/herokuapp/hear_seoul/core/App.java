@@ -7,12 +7,12 @@
 
 package com.herokuapp.hear_seoul.core;
 
-import android.support.multidex.MultiDexApplication;
+import android.app.Application;
 
 import com.herokuapp.hear_seoul.R;
 import com.skt.baas.api.Baas;
 
-public class App extends MultiDexApplication {
+public class App extends Application {
 
     @Override
     public void onCreate() {

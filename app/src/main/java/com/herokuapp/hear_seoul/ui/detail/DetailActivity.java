@@ -128,7 +128,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.detail_correction:
-                Intent intent = new Intent(getApplicationContext(), DetailEditActivity.class);
+                Intent intent = new Intent(this, DetailEditActivity.class);
                 intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
                 intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, isNewInformation);
                 startActivity(intent);

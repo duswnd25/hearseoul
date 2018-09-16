@@ -47,8 +47,7 @@ import java.util.Objects;
 import me.relex.circleindicator.CircleIndicator;
 
 
-public class Suggestion extends Fragment implements LocationByIP.callback, FetchSpotList.callback {
-
+public class Suggestion extends Fragment implements LocationByIP.callback, FetchSpotList.callback{
 
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
@@ -99,7 +98,6 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
         locationLoading.setMessage(getString(R.string.loading));
         locationLoading.setCancelable(false);
 
-        locationLoading.show();
         new LocationByIP(getContext(), this).execute();
     }
 
@@ -109,17 +107,18 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
         Handler mHandler = new Handler(Looper.getMainLooper());
         if (countryCode.equals("KR")) {
             Utils.saveLocation(getContext(), new LatLng(latitude, longitude));
-            test(latitude, longitude);
+            getSpotData(latitude, longitude);
         } else {
             mHandler.postDelayed(() -> locationAlert.show(), 0);
         }
     }
 
-    private void test(double latitude, double longitude) {
+    private void getSpotData(double latitude, double longitude) {
         // 서버에 저장된 정보
+        locationLoading.show();
         int max = 4;
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.setLimit(4);
+        baasQuery.setLimit(max);
         baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
         baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(latitude, longitude), 100);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
@@ -159,6 +158,7 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
 
                         result.add(spotBean);
                     }
+                    locationLoading.dismiss();
                     adapter.notifyDataSetChanged();
                 } else {
                     Logger.e(e.getMessage());

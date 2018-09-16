@@ -233,7 +233,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
-        new UpdateInfo(spotBean, originalImageSrc, isNewInformation, new UpdateInfo.callback() {
+        new UpdateInfo(spotBean, originalImageSrc, isNewInformation, isImageChange, new UpdateInfo.callback() {
             @Override
             public void onUpdateSuccess() {
                 loadingDialog.dismiss();
