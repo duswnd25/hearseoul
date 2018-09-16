@@ -12,38 +12,34 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class SpotBean implements Parcelable {
 
-    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
-        @Override
-        public SpotBean createFromParcel(Parcel source) {
-            return new SpotBean(source);
-        }
-
-        @Override
-        public SpotBean[] newArray(int size) {
-            return new SpotBean[size];
-        }
-    };
-    private String title, description, id, imgSrc, address, time, objectId, tag, phone;
+    private String title, description, id, address, time, objectId, tag, phone;
     private LatLng location;
     private boolean visit;
+    private ArrayList<String> imgUrlList;
+    private Date updatedAt;
 
-    public SpotBean() {
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    protected SpotBean(Parcel in) {
-        this.title = in.readString();
-        this.description = in.readString();
-        this.id = in.readString();
-        this.imgSrc = in.readString();
-        this.address = in.readString();
-        this.time = in.readString();
-        this.objectId = in.readString();
-        this.tag = in.readString();
-        this.phone = in.readString();
-        this.location = in.readParcelable(LatLng.class.getClassLoader());
-        this.visit = in.readByte() != 0;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public ArrayList<String> getImgUrlList() {
+        return imgUrlList;
+    }
+
+    public void setImgUrlList(ArrayList<String> imgUrlList) {
+        this.imgUrlList = imgUrlList;
+    }
+
+    public SpotBean() {
     }
 
     public String getPhone() {
@@ -126,17 +122,6 @@ public class SpotBean implements Parcelable {
         this.id = id;
     }
 
-    public String getImgSrc() {
-        if (imgSrc == null || imgSrc.equals("NO") || imgSrc.length() < 10) {
-            return "NO";
-        }
-        return imgSrc;
-    }
-
-    public void setImgSrc(String imgSrc) {
-        this.imgSrc = imgSrc;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -147,7 +132,6 @@ public class SpotBean implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.description);
         dest.writeString(this.id);
-        dest.writeString(this.imgSrc);
         dest.writeString(this.address);
         dest.writeString(this.time);
         dest.writeString(this.objectId);
@@ -155,5 +139,35 @@ public class SpotBean implements Parcelable {
         dest.writeString(this.phone);
         dest.writeParcelable(this.location, flags);
         dest.writeByte(this.visit ? (byte) 1 : (byte) 0);
+        dest.writeStringList(this.imgUrlList);
+        dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
     }
+
+    protected SpotBean(Parcel in) {
+        this.title = in.readString();
+        this.description = in.readString();
+        this.id = in.readString();
+        this.address = in.readString();
+        this.time = in.readString();
+        this.objectId = in.readString();
+        this.tag = in.readString();
+        this.phone = in.readString();
+        this.location = in.readParcelable(LatLng.class.getClassLoader());
+        this.visit = in.readByte() != 0;
+        this.imgUrlList = in.createStringArrayList();
+        long tmpUpdatedAt = in.readLong();
+        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
+    }
+
+    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
+        @Override
+        public SpotBean createFromParcel(Parcel source) {
+            return new SpotBean(source);
+        }
+
+        @Override
+        public SpotBean[] newArray(int size) {
+            return new SpotBean[size];
+        }
+    };
 }

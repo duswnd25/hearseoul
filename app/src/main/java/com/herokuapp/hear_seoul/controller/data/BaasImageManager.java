@@ -16,26 +16,41 @@ import com.skt.baas.exception.BaasException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class BaasImageManager {
+    private int imageNum = 0;
+    private ArrayList<String> urlList = new ArrayList<>();
 
-    public void uploadImage(String fileName, Bitmap bmp, uploadCallback callback) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
-        byte[] byteArray = stream.toByteArray();
-        bmp.recycle();
-        BaasFile file = new BaasFile(fileName + ".png", byteArray);
-        file.serverSaveInBackground(new BaasSaveCallback() {
-            @Override
-            public void onSuccess(BaasException e) {
-                if (e == null) {
-                    callback.onImageUploadSuccess(file.getUrl());
-                } else {
-                    Logger.e(e.getMessage());
-                    callback.onImageUploadFail(String.valueOf(e.getCode()));
+    public void deleteImage() {
+
+    }
+
+    public void uploadImage(String fileName, LinkedList<Bitmap> bitmapList, uploadCallback callback) {
+        this.imageNum = bitmapList.size();
+
+        for (Bitmap bmp : bitmapList) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+            byte[] byteArray = stream.toByteArray();
+            bmp.recycle();
+            BaasFile file = new BaasFile(fileName + ".png", byteArray);
+            file.serverSaveInBackground(new BaasSaveCallback() {
+                @Override
+                public void onSuccess(BaasException e) {
+                    if (e == null) {
+                        urlList.add(file.getUrl());
+                        if (urlList.size() == imageNum) {
+                            callback.onImageUploadSuccess(urlList);
+                        }
+                    } else {
+                        Logger.e(e.getMessage());
+                        callback.onImageUploadFail(String.valueOf(e.getCode()));
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public interface downloadCallback extends Serializable {
@@ -45,7 +60,7 @@ public class BaasImageManager {
     }
 
     public interface uploadCallback extends Serializable {
-        void onImageUploadSuccess(String url);
+        void onImageUploadSuccess(ArrayList<String> urlList);
 
         void onImageUploadFail(String message);
     }

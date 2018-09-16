@@ -54,7 +54,7 @@ public class SpotListAdapter extends RecyclerView.Adapter<SpotListAdapter.ViewHo
 
         RequestOptions options = new RequestOptions();
         options.centerCrop();
-        String imageUrl = itemList.get(position).getImgSrc();
+        String imageUrl = itemList.get(position).getImgUrlList().get(0);
 
         if (!imageUrl.equals("NO")) {
             Glide.with(context).load(imageUrl).apply(options).into(holder.image);

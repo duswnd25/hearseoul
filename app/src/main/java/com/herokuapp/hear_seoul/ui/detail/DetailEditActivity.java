@@ -11,6 +11,8 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,14 +20,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -38,24 +39,32 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.data.BaasImageManager;
 import com.herokuapp.hear_seoul.controller.data.UpdateInfo;
+import com.herokuapp.hear_seoul.controller.detail.EditImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import gun0912.tedbottompicker.TedBottomPicker;
+import me.relex.circleindicator.CircleIndicator;
 
 public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener, TedBottomPicker.OnMultiImageSelectedListener {
 
-    private LinkedList<ImageView> imageViewList = new LinkedList<>();
     private ProgressDialog loadingDialog;
-    private boolean isNewInformation, isImageChange = false;
+    private CircleIndicator indicator;
     private SpotBean spotBean;
-    private ImageView mainImage;
+    private LinkedList<Bitmap> imageList = new LinkedList<>();
+    private boolean isNewInformation, isImageChange = false;
+    private ViewPager viewPager;
+    private EditImageAdapter adapter;
     private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit;
+    private ArrayList<String> originalImageSrc = new ArrayList<>();
     private RequestOptions glideOptions = new RequestOptions()
             .centerCrop()
             .placeholder(R.drawable.placeholder)
@@ -108,30 +117,59 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initView() {
-        mainImage = findViewById(R.id.detail_edit_main_image);
+        // 이미지 뷰 페이저
+        viewPager = findViewById(R.id.detail_edit_image_pager);
+        adapter = new EditImageAdapter(this, imageList);
+        viewPager.setAdapter(adapter);
+
+        // 이미지 인디케이터
+        indicator = findViewById(R.id.detail_edit_indicator);
+        indicator.setViewPager(viewPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+
+        // content editor
         titleEdit = findViewById(R.id.detail_edit_title);
         timeEdit = findViewById(R.id.detail_edit_time);
         tagEdit = findViewById(R.id.detail_edit_tag);
         phoneEdit = findViewById(R.id.detail_edit_phone);
         descriptionEdit = findViewById(R.id.detail_edit_description);
 
+        // 값 초기화
         titleEdit.setText(spotBean.getTitle());
         timeEdit.setText(spotBean.getTime());
         tagEdit.setText(spotBean.getTag());
         phoneEdit.setText(spotBean.getPhone());
         descriptionEdit.setText(spotBean.getDescription());
 
-        Glide.with(this).asBitmap().load(spotBean.getImgSrc()).apply(glideOptions).thumbnail(0.4f).into(mainImage);
+        if (!isNewInformation) {
+            originalImageSrc.addAll(spotBean.getImgUrlList());
+            for (String url : spotBean.getImgUrlList()) {
+                Glide.with(this).asBitmap().load(url).listener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
 
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        imageList.add(resource);
+                        adapter.notifyDataSetChanged();
+                        return false;
+                    }
+                }).apply(glideOptions).submit();
+            }
+        }
+
+        // Click 이벤트
         findViewById(R.id.detail_edit_rotate_image).setOnClickListener(this);
+        findViewById(R.id.detail_edit_add_image).setOnClickListener(this);
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
-        mainImage.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.detail_edit_main_image:
+            case R.id.detail_edit_add_image:
                 isImageChange = true;
                 selectImage();
                 break;
@@ -145,12 +183,11 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setTag(tagEdit.getText().toString());
                 spotBean.setDescription(descriptionEdit.getText().toString());
 
-                /*
                 if (isImageChange) {
-                    new BaasImageManager().uploadImage(spotBean.getId(), bitmap, new BaasImageManager.uploadCallback() {
+                    new BaasImageManager().uploadImage(spotBean.getId(), imageList, new BaasImageManager.uploadCallback() {
                         @Override
-                        public void onImageUploadSuccess(String url) {
-                            spotBean.setImgSrc(url);
+                        public void onImageUploadSuccess(ArrayList<String> url) {
+                            spotBean.setImgUrlList(url);
                             saveDataToServer();
                         }
 
@@ -162,7 +199,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 } else {
                     saveDataToServer();
                 }
-                */
                 break;
             default:
         }
@@ -176,10 +212,9 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                     public void onPermissionGranted() {
                         TedBottomPicker bottomSheetDialogFragment = new TedBottomPicker.Builder(DetailEditActivity.this)
                                 .setOnMultiImageSelectedListener(DetailEditActivity.this)
-                                .setPeekHeight(1600)
-                                .showTitle(false)
+                                .showTitle(true)
+                                .showCameraTile(false)
                                 .setCompleteButtonText("Done")
-                                .setSelectMaxCount(5)
                                 .setEmptySelectionText("No Select")
                                 .create();
                         bottomSheetDialogFragment.show(getSupportFragmentManager());
@@ -198,7 +233,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
-        new UpdateInfo(spotBean, isNewInformation, new UpdateInfo.callback() {
+        new UpdateInfo(spotBean, originalImageSrc, isNewInformation, new UpdateInfo.callback() {
             @Override
             public void onUpdateSuccess() {
                 loadingDialog.dismiss();
@@ -227,23 +262,60 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     // 이미지 선택
     @Override
     public void onImagesSelected(ArrayList<Uri> uriList) {
-        imageViewList.clear();
+        loadingDialog.show();
         try {
+            imageList.clear();
             for (Uri current : uriList) {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), current);
-                ImageView imageView = new ImageView(this);
-                imageView.setLayoutParams(new LinearLayout.LayoutParams(120, 120));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Glide.with(this).asBitmap().load(bitmap).apply(glideOptions).thumbnail(0.4f).into(imageView);
-                imageViewList.add(imageView);
+                Bitmap tempBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), current);
+
+                int rotateImage = getCameraPhotoOrientation(current);
+                Logger.d(String.valueOf(rotateImage));
+                if (rotateImage != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(rotateImage);
+                    tempBitmap = Bitmap.createBitmap(tempBitmap, 0, 0, tempBitmap.getWidth(), tempBitmap.getHeight(), matrix, true);
+                }
+
+                imageList.add(tempBitmap);
             }
         } catch (IOException e) {
+            Logger.e(e.getMessage());
+        }
+        loadingDialog.dismiss();
+        reInitAdapter();
+    }
+
+    private void reInitAdapter() {
+        adapter = null;
+        adapter = new EditImageAdapter(this, imageList);
+        viewPager.setAdapter(adapter);
+        indicator.setViewPager(viewPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+    }
+
+    public int getCameraPhotoOrientation(Uri imageUri) {
+        int rotate = 0;
+        try {
+            File imageFile = new File(imageUri.getPath());
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        LinearLayout imageContainer = findViewById(R.id.detail_edit_more_image_container);
-        imageContainer.removeAllViews();
-        for (ImageView imageView : imageViewList) {
-            imageContainer.addView(imageView);
-        }
+        return rotate;
     }
 }

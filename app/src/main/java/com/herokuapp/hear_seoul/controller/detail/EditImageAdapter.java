@@ -1,30 +1,33 @@
-package com.herokuapp.hear_seoul.controller.main;
+/*
+ * Copyright (c) 2018. YeonJung Kim
+ *
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
+ */
+
+package com.herokuapp.hear_seoul.controller.detail;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
-import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 
 import java.util.LinkedList;
 
-public class SuggestionAdapter extends PagerAdapter {
+public class EditImageAdapter extends PagerAdapter {
     private Context context;
-    private LinkedList<SpotBean> itemList;
+    private LinkedList<Bitmap> itemList;
 
-    public SuggestionAdapter(Context context, LinkedList<SpotBean> itemList) {
+    public EditImageAdapter(Context context, LinkedList<Bitmap> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -44,15 +47,9 @@ public class SuggestionAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.item_main_suggestion, container, false);
+        View view = inflater.inflate(R.layout.item_detail_image, container, false);
 
-        ImageView image = view.findViewById(R.id.item_main_suggestion_image);
-        TextView title = view.findViewById(R.id.item_main_suggestion_title);
-        TextView description = view.findViewById(R.id.item_main_suggestion_description);
-        //TextView tag = view.findViewById(R.id.item_main_suggestion_tag);
-
-        title.setText(itemList.get(position).getTitle());
-        description.setText(itemList.get(position).getDescription());
+        ImageView image = view.findViewById(R.id.item_detail_image_slider);
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -60,13 +57,7 @@ public class SuggestionAdapter extends PagerAdapter {
                 .format(DecodeFormat.DEFAULT)
                 .error(R.drawable.placeholder);
 
-        Glide.with(context).load(itemList.get(position).getImgUrlList().get(0)).apply(options).thumbnail(0.4f).into(image);
-
-        view.findViewById(R.id.item_main_suggestion_container).setOnClickListener(view1 -> {
-            Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra(Const.INTENT_EXTRA.SPOT, itemList.get(position));
-            context.startActivity(intent);
-        });
+        Glide.with(context).load(itemList.get(position)).apply(options).thumbnail(0.4f).into(image);
 
         container.addView(view);
         return view;

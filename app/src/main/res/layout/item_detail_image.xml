@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_detail_image_slider"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>

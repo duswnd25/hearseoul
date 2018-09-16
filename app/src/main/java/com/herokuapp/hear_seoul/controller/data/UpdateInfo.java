@@ -17,16 +17,25 @@ import com.skt.baas.callback.BaasUpsertCallback;
 import com.skt.baas.exception.BaasException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class UpdateInfo extends Thread {
 
     private boolean isNew;
     private SpotBean spotBean;
     private callback callback;
+    private ArrayList<String> originalImageSrc;
 
     public UpdateInfo(SpotBean spotBean, boolean isNew, callback callback) {
         this.isNew = isNew;
         this.spotBean = spotBean;
+        this.callback = callback;
+    }
+
+    public UpdateInfo(SpotBean spotBean, ArrayList<String> originalImageSrc, boolean isNew, callback callback) {
+        this.isNew = isNew;
+        this.spotBean = spotBean;
+        this.originalImageSrc = originalImageSrc;
         this.callback = callback;
     }
 
@@ -43,7 +52,7 @@ public class UpdateInfo extends Thread {
         baasObject.set(Const.BAAS.SPOT.LOCATION, location);
         baasObject.set(Const.BAAS.SPOT.ADDRESS, spotBean.getAddress());
         baasObject.set(Const.BAAS.SPOT.TIME, spotBean.getTime());
-        baasObject.set(Const.BAAS.SPOT.IMG_SRC, spotBean.getImgSrc());
+        baasObject.set(Const.BAAS.SPOT.IMG_SRC, spotBean.getImgUrlList());
         baasObject.set(Const.BAAS.SPOT.TAG, spotBean.getTag());
         baasObject.set(Const.BAAS.SPOT.PHONE, spotBean.getPhone());
 
@@ -64,6 +73,7 @@ public class UpdateInfo extends Thread {
         } else {
             // 기존 장소
             baasObject.setObjectId(spotBean.getObjectId());
+            baasObject.removeToArray(Const.BAAS.SPOT.IMG_SRC, originalImageSrc);
             baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
                 @Override
                 public void onSuccess(BaasException e) {

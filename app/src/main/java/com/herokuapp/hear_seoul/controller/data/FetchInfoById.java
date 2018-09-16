@@ -17,7 +17,10 @@ import com.skt.baas.api.BaasQuery;
 import com.skt.baas.callback.BaasQueryCallback;
 import com.skt.baas.exception.BaasException;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class FetchInfoById extends Thread {
     private FetchInfoById.callback callback;
@@ -44,12 +47,24 @@ public class FetchInfoById extends Thread {
                         spotBean.setId(baasObject.getString(Const.BAAS.SPOT.ID));
                         spotBean.setTitle(baasObject.getString(Const.BAAS.SPOT.TITLE));
                         spotBean.setDescription(baasObject.getString(Const.BAAS.SPOT.DESCRIPTION));
-                        spotBean.setImgSrc(baasObject.getString(Const.BAAS.SPOT.IMG_SRC));
                         spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setTime(baasObject.getString(Const.BAAS.SPOT.TIME));
                         spotBean.setTag(baasObject.getString(Const.BAAS.SPOT.TAG));
                         spotBean.setPhone(baasObject.getString(Const.BAAS.SPOT.PHONE));
+
+                        try {
+                            ArrayList<String> urlList = new ArrayList<>();
+                            JSONArray jArray = baasObject.getJSONArray(Const.BAAS.SPOT.IMG_SRC);
+                            if (jArray != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    urlList.add(jArray.getString(i));
+                                }
+                            }
+                            spotBean.setImgUrlList(urlList);
+                        } catch (Exception error) {
+                            Logger.e(error.getMessage());
+                        }
 
                         BaasGeoPoint temp = (BaasGeoPoint) baasObject.get(Const.BAAS.SPOT.LOCATION);
                         spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));

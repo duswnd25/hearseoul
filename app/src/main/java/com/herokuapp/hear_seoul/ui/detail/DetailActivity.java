@@ -12,24 +12,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchInfoById;
+import com.herokuapp.hear_seoul.controller.detail.InfoImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Utils;
 
 import java.util.Objects;
 
 import me.grantland.widget.AutofitTextView;
+import me.relex.circleindicator.CircleIndicator;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener, FetchInfoById.callback {
     private SpotBean spotBean;
@@ -85,7 +84,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             isNewInformation = false;
         }
 
-        ImageView mainImageView = findViewById(R.id.detail_main_image);
         AutofitTextView titleView = findViewById(R.id.detail_title);
         AutofitTextView tagView = findViewById(R.id.detail_tag);
         AutofitTextView timeView = findViewById(R.id.detail_time);
@@ -96,13 +94,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         timeView.setText(spotBean.getTime());
         phoneView.setText(spotBean.getPhone());
 
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.placeholder)
-                .format(DecodeFormat.DEFAULT)
-                .error(R.drawable.placeholder);
+        if (isExist) {
+            // 이미지 뷰 페이저
+            ViewPager viewPager = findViewById(R.id.detail_image_pager);
+            InfoImageAdapter adapter = new InfoImageAdapter(this, spotBean.getImgUrlList());
+            viewPager.setAdapter(adapter);
 
-        Glide.with(DetailActivity.this).asBitmap().load(spotBean.getImgSrc()).apply(options).thumbnail(0.4f).into(mainImageView);
+            // 이미지 인디케이터
+            CircleIndicator indicator = findViewById(R.id.detail_indicator);
+            indicator.setViewPager(viewPager);
+            adapter.registerDataSetObserver(indicator.getDataSetObserver());
+        }
     }
 
     @Override
@@ -130,6 +132,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
                 intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, isNewInformation);
                 startActivity(intent);
+                finish();
                 break;
         }
     }
