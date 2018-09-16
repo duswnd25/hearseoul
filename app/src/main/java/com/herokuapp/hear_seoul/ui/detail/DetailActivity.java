@@ -63,12 +63,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset <= 145) {
-                    navIcon.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+                    Objects.requireNonNull(navIcon).setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
                     collapsingToolbarLayout.setTitle(spotBean.getTitle());
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbarLayout.setTitle(" ");
-                    navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+                    Objects.requireNonNull(navIcon).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
                     isShow = false;
                 }
             }

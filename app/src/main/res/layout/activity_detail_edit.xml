@@ -89,6 +89,7 @@
                 android:gravity="center_vertical|end"
                 android:orientation="horizontal">
 
+                <!--
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/detail_edit_rotate_image"
                     android:layout_width="wrap_content"
@@ -98,7 +99,7 @@
                     app:fabSize="normal"
                     app:layout_collapseMode="parallax"
                     app:useCompatPadding="true" />
-
+                -->
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/detail_edit_add_image"
                     android:layout_width="wrap_content"

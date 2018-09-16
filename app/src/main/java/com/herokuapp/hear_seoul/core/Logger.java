@@ -9,14 +9,20 @@ package com.herokuapp.hear_seoul.core;
 
 import android.util.Log;
 
+import com.herokuapp.hear_seoul.BuildConfig;
+
 public class Logger {
     private static final String APP_NAME = "여기, 서울";
 
     public static void d(String message) {
-        Log.d(APP_NAME, message);
+        if (BuildConfig.DEBUG) {
+            Log.d(APP_NAME, message);
+        }
     }
 
     public static void e(String message) {
-        Log.e(APP_NAME, message);
+        if (BuildConfig.DEBUG) {
+            Log.e(APP_NAME, message);
+        }
     }
 }
