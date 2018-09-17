@@ -10,24 +10,24 @@
     <item
         android:id="@+id/menu_suggestion"
         android:enabled="true"
-        android:icon="@drawable/ic_feed"
+        android:icon="@drawable/ic_suggest_black"
         android:title="@string/menu_suggestion"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_explore"
-        android:icon="@drawable/ic_discover"
+        android:icon="@drawable/ic_discover_black"
         android:title="@string/menu_discover"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_event"
         android:enabled="true"
-        android:icon="@drawable/ic_event"
+        android:icon="@drawable/ic_event_black"
         android:title="@string/menu_event"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_map"
         android:enabled="true"
-        android:icon="@drawable/ic_map"
+        android:icon="@drawable/ic_map_black"
         android:title="@string/menu_map"
         app:showAsAction="ifRoom" />
 </menu>

@@ -26,7 +26,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_clock" />
+            android:src="@drawable/ic_clock_black" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
@@ -56,7 +56,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_price" />
+            android:src="@drawable/ic_tag_black" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
@@ -86,7 +86,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_phone" />
+            android:src="@drawable/ic_phone_black" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
@@ -116,7 +116,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_address" />
+            android:src="@drawable/ic_address_black" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
@@ -148,7 +148,7 @@
             android:layout_marginEnd="@dimen/padding_half"
             android:layout_marginTop="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_content" />
+            android:src="@drawable/ic_content_black" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"

@@ -34,7 +34,7 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_kakao"
+            android:src="@drawable/ic_kakao_white"
             app:backgroundTint="@color/kakao"
             app:fabSize="auto"
             app:useCompatPadding="true" />
@@ -42,7 +42,7 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_facebook"
+            android:src="@drawable/ic_facebook_white"
             app:backgroundTint="@color/facebook"
             app:fabSize="auto"
             app:useCompatPadding="true" />
@@ -50,7 +50,7 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_twitter"
+            android:src="@drawable/ic_twitter_white"
             app:backgroundTint="@color/twitter"
             app:fabSize="auto"
             app:useCompatPadding="true" />
@@ -67,7 +67,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_clock" />
+            android:src="@drawable/ic_clock_black" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/detail_time"
@@ -92,7 +92,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_price" />
+            android:src="@drawable/ic_tag_black" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/detail_tag"
@@ -117,7 +117,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_phone" />
+            android:src="@drawable/ic_phone_black" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/detail_phone"
@@ -142,7 +142,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_address" />
+            android:src="@drawable/ic_address_black" />
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/detail_address"
@@ -168,7 +168,7 @@
             android:layout_height="@dimen/detail_icon_size"
             android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_correction" />
+            android:src="@drawable/ic_correction_black" />
 
         <me.grantland.widget.AutofitTextView
             android:layout_width="match_parent"

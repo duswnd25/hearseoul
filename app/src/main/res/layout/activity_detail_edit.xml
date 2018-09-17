@@ -24,7 +24,7 @@
             android:id="@+id/detail_edit_collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/padding_default"
-        android:src="@drawable/ic_save"
+        android:src="@drawable/ic_save_white"
         app:fabSize="normal"
         app:useCompatPadding="true" />
 
