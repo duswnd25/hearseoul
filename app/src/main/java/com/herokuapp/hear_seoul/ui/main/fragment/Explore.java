@@ -79,8 +79,6 @@ public class Explore extends Fragment implements FetchSpotList.callback {
         locationLoading = new ProgressDialog(getContext());
         locationLoading.setMessage(getString(R.string.loading));
         locationLoading.setCancelable(false);
-
-        LatLng currentLocation = Utils.getSavedLocation(getContext());
         getSpotData();
     }
 

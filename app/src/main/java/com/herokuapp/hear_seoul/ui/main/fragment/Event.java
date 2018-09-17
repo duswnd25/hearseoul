@@ -8,6 +8,7 @@
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +34,13 @@ public class Event extends Fragment implements FetchEvent.callback {
 
     private LinkedList<EventBean> eventList = new LinkedList<>();
     private EventListAdapter eventListAdapter;
+    private Context context;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 
     public Event() {
     }
@@ -52,7 +60,7 @@ public class Event extends Fragment implements FetchEvent.callback {
         eventListView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(context),
                 mLayoutManager.getOrientation());
 
         eventListView.addItemDecoration(dividerItemDecoration);
@@ -66,7 +74,7 @@ public class Event extends Fragment implements FetchEvent.callback {
     }
 
     private void fetchEvent() {
-        new FetchEvent(getContext(), getString(R.string.seoul_event_key), this).execute();
+        new FetchEvent(context, getString(R.string.seoul_event_key), this).execute();
     }
 
     @Override

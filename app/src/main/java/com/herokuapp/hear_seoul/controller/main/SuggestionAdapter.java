@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
@@ -16,7 +15,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 
@@ -58,7 +56,7 @@ public class SuggestionAdapter extends PagerAdapter {
 
         title.setText(itemList.get(position).getTitle());
         description.setText(itemList.get(position).getDescription());
-        String distanceText = Utils.getDistanceFromeCurrentLocation(context, itemList.get(position).getLocation()) + "km";
+        String distanceText = Utils.getDistanceFromCurrentLocation(context, itemList.get(position).getLocation()) + "km";
         distance.setText(distanceText);
 
         RequestOptions options = new RequestOptions()

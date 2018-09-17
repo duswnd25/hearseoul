@@ -80,6 +80,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             if (locationList.size() > 0) {
                 Location location = locationList.get(locationList.size() - 1);
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                Utils.saveLocation(getContext(), currentLocation);
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
                 if (googleMap != null) {
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));

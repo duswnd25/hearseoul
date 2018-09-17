@@ -35,9 +35,9 @@ public class Utils {
         return (float) (distance * meterConversion);
     }
 
-    public static int getDistanceFromeCurrentLocation(Context context, LatLng targetLocation){
+    public static int getDistanceFromCurrentLocation(Context context, LatLng targetLocation) {
         LatLng current = getSavedLocation(context);
-        return Math.round(calcDistance(current,targetLocation));
+        return Math.round(calcDistance(current, targetLocation) / 1000);
     }
 
     public static void showStyleToast(Context context, String message) {
