@@ -58,7 +58,8 @@ public class SuggestionAdapter extends PagerAdapter {
 
         title.setText(itemList.get(position).getTitle());
         description.setText(itemList.get(position).getDescription());
-        distance.setText(Utils.getDistanceFromeCurrentLocation(context, itemList.get(position).getLocation()) + "km");
+        String distanceText = Utils.getDistanceFromeCurrentLocation(context, itemList.get(position).getLocation()) + "km";
+        distance.setText(distanceText);
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

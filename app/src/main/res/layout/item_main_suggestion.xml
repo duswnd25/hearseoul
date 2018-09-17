@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_address" />
+                    android:src="@drawable/ic_address_white" />
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/item_main_suggestion_distance"
