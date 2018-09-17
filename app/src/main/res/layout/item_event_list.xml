@@ -50,7 +50,7 @@
                 android:id="@+id/item_event_list_d_day"
                 android:layout_width="37dp"
                 android:layout_height="18dp"
-                android:background="@drawable/d_day_text_background"
+                android:background="@drawable/bg_d_day"
                 android:gravity="center"
                 android:text=""
                 android:textColor="#ee7e1a"

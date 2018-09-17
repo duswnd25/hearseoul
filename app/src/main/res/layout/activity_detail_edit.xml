@@ -56,7 +56,7 @@
                     android:clickable="false"
                     app:ci_animator="@animator/indicator_animator"
                     app:ci_animator_reverse="@animator/indicator_animator_reverse"
-                    app:ci_drawable="@drawable/primary_radius_square"
+                    app:ci_drawable="@drawable/bg_radius_square"
                     app:ci_height="4dp"
                     app:ci_margin="6dp"
                     app:ci_width="10dp" />
