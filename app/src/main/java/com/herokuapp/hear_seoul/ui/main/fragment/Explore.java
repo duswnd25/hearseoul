@@ -81,16 +81,15 @@ public class Explore extends Fragment implements FetchSpotList.callback {
         locationLoading.setCancelable(false);
 
         LatLng currentLocation = Utils.getSavedLocation(getContext());
-        getSpotData(currentLocation.latitude, currentLocation.longitude);
+        getSpotData();
     }
 
-    private void getSpotData(double latitude, double longitude) {
+    private void getSpotData() {
         // 서버에 저장된 정보
         locationLoading.show();
         int max = 1000;
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
         baasQuery.setLimit(max);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(latitude, longitude), 100);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {

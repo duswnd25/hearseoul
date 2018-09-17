@@ -35,6 +35,11 @@ public class Utils {
         return (float) (distance * meterConversion);
     }
 
+    public static float getDistanceFromeCurrentLocation(Context context, LatLng targetLocation){
+        LatLng current = getSavedLocation(context);
+        return calcDistance(current,targetLocation);
+    }
+
     public static void showStyleToast(Context context, String message) {
         new StyleableToast
                 .Builder(context)

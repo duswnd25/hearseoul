@@ -17,9 +17,12 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
+import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 
 import java.util.LinkedList;
+
+import me.grantland.widget.AutofitTextView;
 
 public class SuggestionAdapter extends PagerAdapter {
     private Context context;
@@ -48,12 +51,14 @@ public class SuggestionAdapter extends PagerAdapter {
         View view = inflater.inflate(R.layout.item_main_suggestion, container, false);
 
         ImageView image = view.findViewById(R.id.item_main_suggestion_image);
-        TextView title = view.findViewById(R.id.item_main_suggestion_title);
-        TextView description = view.findViewById(R.id.item_main_suggestion_description);
+        AutofitTextView title = view.findViewById(R.id.item_main_suggestion_title);
+        AutofitTextView description = view.findViewById(R.id.item_main_suggestion_description);
+        AutofitTextView distance = view.findViewById(R.id.item_main_suggestion_distance);
         //TextView tag = view.findViewById(R.id.item_main_suggestion_tag);
 
         title.setText(itemList.get(position).getTitle());
         description.setText(itemList.get(position).getDescription());
+        distance.setText(Utils.getDistanceFromeCurrentLocation(context, itemList.get(position).getLocation()) + "km");
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

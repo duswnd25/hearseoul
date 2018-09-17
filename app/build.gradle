@@ -7,6 +7,7 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 28
@@ -57,6 +58,7 @@ dependencies {
     // Firebase
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
     implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-perf:16.1.0'
     // Else
     implementation 'me.grantland:autofittextview:0.2.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
