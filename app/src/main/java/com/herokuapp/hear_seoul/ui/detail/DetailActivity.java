@@ -101,16 +101,18 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         phoneView.setText(spotBean.getPhone());
         addressView.setText(spotBean.getAddress());
 
-        if (isExist) {
-            // 이미지 뷰 페이저
-            ViewPager viewPager = findViewById(R.id.detail_image_pager);
-            InfoImageAdapter adapter = new InfoImageAdapter(this, spotBean.getImgUrlList());
-            viewPager.setAdapter(adapter);
+        // 이미지 뷰 페이저
+        ViewPager viewPager = findViewById(R.id.detail_image_pager);
+        InfoImageAdapter adapter = new InfoImageAdapter(this, spotBean.getImgUrlList());
+        viewPager.setAdapter(adapter);
 
-            // 이미지 인디케이터
-            CircleIndicator indicator = findViewById(R.id.detail_indicator);
-            indicator.setViewPager(viewPager);
-            adapter.registerDataSetObserver(indicator.getDataSetObserver());
+        // 이미지 인디케이터
+        CircleIndicator indicator = findViewById(R.id.detail_indicator);
+        indicator.setViewPager(viewPager);
+        adapter.registerDataSetObserver(indicator.getDataSetObserver());
+
+        if (isExist) {
+
         }
 
         findViewById(R.id.detail_correction).setOnClickListener(this);

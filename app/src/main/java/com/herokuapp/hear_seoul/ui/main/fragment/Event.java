@@ -74,7 +74,7 @@ public class Event extends Fragment implements FetchEvent.callback {
     }
 
     private void fetchEvent() {
-        new FetchEvent(context, getString(R.string.seoul_event_key), this).execute();
+        new FetchEvent(context, this).execute();
     }
 
     @Override

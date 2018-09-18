@@ -12,69 +12,68 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.herokuapp.hear_seoul.R;
+import com.herokuapp.hear_seoul.bean.LocationBean;
 import com.herokuapp.hear_seoul.core.Logger;
 
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LocationByIP extends AsyncTask<Void, Integer, Void> {
-    private callback callback;
-    private String countryCode = "", country = "";
-    private double latitude = 0, longitude = 0;
-    private String errorMessage = "";
-    private ProgressDialog locationLoading;
+public class LocationByIP extends AsyncTask<LocationBean, Integer, LocationBean> {
+    private OnLocationFetchFinishCallback callback;
+    private ProgressDialog loadingProgress;
+    private Exception error;
 
-    public LocationByIP(Context context, callback callback) {
+    public LocationByIP(Context context, OnLocationFetchFinishCallback callback) {
         this.callback = callback;
-        locationLoading = new ProgressDialog(context);
-        locationLoading.setMessage(context.getString(R.string.loading));
-        locationLoading.setCancelable(false);
+        loadingProgress = new ProgressDialog(context);
+        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setCancelable(false);
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        locationLoading.show();
+        loadingProgress.show();
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        locationLoading.dismiss();
-        if (errorMessage.equals("")) {
-            callback.onLocationFetchSuccess(country, countryCode, latitude, longitude);
-        } else {
-            callback.onLocationFetchFail(errorMessage);
-        }
+    protected void onPostExecute(LocationBean param) {
+        super.onPostExecute(param);
+        loadingProgress.dismiss();
+        callback.onLocationFetchFinish(param, error);
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected LocationBean doInBackground(LocationBean... params) {
+
+        LocationBean result = new LocationBean();
+        result.setAvailable(false);
+
         OkHttpClient client = new OkHttpClient();
-
         Request request = new Request.Builder().url("http://ip-api.com/json").build();
 
         try (Response response = client.newCall(request).execute()) {
-            JSONObject responseJson = new JSONObject(response.body().string());
-            latitude = (responseJson.getDouble("lat"));
-            longitude = (responseJson.getDouble("lon"));
-            countryCode = (responseJson.getString("countryCode"));
-            country = (responseJson.getString("country"));
+            JSONObject responseJson = new JSONObject(Objects.requireNonNull(response.body()).string());
+            result.setCountry(responseJson.getString("country"));
+            result.setCountryCode(responseJson.getString("countryCode"));
+            result.setLatitude(responseJson.getDouble("lat"));
+            result.setLongitude(responseJson.getDouble("lon"));
+            result.setAvailable(true);
         } catch (Exception e) {
-            errorMessage = e.getMessage();
-            Logger.e(errorMessage);
+            error = e;
+            Logger.e(e.getMessage());
         }
-        return null;
+
+        return result;
     }
 
-    public interface callback extends Serializable {
-        void onLocationFetchSuccess(String country, String city, double latitude, double longitude);
-
-        void onLocationFetchFail(String message);
+    public interface OnLocationFetchFinishCallback extends Serializable {
+        void onLocationFetchFinish(LocationBean result, Exception error);
     }
 }

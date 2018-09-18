@@ -33,9 +33,9 @@ public class FetchEvent extends AsyncTask<Void, Integer, LinkedList<EventBean>> 
     private String apiKey;
     private ProgressDialog locationLoading;
 
-    public FetchEvent(Context context, String apiKey, callback callback) {
+    public FetchEvent(Context context,callback callback) {
         this.callback = callback;
-        this.apiKey = apiKey;
+        this.apiKey = context.getString(R.string.seoul_event_key);
         locationLoading = new ProgressDialog(context);
         locationLoading.setMessage(context.getString(R.string.loading));
         locationLoading.setCancelable(false);

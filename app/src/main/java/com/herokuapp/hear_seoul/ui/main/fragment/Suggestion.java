@@ -12,10 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,10 +24,10 @@ import android.view.ViewGroup;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
+import com.herokuapp.hear_seoul.bean.LocationBean;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.controller.location.LocationByIP;
@@ -55,12 +52,10 @@ import java.util.Objects;
 import me.relex.circleindicator.CircleIndicator;
 
 
-public class Suggestion extends Fragment implements LocationByIP.callback, FetchSpotList.callback, PermissionListener {
+public class Suggestion extends Fragment implements LocationByIP.OnLocationFetchFinishCallback, FetchSpotList.callback, PermissionListener {
     private FusedLocationProviderClient mFusedLocationClient;
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
-    private AlertDialog locationAlert;
-    private ProgressDialog loadingProgress;
     private Context context;
 
     public Suggestion() {
@@ -94,18 +89,6 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
         indicator.setViewPager(viewPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-        locationAlert = new AlertDialog.Builder(context)
-                .setMessage("현재 위치가 한국이 아닌 것 같습니다.")
-                .setPositiveButton("다시 확인", (dialog, which) -> {
-                    new LocationByIP(context, Suggestion.this).execute();
-                })
-                .setNegativeButton("종료", (dialog12, which) -> Objects.requireNonNull(getActivity()).finish())
-                .create();
-
-        loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(getString(R.string.loading));
-        loadingProgress.setCancelable(false);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
         // 권한 체크
@@ -117,21 +100,16 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
                 .check();
     }
 
-    @Override
-    public void onLocationFetchSuccess(String country, String countryCode, double latitude, double longitude) {
-        Handler mHandler = new Handler(Looper.getMainLooper());
-        if (countryCode.equals("KR")) {
-            getSpotData(latitude, longitude);
-        } else {
-            mHandler.postDelayed(() -> locationAlert.show(), 0);
-        }
-    }
-
     private void getSpotData(double latitude, double longitude) {
         Utils.saveLocation(context, new LatLng(latitude, longitude));
         // 서버에 저장된 정보
+        ProgressDialog loadingProgress = new ProgressDialog(context);
+        loadingProgress.setMessage(getString(R.string.loading));
+        loadingProgress.setCancelable(false);
         loadingProgress.show();
-        int max = 4;
+
+        int max = 10;
+
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
         baasQuery.setLimit(max);
         baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
@@ -183,11 +161,6 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
     }
 
     @Override
-    public void onLocationFetchFail(String message) {
-        new LocationByIP(context, this).execute();
-    }
-
-    @Override
     public void onDataFetchSuccess(LinkedList<SpotBean> result) {
         this.result.addAll(result);
         adapter.notifyDataSetChanged();
@@ -213,5 +186,22 @@ public class Suggestion extends Fragment implements LocationByIP.callback, Fetch
     @Override
     public void onPermissionDenied(ArrayList<String> deniedPermissions) {
         new LocationByIP(context, this).execute();
+    }
+
+    @Override
+    public void onLocationFetchFinish(LocationBean result, Exception error) {
+        if (error == null) {
+            if (result.getCountryCode().equals("KR")) {
+                getSpotData(result.getLatitude(), result.getLongitude());
+            } else {
+                new AlertDialog.Builder(context)
+                        .setMessage("현재 위치가 한국이 아닌 것 같습니다.\n현재위치 : " + result.getCountry())
+                        .setPositiveButton("다시 확인", (dialog, which) -> new LocationByIP(context, Suggestion.this).execute())
+                        .setNegativeButton("종료", (dialog12, which) -> Objects.requireNonNull(getActivity()).finish())
+                        .create().show();
+            }
+        } else {
+            new LocationByIP(context, this).execute();
+        }
     }
 }
