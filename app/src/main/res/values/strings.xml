@@ -6,7 +6,7 @@
   -->
 
 <resources>
-    <string name="app_name">여기, 서울</string>
+    <string name="app_name">여기, 한국</string>
     <string name="empty">표시할 내용이 없습니다!</string>
     <string name="open">열기</string>
     <string name="upload">업로드 하였습니다</string>
