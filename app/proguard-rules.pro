@@ -58,3 +58,9 @@
 -dontwarn gun0912.**
 -dontwarn com.muddzdev.**
 -dontwarn me.relex.**
+
+#파일 생성 옵션
+-printmapping proguard/map.txt
+-printseeds proguard/seed.txt
+-printusage proguard/usage.txt
+-printconfiguration proguard/config.txt
