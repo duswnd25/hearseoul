@@ -147,7 +147,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.detail_phone:
-                startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + spotBean.getPhone())));
+                String phoneNumber = spotBean.getPhone();
+                if (phoneNumber.contains("+82")) {
+                    phoneNumber = phoneNumber.replace("+82", "0");
+                }
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" +phoneNumber)));
                 break;
         }
     }
