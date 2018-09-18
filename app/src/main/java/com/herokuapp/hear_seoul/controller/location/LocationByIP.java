@@ -53,7 +53,6 @@ public class LocationByIP extends AsyncTask<LocationBean, Integer, LocationBean>
     protected LocationBean doInBackground(LocationBean... params) {
 
         LocationBean result = new LocationBean();
-        result.setAvailable(false);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url("http://ip-api.com/json").build();
@@ -64,7 +63,6 @@ public class LocationByIP extends AsyncTask<LocationBean, Integer, LocationBean>
             result.setCountryCode(responseJson.getString("countryCode"));
             result.setLatitude(responseJson.getDouble("lat"));
             result.setLongitude(responseJson.getDouble("lon"));
-            result.setAvailable(true);
         } catch (Exception e) {
             error = e;
             Logger.e(e.getMessage());
