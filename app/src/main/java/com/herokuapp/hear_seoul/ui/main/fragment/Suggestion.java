@@ -51,7 +51,6 @@ import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
-
 public class Suggestion extends Fragment implements LocationByIP.OnLocationFetchFinishCallback, FetchSpotList.callback, PermissionListener {
     private FusedLocationProviderClient mFusedLocationClient;
     private LinkedList<SpotBean> result = new LinkedList<>();

@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 
@@ -65,7 +66,10 @@ public class SuggestionAdapter extends PagerAdapter {
                 .format(DecodeFormat.DEFAULT)
                 .error(R.drawable.placeholder);
 
-        Glide.with(context).load(itemList.get(position).getImgUrlList().get(0)).apply(options).thumbnail(0.4f).into(image);
+        Glide.with(context)
+                .load(itemList.get(position).getImgUrlList().size() != 0 ? itemList.get(position).getImgUrlList().get(0) : R.drawable.placeholder)
+                .apply(options).thumbnail(0.4f)
+                .into(image);
 
         view.findViewById(R.id.item_main_suggestion_container).setOnClickListener(view1 -> {
             Intent intent = new Intent(context, DetailActivity.class);
