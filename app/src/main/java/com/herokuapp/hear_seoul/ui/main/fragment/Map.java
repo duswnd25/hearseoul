@@ -238,7 +238,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             spotBean.setLocation(place.getLatLng());
             spotBean.setTime("NO");
             spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-            spotBean.setPhone(String.valueOf(place.getPhoneNumber()).replace("+82", "0"));
+            spotBean.setPhone(String.valueOf(place.getPhoneNumber()).replace("+82", "0").replaceAll(" ", ""));
 
             Intent intent = new Intent(getContext(), DetailActivity.class);
             intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
