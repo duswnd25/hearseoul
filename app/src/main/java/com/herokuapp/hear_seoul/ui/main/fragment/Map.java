@@ -12,9 +12,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +30,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -38,8 +47,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -47,14 +59,29 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.ImageDownloader;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.skt.baas.api.BaasGeoPoint;
+import com.skt.baas.api.BaasObject;
+import com.skt.baas.api.BaasQuery;
+import com.skt.baas.callback.BaasListCallback;
+import com.skt.baas.exception.BaasException;
 
+import org.json.JSONArray;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -64,6 +91,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     private final String TAG = "메인 (홈)";
     private int PLACE_PICKER_REQUEST = 1;
     private View rootView;
+    private Context context;
     private MapView mapView;
     private GoogleMap googleMap;
     private Bundle savedInstanceState;
@@ -80,7 +108,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             if (locationList.size() > 0) {
                 Location location = locationList.get(locationList.size() - 1);
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                Utils.saveLocation(getContext(), currentLocation);
+                Utils.saveLocation(context, currentLocation);
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
                 if (googleMap != null) {
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -96,6 +124,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
     }
 
     @Override
@@ -109,16 +138,16 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
         this.savedInstanceState = savedInstanceState;
-        this.currentLocation = Utils.getSavedLocation(getContext());
+        this.currentLocation = Utils.getSavedLocation(context);
 
         view.findViewById(R.id.map_find).setOnClickListener(this);
 
-        loadingProgress = new ProgressDialog(getContext());
+        loadingProgress = new ProgressDialog(context);
         loadingProgress.setCancelable(false);
         loadingProgress.setMessage(getString(R.string.loading));
 
         // 권한 체크
-        TedPermission.with(Objects.requireNonNull(getContext()))
+        TedPermission.with(Objects.requireNonNull(context))
                 .setPermissionListener(Map.this)
                 .setRationaleMessage(getString(R.string.location_permission_description))
                 .setDeniedMessage(getString(R.string.permission_deny_description))
@@ -134,11 +163,11 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     }
 
     private void initLocation() {
-        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(context), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(context));
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(120000); // two minute interval
         mLocationRequest.setFastestInterval(120000);
@@ -150,14 +179,14 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     @Override
     public void onPermissionDenied(ArrayList<String> deniedPermissions) {
         new StyleableToast
-                .Builder(Objects.requireNonNull(getContext()))
+                .Builder(Objects.requireNonNull(context))
                 .text(getString(R.string.location_permission_description))
                 .textColor(Color.WHITE)
-                .backgroundColor(getContext().getColor(R.color.colorAccent))
+                .backgroundColor(context.getColor(R.color.colorAccent))
                 .show();
 
         Snackbar.make(Objects.requireNonNull(getView()), getString(R.string.permission_deny_description), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.open), view -> Utils.startAppInformationActivity(getContext())).show();
+                .setAction(getString(R.string.open), view -> Utils.startAppInformationActivity(context)).show();
     }
 
     private void initMap() {
@@ -176,8 +205,8 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(context), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         this.googleMap = googleMap;
@@ -195,23 +224,55 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
     // 주변 정보 가져오기
     private void fetchSpot(LatLng location) {
-        new FetchSpotList(location, 10, -1, new FetchSpotList.callback() {
-            @Override
-            public void onDataFetchSuccess(LinkedList<SpotBean> result) {
-                // 데이터 교체
-                spotList.clear();
-                spotList.addAll(result);
+        int max = 1000;
 
-                for (SpotBean s : result) {
-                    addMarker(s);
+        BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
+        baasQuery.setLimit(max);
+        baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
+        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), max);
+        baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
+            @Override
+            public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
+                if (e == null) {
+                    Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
+
+                    int maxIndex = max < fetchResult.size() ? max : fetchResult.size();
+                    for (int index = 0; index < maxIndex; index++) {
+                        SpotBean spotBean = new SpotBean();
+                        spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
+                        spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
+                        spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
+                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
+                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
+                        spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
+                        spotBean.setTag(fetchResult.get(index).getString(Const.BAAS.SPOT.TAG));
+                        spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
+                        spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
+
+                        try {
+                            ArrayList<String> urlList = new ArrayList<>();
+                            JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
+                            if (jArray != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    urlList.add(jArray.getString(i));
+                                }
+                            }
+                            spotBean.setImgUrlList(urlList);
+                        } catch (Exception error) {
+                            Logger.e(error.getMessage());
+                        }
+
+                        BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
+                        spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
+
+                        spotList.add(spotBean);
+                    }
+                    addMarker();
+                } else {
+                    Logger.e(e.getMessage());
                 }
             }
-
-            @Override
-            public void onDataFetchFail(String message) {
-                Log.e(TAG, message);
-            }
-        }).start();
+        });
     }
 
     // Place Picker 호출
@@ -229,7 +290,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
 
-            Place place = PlacePicker.getPlace(Objects.requireNonNull(getContext()), data);
+            Place place = PlacePicker.getPlace(Objects.requireNonNull(context), data);
             // if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
             // }
             SpotBean spotBean = new SpotBean();
@@ -238,22 +299,52 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             spotBean.setLocation(place.getLatLng());
             spotBean.setTime("NO");
             spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-            spotBean.setPhone(String.valueOf(place.getPhoneNumber()).replace("+82", "0").replaceAll(" ", ""));
+            String phone = String.valueOf(place.getPhoneNumber()).replace("+82", "0").replaceAll(" ", "");
+            spotBean.setPhone(phone);
 
-            Intent intent = new Intent(getContext(), DetailActivity.class);
+            Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
             intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
 
-            getContext().startActivity(intent);
+            context.startActivity(intent);
 
         } else {
-            Utils.showStyleToast(getContext(), getString(R.string.select_nearby_place));
+            Utils.showStyleToast(context, getString(R.string.select_nearby_place));
         }
     }
 
     // 지도 마커 추가
-    private void addMarker(SpotBean item) {
-        googleMap.addMarker(new MarkerOptions().position(item.getLocation()).title(item.getTitle()).snippet(item.getDescription()));
+    private void addMarker() {
+        for (SpotBean spotBean : spotList) {
+            new ImageDownloader(spotBean.getImgUrlList().get(0), (ImageDownloader.OnDownloadFinishCallback) (resource, error) -> googleMap.addMarker(new MarkerOptions()
+                    .position(spotBean.getLocation())
+                    .title(spotBean.getTitle())
+                    .snippet("Population: 4,627,300")
+                    .icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromView(resource))))).execute();
+        }
+    }
+
+    public Bitmap getBitmapFromView(Bitmap bitmap) {
+        View marker = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.item_map_marker, null);
+        CircleImageView imageView = marker.findViewById(R.id.item_map_marker_image);
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.placeholder)
+                .format(DecodeFormat.DEFAULT)
+                .error(R.drawable.placeholder);
+
+        Glide.with(Map.this.context).load(bitmap).apply(options).thumbnail(0.4f).into(imageView);
+
+        Bitmap returnedBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        Drawable bgDrawable = marker.getBackground();
+        if (bgDrawable != null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        marker.draw(canvas);
+        return returnedBitmap;
     }
 
     @Override
