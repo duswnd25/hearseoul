@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -114,6 +115,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         String distanceValue = Utils.getDistanceFromCurrentLocation(this, spotBean.getLocation()) + "km";
         distanceView.setText(distanceValue);
 
+        phoneView.setOnClickListener(this);
         findViewById(R.id.detail_correction).setOnClickListener(this);
     }
 
@@ -143,6 +145,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, isNewInformation);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.detail_phone:
+                startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + spotBean.getPhone())));
                 break;
         }
     }
