@@ -33,8 +33,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -88,7 +93,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class Map extends Fragment implements PermissionListener, OnMapReadyCallback, View.OnClickListener {
 
-    private final String TAG = "메인 (홈)";
     private int PLACE_PICKER_REQUEST = 1;
     private View rootView;
     private Context context;
@@ -197,7 +201,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         try {
             MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
         } catch (Exception e) {
-            Log.e(TAG, e.getLocalizedMessage());
+           Logger.e(e.getMessage());
         }
         mapView.getMapAsync(this);
         loadingProgress.dismiss();
@@ -336,15 +340,18 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
         Glide.with(Map.this.context).load(bitmap).apply(options).thumbnail(0.4f).into(imageView);
 
-        Bitmap returnedBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(returnedBitmap);
-        Drawable bgDrawable = marker.getBackground();
-        if (bgDrawable != null)
-            bgDrawable.draw(canvas);
-        else
-            canvas.drawColor(Color.WHITE);
-        marker.draw(canvas);
-        return returnedBitmap;
+        Glide.with(context).load(bitmap).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                return false;
+            }
+        }).submit();
+
     }
 
     @Override

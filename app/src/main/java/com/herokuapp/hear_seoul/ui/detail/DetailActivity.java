@@ -85,6 +85,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onInfoFetchSuccess(boolean isExist, SpotBean result) {
         loadingProgress.dismiss();
+
+        AutofitTextView titleView = findViewById(R.id.detail_title);
+        AutofitTextView tagView = findViewById(R.id.detail_tag);
+        AutofitTextView timeView = findViewById(R.id.detail_time);
+        AutofitTextView phoneView = findViewById(R.id.detail_phone);
+        AutofitTextView addressView = findViewById(R.id.detail_address);
+        AutofitTextView distanceView = findViewById(R.id.detail_distance);
+        AutofitTextView descriptionView = findViewById(R.id.detail_description);
+
         if (isExist) {
             spotBean = result;
             isNewInformation = false;
@@ -98,14 +107,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             CircleIndicator indicator = findViewById(R.id.detail_indicator);
             indicator.setViewPager(viewPager);
             adapter.registerDataSetObserver(indicator.getDataSetObserver());
+            descriptionView.setText(spotBean.getDescription());
         }
-
-        AutofitTextView titleView = findViewById(R.id.detail_title);
-        AutofitTextView tagView = findViewById(R.id.detail_tag);
-        AutofitTextView timeView = findViewById(R.id.detail_time);
-        AutofitTextView phoneView = findViewById(R.id.detail_phone);
-        AutofitTextView addressView = findViewById(R.id.detail_address);
-        AutofitTextView distanceView = findViewById(R.id.detail_distance);
 
         titleView.setText(spotBean.getTitle());
         tagView.setText(spotBean.getTag());
