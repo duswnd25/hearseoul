@@ -23,10 +23,6 @@ public class BaasImageManager {
     private int imageNum = 0;
     private ArrayList<String> urlList = new ArrayList<>();
 
-    public void deleteImage() {
-
-    }
-
     public void uploadImage(String fileName, LinkedList<Bitmap> bitmapList, uploadCallback callback) {
         this.imageNum = bitmapList.size();
 
@@ -51,12 +47,6 @@ public class BaasImageManager {
                 }
             });
         }
-    }
-
-    public interface downloadCallback extends Serializable {
-        void onImageDownloadSuccess(String url);
-
-        void onImageDownloadFail(String message);
     }
 
     public interface uploadCallback extends Serializable {
