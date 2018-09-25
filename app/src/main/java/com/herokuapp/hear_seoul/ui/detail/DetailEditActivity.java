@@ -11,6 +11,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +45,7 @@ import com.herokuapp.hear_seoul.controller.data.BaasImageManager;
 import com.herokuapp.hear_seoul.controller.data.UpdateInfo;
 import com.herokuapp.hear_seoul.controller.detail.EditImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.DBManager;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 
@@ -63,7 +66,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     private boolean isNewInformation, isImageChange = false;
     private ViewPager viewPager;
     private EditImageAdapter adapter;
-    private EditText titleEdit, timeEdit, tagEdit, phoneEdit, descriptionEdit, addressEdit;
+    private EditText titleEdit, timeEdit, phoneEdit, descriptionEdit, addressEdit;
     private ArrayList<String> originalImageSrc = new ArrayList<>();
     private RequestOptions glideOptions = new RequestOptions()
             .centerCrop()
@@ -130,7 +133,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         // content editor
         titleEdit = findViewById(R.id.detail_edit_title);
         timeEdit = findViewById(R.id.detail_edit_time);
-        tagEdit = findViewById(R.id.detail_edit_tag);
         phoneEdit = findViewById(R.id.detail_edit_phone);
         descriptionEdit = findViewById(R.id.detail_edit_description);
         addressEdit = findViewById(R.id.detail_edit_address);
@@ -138,7 +140,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         // 값 초기화
         titleEdit.setText(spotBean.getTitle());
         timeEdit.setText(spotBean.getTime());
-        tagEdit.setText(spotBean.getTag());
         phoneEdit.setText(spotBean.getPhone());
         descriptionEdit.setText(spotBean.getDescription());
         addressEdit.setText(spotBean.getAddress());
@@ -165,6 +166,12 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         // Click 이벤트
         findViewById(R.id.detail_edit_add_image).setOnClickListener(this);
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
+
+        findViewById(R.id.detail_edit_tag_food).setOnClickListener(this);
+        findViewById(R.id.detail_edit_tag_cafe).setOnClickListener(this);
+        findViewById(R.id.detail_edit_tag_landmark).setOnClickListener(this);
+        findViewById(R.id.detail_edit_tag_show).setOnClickListener(this);
+        findViewById(R.id.detail_edit_tag_photo).setOnClickListener(this);
     }
 
     @Override
@@ -179,7 +186,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setTitle(titleEdit.getText().toString());
                 spotBean.setTime(timeEdit.getText().toString());
                 spotBean.setPhone(phoneEdit.getText().toString());
-                spotBean.setTag(tagEdit.getText().toString());
                 spotBean.setDescription(descriptionEdit.getText().toString());
                 spotBean.setAddress(addressEdit.getText().toString());
 
@@ -200,8 +206,43 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                     saveDataToServer();
                 }
                 break;
+            case R.id.detail_edit_tag_food:
+            case R.id.detail_edit_tag_cafe:
+            case R.id.detail_edit_tag_landmark:
+            case R.id.detail_edit_tag_show:
+            case R.id.detail_edit_tag_photo:
+                changeSelectTag(view.getId());
+                break;
             default:
         }
+    }
+
+    private void changeSelectTag(int id) {
+        switch (id) {
+            case R.id.detail_edit_tag_food:
+                spotBean.setTag(1);
+                break;
+            case R.id.detail_edit_tag_cafe:
+                spotBean.setTag(2);
+                break;
+            case R.id.detail_edit_tag_landmark:
+                spotBean.setTag(3);
+                break;
+            case R.id.detail_edit_tag_show:
+                spotBean.setTag(4);
+                break;
+            case R.id.detail_edit_tag_photo:
+                spotBean.setTag(5);
+                break;
+            default:
+                spotBean.setTag(-1);
+        }
+        ((CardView) findViewById(R.id.detail_edit_tag_food)).setCardBackgroundColor(Color.WHITE);
+        ((CardView) findViewById(R.id.detail_edit_tag_cafe)).setCardBackgroundColor(Color.WHITE);
+        ((CardView) findViewById(R.id.detail_edit_tag_landmark)).setCardBackgroundColor(Color.WHITE);
+        ((CardView) findViewById(R.id.detail_edit_tag_show)).setCardBackgroundColor(Color.WHITE);
+        ((CardView) findViewById(R.id.detail_edit_tag_photo)).setCardBackgroundColor(Color.WHITE);
+        ((CardView) findViewById(id)).setCardBackgroundColor(getColor(R.color.colorAccent));
     }
 
     private void selectImage() {
@@ -237,6 +278,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onUpdateSuccess() {
                 loadingDialog.dismiss();
+                new DBManager(DetailEditActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION).updateOrCreate(spotBean.getId(), 1);
                 Utils.showStyleToast(DetailEditActivity.this, getString(R.string.upload));
                 finish();
             }

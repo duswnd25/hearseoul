@@ -50,7 +50,7 @@ public class FetchInfoById extends Thread {
                         spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setAddress(baasObject.getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setTime(baasObject.getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(baasObject.getString(Const.BAAS.SPOT.TAG));
+                        spotBean.setTag(baasObject.getInt(Const.BAAS.SPOT.TAG));
                         spotBean.setPhone(baasObject.getString(Const.BAAS.SPOT.PHONE));
 
                         try {

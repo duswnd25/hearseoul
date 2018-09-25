@@ -99,6 +99,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/padding_half">
 
@@ -109,16 +110,43 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_tag_black" />
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/detail_tag"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:paddingStart="@dimen/padding_half"
-            app:sizeToFit="true"
-            tools:ignore="RtlSymmetry"
-            tools:text="태그" />
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:focusable="false"
+                android:paddingEnd="@dimen/padding_default"
+                android:paddingStart="@dimen/padding_half">
+
+                <ImageView
+                    android:id="@+id/detail_tag_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_food_black" />
+
+                <TextView
+                    android:id="@+id/detail_tag_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:text="@string/tag_food" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
     <LinearLayout

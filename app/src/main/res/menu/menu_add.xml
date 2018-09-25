@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_add"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_black"
+        android:title="@string/menu_add"
+        app:showAsAction="ifRoom" />
+</menu>

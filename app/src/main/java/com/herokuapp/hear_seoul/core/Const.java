@@ -15,6 +15,11 @@ public class Const {
         public static final String OBJECT_ID = "objectId";
     }
 
+    public static class DB {
+        public static final String DB_NAME = "data";
+        public static final int VERSION = 1;
+    }
+
     public static class PREFERENCE {
         public static final String SAVED_LOCATION = "saved_location";
     }

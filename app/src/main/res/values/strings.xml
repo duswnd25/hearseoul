@@ -13,4 +13,10 @@
     <string name="loading">잠시만 기다려주세요</string>
     <string name="information_correction">정보 수정 하기</string>
     <string name="select_nearby_place">근처의 위치를 선택하세요</string>
+    <string name="tag_food">음식</string>
+    <string name="tag_cafe">카페</string>
+    <string name="tag_landmark">관광지</string>
+    <string name="tag_show">공연</string>
+    <string name="tag_photo">사진찍기 좋은곳</string>
+    <string name="tag_no">없음</string>
 </resources>

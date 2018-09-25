@@ -16,17 +16,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.data.FetchInfoById;
 import com.herokuapp.hear_seoul.controller.detail.InfoImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.DBManager;
 import com.herokuapp.hear_seoul.core.Utils;
 
 import java.util.Objects;
@@ -38,6 +42,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private SpotBean spotBean;
     private boolean isNewInformation = true;
     private ProgressDialog loadingProgress;
+    private boolean isUserLikeSpot = false;
+    private FloatingActionButton likeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +93,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         loadingProgress.dismiss();
 
         AutofitTextView titleView = findViewById(R.id.detail_title);
-        AutofitTextView tagView = findViewById(R.id.detail_tag);
         AutofitTextView timeView = findViewById(R.id.detail_time);
         AutofitTextView phoneView = findViewById(R.id.detail_phone);
         AutofitTextView addressView = findViewById(R.id.detail_address);
         AutofitTextView distanceView = findViewById(R.id.detail_distance);
         AutofitTextView descriptionView = findViewById(R.id.detail_description);
+        likeView = findViewById(R.id.detail_like);
 
         if (isExist) {
             spotBean = result;
@@ -111,13 +117,48 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         titleView.setText(spotBean.getTitle());
-        tagView.setText(spotBean.getTag());
         timeView.setText(spotBean.getTime());
         phoneView.setText(spotBean.getPhone());
         addressView.setText(spotBean.getAddress());
         String distanceValue = Utils.getDistanceFromCurrentLocation(this, spotBean.getLocation()) + "km";
         distanceView.setText(distanceValue);
 
+        DBManager dbManager = new DBManager(this, Const.DB.DB_NAME, null, Const.DB.VERSION);
+        isUserLikeSpot = dbManager.isUserLikeThisSpot(spotBean.getId());
+        likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
+
+        String tagText;
+        Drawable tagDrawable;
+
+        switch (spotBean.getTag()) {
+            case 1:
+                tagText = getString(R.string.tag_food);
+                tagDrawable = getDrawable(R.drawable.ic_food_black);
+                break;
+            case 2:
+                tagText = getString(R.string.tag_cafe);
+                tagDrawable = getDrawable(R.drawable.ic_cafe_black);
+                break;
+            case 3:
+                tagText = getString(R.string.tag_landmark);
+                tagDrawable = getDrawable(R.drawable.ic_landmark_black);
+                break;
+            case 4:
+                tagText = getString(R.string.tag_show);
+                tagDrawable = getDrawable(R.drawable.ic_show_black);
+                break;
+            case 5:
+                tagText = getString(R.string.tag_photo);
+                tagDrawable = getDrawable(R.drawable.ic_camera_black);
+                break;
+            default:
+                tagText = getString(R.string.tag_no);
+                tagDrawable = getDrawable(R.drawable.ic_empty_black);
+        }
+        ((TextView) findViewById(R.id.detail_tag_text)).setText(tagText);
+        ((ImageView) findViewById(R.id.detail_tag_image)).setImageDrawable(tagDrawable);
+
+        likeView.setOnClickListener(this);
         phoneView.setOnClickListener(this);
         findViewById(R.id.detail_correction).setOnClickListener(this);
     }
@@ -154,7 +195,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 if (phoneNumber.contains("+82")) {
                     phoneNumber = phoneNumber.replace("+82", "0");
                 }
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" +phoneNumber)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
+                break;
+            case R.id.detail_like:
+                DBManager dbManager = new DBManager(DetailActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION);
+                dbManager.updateOrCreate(spotBean.getId(), isUserLikeSpot ? 0 : 1);
+                isUserLikeSpot = !isUserLikeSpot;
+                likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
                 break;
         }
     }

@@ -103,7 +103,7 @@ public class Explore extends Fragment implements FetchSpotList.callback {
                         spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getString(Const.BAAS.SPOT.TAG));
+                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
                         spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
                         spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
 

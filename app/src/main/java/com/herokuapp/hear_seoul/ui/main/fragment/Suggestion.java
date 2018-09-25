@@ -97,6 +97,7 @@ public class Suggestion extends Fragment implements LocationByIP.OnLocationFetch
                 .setDeniedMessage(getString(R.string.permission_deny_description))
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
+
     }
 
     private void getSpotData(double latitude, double longitude) {
@@ -128,7 +129,7 @@ public class Suggestion extends Fragment implements LocationByIP.OnLocationFetch
                         spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getString(Const.BAAS.SPOT.TAG));
+                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
                         spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
                         spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
 
@@ -181,6 +182,7 @@ public class Suggestion extends Fragment implements LocationByIP.OnLocationFetch
             }
         });
     }
+
 
     @Override
     public void onPermissionDenied(ArrayList<String> deniedPermissions) {

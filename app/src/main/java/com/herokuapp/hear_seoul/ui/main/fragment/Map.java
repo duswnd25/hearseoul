@@ -10,64 +10,42 @@ package com.herokuapp.hear_seoul.ui.main.fragment;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.ImageDownloader;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
-import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.skt.baas.api.BaasGeoPoint;
 import com.skt.baas.api.BaasObject;
@@ -77,23 +55,15 @@ import com.skt.baas.exception.BaasException;
 
 import org.json.JSONArray;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.app.Activity.RESULT_OK;
-
 
 public class Map extends Fragment implements PermissionListener, OnMapReadyCallback, View.OnClickListener {
 
-    private int PLACE_PICKER_REQUEST = 1;
     private View rootView;
     private Context context;
     private MapView mapView;
@@ -144,7 +114,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         this.savedInstanceState = savedInstanceState;
         this.currentLocation = Utils.getSavedLocation(context);
 
-        view.findViewById(R.id.map_find).setOnClickListener(this);
+        //view.findViewById(R.id.map_find).setOnClickListener(this);
 
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setCancelable(false);
@@ -201,7 +171,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         try {
             MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
         } catch (Exception e) {
-           Logger.e(e.getMessage());
+            Logger.e(e.getMessage());
         }
         mapView.getMapAsync(this);
         loadingProgress.dismiss();
@@ -249,7 +219,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                         spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
                         spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getString(Const.BAAS.SPOT.TAG));
+                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
                         spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
                         spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
 
@@ -279,44 +249,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         });
     }
 
-    // Place Picker 호출
-    private void placePickerStart() {
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-        try {
-            startActivityForResult(builder.build(Objects.requireNonNull(getActivity())), PLACE_PICKER_REQUEST);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Place Picker 결과
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
-
-            Place place = PlacePicker.getPlace(Objects.requireNonNull(context), data);
-            // if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
-            // }
-            SpotBean spotBean = new SpotBean();
-            spotBean.setId(place.getId());
-            spotBean.setTitle(place.getName().toString());
-            spotBean.setLocation(place.getLatLng());
-            spotBean.setTime("NO");
-            spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-            String phone = String.valueOf(place.getPhoneNumber()).replace("+82", "0").replaceAll(" ", "");
-            spotBean.setPhone(phone);
-
-            Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
-            intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
-
-            context.startActivity(intent);
-
-        } else {
-            Utils.showStyleToast(context, getString(R.string.select_nearby_place));
-        }
-    }
-
     // 지도 마커 추가
     private void addMarker() {
         for (SpotBean spotBean : spotList) {
@@ -324,34 +256,8 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                     .position(spotBean.getLocation())
                     .title(spotBean.getTitle())
                     .snippet("Population: 4,627,300")
-                    .icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromView(resource))))).execute();
+                    .icon(BitmapDescriptorFactory.fromBitmap(resource)))).execute();
         }
-    }
-
-    public Bitmap getBitmapFromView(Bitmap bitmap) {
-        View marker = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.item_map_marker, null);
-        CircleImageView imageView = marker.findViewById(R.id.item_map_marker_image);
-
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.placeholder)
-                .format(DecodeFormat.DEFAULT)
-                .error(R.drawable.placeholder);
-
-        Glide.with(Map.this.context).load(bitmap).apply(options).thumbnail(0.4f).into(imageView);
-
-        Glide.with(context).load(bitmap).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                return false;
-            }
-        }).submit();
-
     }
 
     @Override
@@ -397,9 +303,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.map_find:
-                placePickerStart();
-                break;
+            default:
         }
     }
 }
