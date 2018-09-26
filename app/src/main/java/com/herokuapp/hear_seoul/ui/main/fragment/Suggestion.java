@@ -24,10 +24,11 @@ import com.herokuapp.hear_seoul.controller.baas.query.FetchSuggestionSpotList;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.DBManager;
-import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
+import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -72,13 +73,14 @@ public class Suggestion extends Fragment {
 
     private void getData() {
         LinkedList<String> likeSpotList = new DBManager(context, Const.DB.DB_NAME, null, Const.DB.VERSION).getLikeList();
-        if (likeSpotList.size() == 0) {
-            Utils.showStyleToast(context, "추천할만한 장소가 없습니다.");
-            return;
-        }
+
         new FetchSuggestionList(context, (FetchSuggestionList.OnFetchSuggestionListCallback) result ->
                 new FetchSuggestionSpotList(context, (FetchSuggestionSpotList.OnFetchSuggestionSpotListCallback) result1 -> {
-                    Logger.d(String.valueOf(result1.size()));
+                    if (result1.size() == 0) {
+                        Utils.showStyleToast(context, "추천할만한 장소가 없습니다.");
+                        ((MainActivity) Objects.requireNonNull(getActivity())).loadFragment(new Explore());
+                        ((MainActivity) getActivity()).changeNavigationSelected(R.id.menu_explore);
+                    }
                     dataOrigin.clear();
                     dataOrigin.addAll(result1);
                     adapter.notifyDataSetChanged();

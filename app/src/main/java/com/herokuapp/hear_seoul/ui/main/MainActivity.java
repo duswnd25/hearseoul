@@ -36,6 +36,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private int PLACE_PICKER_REQUEST = 1;
+    private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         loadFragment(new Suggestion());
 
-        BottomNavigationView navigation = findViewById(R.id.main_bottom_menu);
+        navigation = findViewById(R.id.main_bottom_menu);
         navigation.setOnNavigationItemSelectedListener(this);
     }
 
@@ -107,14 +108,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-    private void loadFragment(Fragment fragment) {
-        //switching fragment
+    public void loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_fragment, fragment)
                     .commit();
         }
+    }
+
+    public void changeNavigationSelected(int menuId) {
+        navigation.setSelectedItemId(menuId);
     }
 
     @Override

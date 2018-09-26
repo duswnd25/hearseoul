@@ -43,6 +43,7 @@ public class FetchSuggestionSpotList {
 
     public void getData(LinkedList<String> param) {
         loadingProgress.show();
+
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
         baasQuery.whereContainedIn(Const.BAAS.SPOT.ID, param);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {

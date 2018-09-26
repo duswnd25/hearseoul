@@ -44,7 +44,7 @@ public class FetchSuggestionList {
                 if (e == null) {
                     LinkedList<String> result = new LinkedList<>();
                     for (int index = 0; index < fetchResult.size(); index++) {
-                        result.add(fetchResult.get(0).getString(Const.BAAS.SUGGESTION.SUGGEST));
+                        result.add(fetchResult.get(index).getString(Const.BAAS.SUGGESTION.SUGGEST));
                     }
                     loadingProgress.hide();
                     callback.onDataFetchSuccess(result);
