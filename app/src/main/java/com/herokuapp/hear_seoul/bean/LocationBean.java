@@ -12,8 +12,29 @@ import android.os.Parcelable;
 
 public class LocationBean implements Parcelable {
 
+    public static final Creator<LocationBean> CREATOR = new Creator<LocationBean>() {
+        @Override
+        public LocationBean createFromParcel(Parcel source) {
+            return new LocationBean(source);
+        }
+
+        @Override
+        public LocationBean[] newArray(int size) {
+            return new LocationBean[size];
+        }
+    };
     private double latitude, longitude;
     private String country, countryCode;
+
+    public LocationBean() {
+    }
+
+    protected LocationBean(Parcel in) {
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.country = in.readString();
+        this.countryCode = in.readString();
+    }
 
     public double getLatitude() {
         return latitude;
@@ -47,9 +68,6 @@ public class LocationBean implements Parcelable {
         this.countryCode = countryCode;
     }
 
-    public LocationBean() {
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -62,23 +80,4 @@ public class LocationBean implements Parcelable {
         dest.writeString(this.country);
         dest.writeString(this.countryCode);
     }
-
-    protected LocationBean(Parcel in) {
-        this.latitude = in.readDouble();
-        this.longitude = in.readDouble();
-        this.country = in.readString();
-        this.countryCode = in.readString();
-    }
-
-    public static final Creator<LocationBean> CREATOR = new Creator<LocationBean>() {
-        @Override
-        public LocationBean createFromParcel(Parcel source) {
-            return new LocationBean(source);
-        }
-
-        @Override
-        public LocationBean[] newArray(int size) {
-            return new LocationBean[size];
-        }
-    };
 }

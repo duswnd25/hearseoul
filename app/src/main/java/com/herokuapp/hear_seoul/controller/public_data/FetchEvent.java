@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.data;
+package com.herokuapp.hear_seoul.controller.public_data;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,7 +33,7 @@ public class FetchEvent extends AsyncTask<Void, Integer, LinkedList<EventBean>> 
     private String apiKey;
     private ProgressDialog locationLoading;
 
-    public FetchEvent(Context context,callback callback) {
+    public FetchEvent(Context context, callback callback) {
         this.callback = callback;
         this.apiKey = context.getString(R.string.seoul_event_key);
         locationLoading = new ProgressDialog(context);

@@ -41,8 +41,8 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.data.BaasImageManager;
-import com.herokuapp.hear_seoul.controller.data.UpdateInfo;
+import com.herokuapp.hear_seoul.controller.baas.BaasImageManager;
+import com.herokuapp.hear_seoul.controller.baas.query.UpdateInfo;
 import com.herokuapp.hear_seoul.controller.detail.EditImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.DBManager;
@@ -163,6 +163,8 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
+        changeSelectTag(spotBean.getTag());
+
         // Click 이벤트
         findViewById(R.id.detail_edit_add_image).setOnClickListener(this);
         findViewById(R.id.detail_edit_save).setOnClickListener(this);
@@ -218,23 +220,35 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void changeSelectTag(int id) {
+        int targetView;
         switch (id) {
+            case 1:
             case R.id.detail_edit_tag_food:
+                targetView = R.id.detail_edit_tag_food;
                 spotBean.setTag(1);
                 break;
+            case 2:
             case R.id.detail_edit_tag_cafe:
+                targetView = R.id.detail_edit_tag_cafe;
                 spotBean.setTag(2);
                 break;
+            case 3:
             case R.id.detail_edit_tag_landmark:
+                targetView = R.id.detail_edit_tag_landmark;
                 spotBean.setTag(3);
                 break;
+            case 4:
             case R.id.detail_edit_tag_show:
+                targetView = R.id.detail_edit_tag_show;
                 spotBean.setTag(4);
                 break;
+            case 5:
             case R.id.detail_edit_tag_photo:
+                targetView = R.id.detail_edit_tag_photo;
                 spotBean.setTag(5);
                 break;
             default:
+                targetView = -1;
                 spotBean.setTag(-1);
         }
         ((CardView) findViewById(R.id.detail_edit_tag_food)).setCardBackgroundColor(Color.WHITE);
@@ -242,7 +256,9 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         ((CardView) findViewById(R.id.detail_edit_tag_landmark)).setCardBackgroundColor(Color.WHITE);
         ((CardView) findViewById(R.id.detail_edit_tag_show)).setCardBackgroundColor(Color.WHITE);
         ((CardView) findViewById(R.id.detail_edit_tag_photo)).setCardBackgroundColor(Color.WHITE);
-        ((CardView) findViewById(id)).setCardBackgroundColor(getColor(R.color.colorAccent));
+        if (targetView != -1) {
+            ((CardView) findViewById(targetView)).setCardBackgroundColor(getColor(R.color.colorHighlight));
+        }
     }
 
     private void selectImage() {

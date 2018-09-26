@@ -12,6 +12,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.LinkedList;
+
 public class DBManager extends SQLiteOpenHelper {
 
     public DBManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -30,6 +32,19 @@ public class DBManager extends SQLiteOpenHelper {
         cursor.close();
 
         return isLike;
+    }
+
+    public LinkedList<String> getLikeList() {
+        LinkedList<String> result = new LinkedList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM data", null);
+
+        while (cursor.moveToNext()) {
+            result.add(cursor.getString(0));
+        }
+        cursor.close();
+
+        return result;
     }
 
     // TODO sqlite 는 on duplicate를 지원하지 않는다. 좋은 방법이 있을까?

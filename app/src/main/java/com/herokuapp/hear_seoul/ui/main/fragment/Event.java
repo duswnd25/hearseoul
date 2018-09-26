@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
-import com.herokuapp.hear_seoul.controller.data.FetchEvent;
+import com.herokuapp.hear_seoul.controller.public_data.FetchEvent;
 import com.herokuapp.hear_seoul.controller.main.EventListAdapter;
 import com.herokuapp.hear_seoul.core.Logger;
 
@@ -36,13 +36,13 @@ public class Event extends Fragment implements FetchEvent.callback {
     private EventListAdapter eventListAdapter;
     private Context context;
 
+    public Event() {
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-    }
-
-    public Event() {
     }
 
     @Override

@@ -34,6 +34,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -43,7 +44,6 @@ import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.ImageDownloader;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -249,14 +249,38 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         });
     }
 
+    //TODO 지도 좌표에 따라 로드하게 변경해야함
     // 지도 마커 추가
     private void addMarker() {
         for (SpotBean spotBean : spotList) {
-            new ImageDownloader(spotBean.getImgUrlList().get(0), (ImageDownloader.OnDownloadFinishCallback) (resource, error) -> googleMap.addMarker(new MarkerOptions()
+            int icon_resource;
+            switch (spotBean.getTag()) {
+                case 1:
+                    icon_resource = R.drawable.ic_food_black;
+                    break;
+                case 2:
+                    icon_resource = R.drawable.ic_cafe_black;
+                    break;
+                case 3:
+                    icon_resource = R.drawable.ic_landmark_black;
+                    break;
+                case 4:
+                    icon_resource = R.drawable.ic_show_black;
+                    break;
+                case 5:
+                    icon_resource = R.drawable.ic_camera_black;
+                    break;
+                default:
+                    icon_resource = R.drawable.ic_empty_black;
+
+            }
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(icon_resource);
+
+            googleMap.addMarker(new MarkerOptions()
                     .position(spotBean.getLocation())
                     .title(spotBean.getTitle())
-                    .snippet("Population: 4,627,300")
-                    .icon(BitmapDescriptorFactory.fromBitmap(resource)))).execute();
+                    .snippet(spotBean.getDescription())
+                    .icon(icon));
         }
     }
 

@@ -25,6 +25,12 @@ public class Const {
     }
 
     public static class BAAS {
+        public static class SUGGESTION {
+            public static final String TABLE_NAME = "Suggestion";
+            public static final String ID = "id";
+            public static final String SUGGEST = "suggest";
+        }
+
         public static class SPOT {
             public static final String ID = "id";
             public static final String TABLE_NAME = "Spot";

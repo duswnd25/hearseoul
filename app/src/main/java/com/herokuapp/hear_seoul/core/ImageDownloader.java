@@ -11,14 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.herokuapp.hear_seoul.bean.SpotBean;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.Objects;
 
 import okhttp3.OkHttpClient;

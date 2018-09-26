@@ -7,9 +7,6 @@
 
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,18 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
-import com.herokuapp.hear_seoul.bean.LocationBean;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
-import com.herokuapp.hear_seoul.controller.location.LocationByIP;
+import com.herokuapp.hear_seoul.controller.baas.query.FetchSpotList;
+import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionList;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.DBManager;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.skt.baas.api.BaasGeoPoint;
@@ -47,12 +40,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class Suggestion extends Fragment implements LocationByIP.OnLocationFetchFinishCallback, FetchSpotList.callback, PermissionListener {
-    private FusedLocationProviderClient mFusedLocationClient;
+public class Suggestion extends Fragment implements FetchSpotList.callback {
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
     private Context context;
@@ -88,20 +79,25 @@ public class Suggestion extends Fragment implements LocationByIP.OnLocationFetch
         indicator.setViewPager(viewPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+        test();
+    }
 
-        // 권한 체크
-        TedPermission.with(Objects.requireNonNull(getContext()))
-                .setPermissionListener(Suggestion.this)
-                .setRationaleMessage(getString(R.string.location_permission_description))
-                .setDeniedMessage(getString(R.string.permission_deny_description))
-                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
-                .check();
-
+    private void test() {
+        LinkedList<String> likeSpotList = new DBManager(context, Const.DB.DB_NAME, null, Const.DB.VERSION).getLikeList();
+        if (likeSpotList.size() == 0) {
+            Utils.showStyleToast(context, "추천할만한 장소가 없습니다.");
+            return;
+        }
+        new FetchSuggestionList(context, (FetchSuggestionList.OnFetchSuggestionListCallback) result -> {
+            Logger.d("FINISH");
+            for (String s : result) {
+                Logger.d(s);
+            }
+        }).getData(likeSpotList);
     }
 
     private void getSpotData(double latitude, double longitude) {
-        Utils.saveLocation(context, new LatLng(latitude, longitude));
+
         // 서버에 저장된 정보
         ProgressDialog loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(getString(R.string.loading));
@@ -169,40 +165,5 @@ public class Suggestion extends Fragment implements LocationByIP.OnLocationFetch
     @Override
     public void onDataFetchFail(String message) {
         new FetchSpotList(Utils.getSavedLocation(context), 100, 4, this).start();
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onPermissionGranted() {
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(Objects.requireNonNull(getActivity()), location -> {
-            if (location == null) {
-                new LocationByIP(context, Suggestion.this).execute();
-            } else {
-                getSpotData(location.getLatitude(), location.getLongitude());
-            }
-        });
-    }
-
-
-    @Override
-    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-        new LocationByIP(context, this).execute();
-    }
-
-    @Override
-    public void onLocationFetchFinish(LocationBean result, Exception error) {
-        if (error == null) {
-            if (result.getCountryCode().equals("KR")) {
-                getSpotData(result.getLatitude(), result.getLongitude());
-            } else {
-                new AlertDialog.Builder(context)
-                        .setMessage("현재 위치가 한국이 아닌 것 같습니다.\n현재위치 : " + result.getCountry())
-                        .setPositiveButton("다시 확인", (dialog, which) -> new LocationByIP(context, Suggestion.this).execute())
-                        .setNegativeButton("종료", (dialog12, which) -> Objects.requireNonNull(getActivity()).finish())
-                        .create().show();
-            }
-        } else {
-            new LocationByIP(context, this).execute();
-        }
     }
 }

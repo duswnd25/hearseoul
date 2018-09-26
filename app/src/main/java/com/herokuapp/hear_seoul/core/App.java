@@ -11,6 +11,7 @@ import android.app.Application;
 
 import com.herokuapp.hear_seoul.R;
 import com.skt.baas.api.Baas;
+import com.skt.baas.api.BaasInstallation;
 
 public class App extends Application {
 
@@ -19,5 +20,6 @@ public class App extends Application {
         super.onCreate();
         Baas.init(this, 1, getString(R.string.baas_key));
         Baas.debugMode(false);
+        BaasInstallation.isUseBaasPush(true, getString(R.string.google_project));
     }
 }

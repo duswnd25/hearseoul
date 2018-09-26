@@ -15,7 +15,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 

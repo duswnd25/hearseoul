@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.data.FetchSpotList;
+import com.herokuapp.hear_seoul.controller.baas.query.FetchSpotList;
 import com.herokuapp.hear_seoul.controller.main.ExploreAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
