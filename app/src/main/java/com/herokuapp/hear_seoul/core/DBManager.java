@@ -43,12 +43,11 @@ public class DBManager extends SQLiteOpenHelper {
             result.add(cursor.getString(0));
         }
         cursor.close();
-
         return result;
     }
 
     // TODO sqlite 는 on duplicate를 지원하지 않는다. 좋은 방법이 있을까?
-    public void updateOrCreate(String id, int isLike) {
+    public void updateOrCreate(String id, boolean isLike) {
         SQLiteDatabase db = this.getReadableDatabase();
         boolean isNewData;
         Cursor cursor = db.rawQuery("SELECT * FROM data WHERE id = '" + id + "'", null);
@@ -59,9 +58,9 @@ public class DBManager extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         String query;
         if (isNewData) {
-            query = "INSERT INTO data (id, isLike) VALUES('" + id + "','" + 0 + "');";
+            query = "INSERT INTO data (id, isLike) VALUES('" + id + "'," + (isLike ? 1 : 0)  + ");";
         } else {
-            query = "UPDATE data SET isLike=" + isLike + " WHERE id='" + id + "';";
+            query = "UPDATE data SET isLike=" + (isLike ? 1 : 0) + " WHERE id='" + id + "';";
         }
         db.execSQL(query);
     }

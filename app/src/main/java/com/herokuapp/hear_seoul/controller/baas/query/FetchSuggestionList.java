@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.baas;
+package com.herokuapp.hear_seoul.controller.baas.query;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,10 +34,10 @@ public class FetchSuggestionList {
     }
 
 
-    public void getData(LinkedList<String> params) {
+    public void getData(LinkedList<String> param) {
         loadingProgress.show();
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SUGGESTION.TABLE_NAME);
-        baasQuery.whereContainedIn(Const.BAAS.SUGGESTION.ID, params);
+        baasQuery.whereContainedIn(Const.BAAS.SUGGESTION.ID, param);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {

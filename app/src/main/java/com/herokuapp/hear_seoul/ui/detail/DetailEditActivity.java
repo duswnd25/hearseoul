@@ -45,7 +45,6 @@ import com.herokuapp.hear_seoul.controller.baas.BaasImageManager;
 import com.herokuapp.hear_seoul.controller.baas.query.UpdateInfo;
 import com.herokuapp.hear_seoul.controller.detail.EditImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.DBManager;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 
@@ -294,7 +293,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onUpdateSuccess() {
                 loadingDialog.dismiss();
-                new DBManager(DetailEditActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION).updateOrCreate(spotBean.getId(), 1);
                 Utils.showStyleToast(DetailEditActivity.this, getString(R.string.upload));
                 finish();
             }

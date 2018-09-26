@@ -7,7 +7,6 @@
 
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,33 +17,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.baas.query.FetchSpotList;
-import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionList;
+import com.herokuapp.hear_seoul.controller.baas.query.FetchSuggestionList;
+import com.herokuapp.hear_seoul.controller.baas.query.FetchSuggestionSpotList;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.DBManager;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
-import com.skt.baas.api.BaasGeoPoint;
-import com.skt.baas.api.BaasObject;
-import com.skt.baas.api.BaasQuery;
-import com.skt.baas.callback.BaasListCallback;
-import com.skt.baas.exception.BaasException;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class Suggestion extends Fragment{
-    private LinkedList<SpotBean> result = new LinkedList<>();
+public class Suggestion extends Fragment {
+    private LinkedList<SpotBean> dataOrigin = new LinkedList<>();
     private SuggestionAdapter adapter;
     private Context context;
 
@@ -72,87 +60,28 @@ public class Suggestion extends Fragment{
         viewPager.setPadding(80, 60, 60, 40);
         viewPager.setPageMargin(20);
 
-        adapter = new SuggestionAdapter(context, result);
+        adapter = new SuggestionAdapter(context, dataOrigin);
         viewPager.setAdapter(adapter);
 
         CircleIndicator indicator = view.findViewById(R.id.main_indicator);
         indicator.setViewPager(viewPager);
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
-        test();
+        getData();
     }
 
-    private void test() {
+    private void getData() {
         LinkedList<String> likeSpotList = new DBManager(context, Const.DB.DB_NAME, null, Const.DB.VERSION).getLikeList();
         if (likeSpotList.size() == 0) {
             Utils.showStyleToast(context, "추천할만한 장소가 없습니다.");
             return;
         }
-        new FetchSuggestionList(context, (FetchSuggestionList.OnFetchSuggestionListCallback) result -> {
-            Logger.d("FINISH");
-            for (String s : result) {
-                Logger.d(s);
-            }
-        }).getData(likeSpotList);
-    }
-
-    private void getSpotData(double latitude, double longitude) {
-
-        // 서버에 저장된 정보
-        ProgressDialog loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(getString(R.string.loading));
-        loadingProgress.setCancelable(false);
-        loadingProgress.show();
-
-        int max = 10;
-
-        BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.setLimit(max);
-        baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(latitude, longitude), 100);
-        baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
-            @Override
-            public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
-                if (e == null) {
-                    Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
-
-                    int maxIndex = max < fetchResult.size() ? max : fetchResult.size();
-                    for (int index = 0; index < maxIndex; index++) {
-                        SpotBean spotBean = new SpotBean();
-                        spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
-                        spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
-                        spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
-                        spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
-                        spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
-
-                        try {
-                            ArrayList<String> urlList = new ArrayList<>();
-                            JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
-                            if (jArray != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    urlList.add(jArray.getString(i));
-                                }
-                            }
-                            spotBean.setImgUrlList(urlList);
-                        } catch (Exception error) {
-                            Logger.e(error.getMessage());
-                        }
-
-                        BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
-                        spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
-
-                        result.add(spotBean);
-                    }
-                    loadingProgress.dismiss();
+        new FetchSuggestionList(context, (FetchSuggestionList.OnFetchSuggestionListCallback) result ->
+                new FetchSuggestionSpotList(context, (FetchSuggestionSpotList.OnFetchSuggestionSpotListCallback) result1 -> {
+                    Logger.d(String.valueOf(result1.size()));
+                    dataOrigin.clear();
+                    dataOrigin.addAll(result1);
                     adapter.notifyDataSetChanged();
-                } else {
-                    Logger.e(e.getMessage());
-                }
-            }
-        });
+                }).getData(result)).getData(likeSpotList);
     }
 }
