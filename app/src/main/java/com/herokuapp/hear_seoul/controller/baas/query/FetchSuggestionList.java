@@ -43,7 +43,6 @@ public class FetchSuggestionList {
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
                 if (e == null) {
                     LinkedList<String> result = new LinkedList<>();
-                    Logger.d(String.valueOf(fetchResult.size()));
                     for (int index = 0; index < fetchResult.size(); index++) {
                         result.add(fetchResult.get(0).getString(Const.BAAS.SUGGESTION.SUGGEST));
                     }
