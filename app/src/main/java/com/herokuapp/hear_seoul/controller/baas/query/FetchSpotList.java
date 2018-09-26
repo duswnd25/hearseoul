@@ -7,7 +7,11 @@
 
 package com.herokuapp.hear_seoul.controller.baas.query;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import com.google.android.gms.maps.model.LatLng;
+import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
@@ -25,33 +29,29 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FetchSpotList extends Thread {
-    private FetchSpotList.callback callback;
-    private LatLng location;
-    private int distance, max;
+public class FetchSpotList {
+    private OnFetchSpotListCallback callback;
+    private ProgressDialog loadingProgress;
 
-    public FetchSpotList(LatLng location, int distance, int max, FetchSpotList.callback callback) {
-        this.location = location;
-        this.distance = distance;
-        this.max = max;
+    public FetchSpotList(Context context, OnFetchSpotListCallback callback) {
         this.callback = callback;
+        loadingProgress = new ProgressDialog(context);
+        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setCancelable(false);
     }
 
-    @Override
-    public void run() {
-        super.run();
-        LinkedList<SpotBean> result = new LinkedList<>();
-        // 서버에 저장된 정보
+
+    public void getData() {
+        loadingProgress.show();
+        int max = 1000;
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
         baasQuery.setLimit(max);
-        baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), distance);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
                 if (e == null) {
                     Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
-
+                    LinkedList<SpotBean> result = new LinkedList<>();
                     int maxIndex = max < fetchResult.size() ? max : fetchResult.size();
                     for (int index = 0; index < maxIndex; index++) {
                         SpotBean spotBean = new SpotBean();
@@ -83,19 +83,16 @@ public class FetchSpotList extends Thread {
 
                         result.add(spotBean);
                     }
-
+                    loadingProgress.dismiss();
                     callback.onDataFetchSuccess(result);
                 } else {
                     Logger.e(e.getMessage());
-                    callback.onDataFetchFail(e.getMessage());
                 }
             }
         });
     }
 
-    public interface callback extends Serializable {
+    public interface OnFetchSpotListCallback extends Serializable {
         void onDataFetchSuccess(LinkedList<SpotBean> result);
-
-        void onDataFetchFail(String message);
     }
 }

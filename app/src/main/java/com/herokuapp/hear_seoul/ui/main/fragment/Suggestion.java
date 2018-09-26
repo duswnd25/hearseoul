@@ -43,7 +43,7 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class Suggestion extends Fragment implements FetchSpotList.callback {
+public class Suggestion extends Fragment{
     private LinkedList<SpotBean> result = new LinkedList<>();
     private SuggestionAdapter adapter;
     private Context context;
@@ -154,16 +154,5 @@ public class Suggestion extends Fragment implements FetchSpotList.callback {
                 }
             }
         });
-    }
-
-    @Override
-    public void onDataFetchSuccess(LinkedList<SpotBean> result) {
-        this.result.addAll(result);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDataFetchFail(String message) {
-        new FetchSpotList(Utils.getSavedLocation(context), 100, 4, this).start();
     }
 }
