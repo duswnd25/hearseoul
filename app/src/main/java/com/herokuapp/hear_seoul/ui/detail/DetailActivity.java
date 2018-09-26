@@ -103,7 +103,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             isNewInformation = false;
 
             DBManager dbManager = new DBManager(this, Const.DB.DB_NAME, null, Const.DB.VERSION);
-            isUserLikeSpot = dbManager.isUserLikeThisSpot(spotBean.getObjectId());
+            isUserLikeSpot = dbManager.isUserLikeThisSpot(spotBean.getId());
 
             // 이미지 뷰 페이저
             ViewPager viewPager = findViewById(R.id.detail_image_pager);
@@ -194,7 +194,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     isUserLikeSpot = !isUserLikeSpot;
                     DBManager dbManager = new DBManager(DetailActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION);
-                    dbManager.updateOrCreate(spotBean.getObjectId(), isUserLikeSpot);
+                    dbManager.updateOrCreate(spotBean.getId(), isUserLikeSpot);
                     likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
                 }
                 break;

@@ -20,6 +20,5 @@ public class App extends Application {
         super.onCreate();
         Baas.init(this, 1, getString(R.string.baas_key));
         Baas.debugMode(false);
-        BaasInstallation.isUseBaasPush(true, getString(R.string.google_project));
     }
 }
