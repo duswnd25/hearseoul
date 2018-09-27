@@ -3,7 +3,7 @@
   ~
   ~  GitHub : @duswnd25
   ~  Site   : https://yeonjung.herokuapp.com/
-  -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.herokuapp.hear_seoul">
@@ -53,6 +53,9 @@
             android:name=".ui.detail.DetailEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
+        <activity
+            android:name=".ui.setting.Bookmark"
+            android:label="@string/title_activity_bookmark"></activity>
     </application>
 
 </manifest>

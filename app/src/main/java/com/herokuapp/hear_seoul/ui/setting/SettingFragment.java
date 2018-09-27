@@ -7,9 +7,11 @@
 
 package com.herokuapp.hear_seoul.ui.setting;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.herokuapp.hear_seoul.R;
@@ -28,11 +30,19 @@ public class SettingFragment extends PreferenceFragmentCompat implements SharedP
         addPreferencesFromResource(R.xml.pref_general);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        Preference reset = findPreference(getString(R.string.pref_like_list));
+
+        reset.setOnPreferenceClickListener(pref -> {
+            startActivity(new Intent(getActivity(), Bookmark.class));
+            return true;
+        });
     }
 
     public static SettingFragment newInstance() {
         return new SettingFragment();
     }
+
     @Override
     public void onResume() {
         super.onResume();

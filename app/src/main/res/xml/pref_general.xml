@@ -6,8 +6,10 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/hint_for_my_information">
+    <PreferenceCategory android:title="@string/hint_for_my_information">
+        <Preference
+            android:key="@string/pref_like_list"
+            android:title="@string/pref_like_list_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/hint_for_notification">
         <SwitchPreference
