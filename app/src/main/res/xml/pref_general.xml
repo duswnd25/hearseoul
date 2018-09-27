@@ -8,6 +8,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/hint_for_my_information">
         <Preference
+            android:icon="@drawable/ic_favorite"
             android:key="@string/pref_like_list"
             android:title="@string/pref_like_list_title" />
     </PreferenceCategory>

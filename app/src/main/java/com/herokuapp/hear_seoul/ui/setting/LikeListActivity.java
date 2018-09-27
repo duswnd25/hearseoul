@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
@@ -22,16 +23,18 @@ import com.herokuapp.hear_seoul.core.DBManager;
 import com.herokuapp.hear_seoul.core.Logger;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class LikeListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bookmark);
+        setContentView(R.layout.activity_favorite);
 
         Toolbar toolbar = findViewById(R.id.bookmark_toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         LinkedList<SpotBean> dataOrigin = new LinkedList<>();
         LinkedList<String> likeList = new DBManager(this, Const.DB.DB_NAME, null, Const.DB.VERSION).getLikeList();
@@ -48,8 +51,18 @@ public class LikeListActivity extends AppCompatActivity {
 
         new FetchLikeList(this, (FetchLikeList.OnFetchLikeListCallback) result -> {
             dataOrigin.addAll(result);
-            Logger.d(String.valueOf(result.size()))     ;
+            Logger.d(String.valueOf(result.size()));
             adapter.notifyDataSetChanged();
         }).getData(likeList);
-     }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
