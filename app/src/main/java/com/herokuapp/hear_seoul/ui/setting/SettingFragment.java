@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2018. YeonJung Kim
+ *
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
+ */
+
 package com.herokuapp.hear_seoul.ui.setting;
 
 import android.content.SharedPreferences;
@@ -6,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.herokuapp.hear_seoul.R;
-import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
 
 public class SettingFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
