@@ -79,6 +79,8 @@ public class FetchEvent extends AsyncTask<Void, Integer, LinkedList<EventBean>> 
                 temp.setGcode(jsonObject.getString("GCODE"));
                 results.add(temp);
             }
+
+            response.close();
         } catch (Exception e) {
             Logger.e(e.getMessage());
         }
