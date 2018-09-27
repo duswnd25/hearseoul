@@ -10,6 +10,7 @@ package com.herokuapp.hear_seoul.ui.main.fragment;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -38,41 +39,36 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.baas.query.FetchMapPoiList;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
+import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
-import com.skt.baas.api.BaasGeoPoint;
-import com.skt.baas.api.BaasObject;
-import com.skt.baas.api.BaasQuery;
-import com.skt.baas.callback.BaasListCallback;
-import com.skt.baas.exception.BaasException;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 
-public class Map extends Fragment implements PermissionListener, OnMapReadyCallback, View.OnClickListener {
+public class Map extends Fragment implements PermissionListener, OnMapReadyCallback, View.OnClickListener, GoogleMap.OnMarkerClickListener {
 
     private View rootView;
     private Context context;
     private MapView mapView;
     private GoogleMap googleMap;
     private Bundle savedInstanceState;
-    private LinkedList<SpotBean> spotList = new LinkedList<>();
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
     private ProgressDialog loadingProgress;
+    private LinkedList<SpotBean> spotList = new LinkedList<>();
 
     // 위치 콜백
     private LocationCallback locationCallback = new LocationCallback() {
@@ -87,7 +83,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                 if (googleMap != null) {
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
-                fetchSpot(currentLocation);
             }
         }
     };
@@ -191,67 +186,15 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
         this.googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        this.googleMap.setOnMapClickListener(latLng -> {
-
-        });
-    }
-
-    // 주변 정보 가져오기
-    private void fetchSpot(LatLng location) {
-        int max = 1000;
-
-        BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.setLimit(max);
-        baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), max);
-        baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
-            @Override
-            public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
-                if (e == null) {
-                    Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
-
-                    int maxIndex = max < fetchResult.size() ? max : fetchResult.size();
-                    for (int index = 0; index < maxIndex; index++) {
-                        SpotBean spotBean = new SpotBean();
-                        spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
-                        spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
-                        spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
-                        spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
-                        spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
-
-                        try {
-                            ArrayList<String> urlList = new ArrayList<>();
-                            JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
-                            if (jArray != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    urlList.add(jArray.getString(i));
-                                }
-                            }
-                            spotBean.setImgUrlList(urlList);
-                        } catch (Exception error) {
-                            Logger.e(error.getMessage());
-                        }
-
-                        BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
-                        spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
-
-                        spotList.add(spotBean);
-                    }
-                    addMarker();
-                } else {
-                    Logger.e(e.getMessage());
-                }
-            }
-        });
+        this.googleMap.setOnMarkerClickListener(this);
+        this.googleMap.setOnCameraIdleListener(() -> new FetchMapPoiList(context, (FetchMapPoiList.OnFetchMapPoiCallback) this::addMarker).getData(currentLocation));
     }
 
     //TODO 지도 좌표에 따라 로드하게 변경해야함
     // 지도 마커 추가
-    private void addMarker() {
+    private void addMarker(LinkedList<SpotBean> spotList) {
+        spotList.clear();
+        this.spotList.addAll(spotList);
         for (SpotBean spotBean : spotList) {
             int icon_resource;
             switch (spotBean.getTag()) {
@@ -329,5 +272,22 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         switch (v.getId()) {
             default:
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        SpotBean spot = null;
+        for (SpotBean s : spotList) {
+            if (marker.getTitle().equals(s.getTitle())) {
+                spot = s;
+            }
+        }
+        if (spot == null) {
+            return false;
+        }
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra(Const.INTENT_EXTRA.SPOT, spot);
+        context.startActivity(intent);
+        return false;
     }
 }
