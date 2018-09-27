@@ -98,7 +98,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             spotBean.setLocation(place.getLatLng());
             spotBean.setTime("NO");
             spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-            String phone = String.valueOf(place.getPhoneNumber()).replace("+82", "0").replaceAll(" ", "");
+            String phone = String.valueOf(place.getPhoneNumber())
+                    .replace("+82", "0")
+                    .replaceAll(" ", "");
             spotBean.setPhone(phone);
 
             Intent intent = new Intent(this, DetailActivity.class);
