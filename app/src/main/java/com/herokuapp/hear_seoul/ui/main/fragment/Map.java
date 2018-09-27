@@ -205,10 +205,10 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             int icon_resource;
             switch (spotBean.getTag()) {
                 case 1:
-                    icon_resource = R.drawable.ic_food_black;
+                    icon_resource = R.drawable.ic_tag_food;
                     break;
                 case 2:
-                    icon_resource = R.drawable.ic_cafe_black;
+                    icon_resource = R.drawable.ic_tag_coffee;
                     break;
                 case 3:
                     icon_resource = R.drawable.ic_landmark_black;

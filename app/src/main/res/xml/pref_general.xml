@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. YeonJung Kim
   ~
   ~  GitHub : @duswnd25
@@ -7,31 +6,15 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <PreferenceCategory android:title="메시지 알림">
-        <SwitchPreference
-            android:key="message"
-            android:title="메시지 알림"/>
-
-        <PreferenceScreen
-            android:key="keyword_screen"
-            android:title="키워드 알림"
-            android:summary="사용안함">
-
-            <SwitchPreference
-                android:defaultValue="false"
-                android:key="keyword"
-                android:summary="등록된 키워드가 포함된 메시지는 채팅방 알림이 꺼져 있어도 푸시 알림을 받게 되어 키워드는 강조되어 보여 집니다."
-                android:title="키워드 알림"/>
-
-
-        </PreferenceScreen>
-
-        <SwitchPreference
-            android:key="sound"
-            android:title="소리"/>
-
-
+    <PreferenceCategory
+        android:title="@string/hint_for_my_information">
     </PreferenceCategory>
-
+    <PreferenceCategory android:title="@string/hint_for_notification">
+        <SwitchPreference
+            android:icon="@drawable/ic_notification"
+            android:key="@string/pref_notification"
+            android:summaryOff="@string/pref_notification_description_off"
+            android:summaryOn="@string/pref_notification_description_on"
+            android:title="@string/pref_notification_title" />
+    </PreferenceCategory>
 </PreferenceScreen>
