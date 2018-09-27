@@ -22,12 +22,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class BaasImageManager {
+public class ImageUploader {
     private int imageNum = 0;
     private ArrayList<String> urlList = new ArrayList<>();
     private ProgressDialog loadingProgress;
 
-    public BaasImageManager(Context context) {
+    public ImageUploader(Context context) {
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(context.getString(R.string.loading));
         loadingProgress.setCancelable(false);

@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.baas.query;
+package com.herokuapp.hear_seoul.controller.baas;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -29,11 +29,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FetchSpotList {
-    private OnFetchSpotListCallback callback;
+public class FetchSuggestionSpotList {
+    private OnFetchSuggestionSpotListCallback callback;
     private ProgressDialog loadingProgress;
 
-    public FetchSpotList(Context context, OnFetchSpotListCallback callback) {
+    public FetchSuggestionSpotList(Context context, OnFetchSuggestionSpotListCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(context.getString(R.string.loading));
@@ -41,20 +41,18 @@ public class FetchSpotList {
     }
 
 
-    public void getData() {
+    public void getData(LinkedList<String> param) {
         loadingProgress.show();
         try {
-            int max = 1000;
             BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-            baasQuery.setLimit(max);
+            baasQuery.whereContainedIn(Const.BAAS.SPOT.ID, param);
             baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
                 @Override
                 public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
                     if (e == null) {
                         Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
                         LinkedList<SpotBean> result = new LinkedList<>();
-                        int maxIndex = max < fetchResult.size() ? max : fetchResult.size();
-                        for (int index = 0; index < maxIndex; index++) {
+                        for (int index = 0; index < fetchResult.size(); index++) {
                             SpotBean spotBean = new SpotBean();
                             spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
                             spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
@@ -96,7 +94,7 @@ public class FetchSpotList {
         }
     }
 
-    public interface OnFetchSpotListCallback extends Serializable {
+    public interface OnFetchSuggestionSpotListCallback extends Serializable {
         void onDataFetchSuccess(LinkedList<SpotBean> result);
     }
 }

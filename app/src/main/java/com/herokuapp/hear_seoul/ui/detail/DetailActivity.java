@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.baas.query.FetchInfoById;
+import com.herokuapp.hear_seoul.controller.baas.FetchInfoById;
 import com.herokuapp.hear_seoul.controller.detail.InfoImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.DBManager;

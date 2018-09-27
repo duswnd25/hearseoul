@@ -19,8 +19,8 @@ import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.baas.query.FetchSuggestionList;
-import com.herokuapp.hear_seoul.controller.baas.query.FetchSuggestionSpotList;
+import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionList;
+import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionSpotList;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.DBManager;

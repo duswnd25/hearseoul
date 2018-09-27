@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.baas.query.FetchSpotList;
+import com.herokuapp.hear_seoul.controller.baas.FetchSpotList;
 import com.herokuapp.hear_seoul.controller.main.ExploreAdapter;
 
 import java.util.LinkedList;

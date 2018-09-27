@@ -40,8 +40,8 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.baas.BaasImageManager;
-import com.herokuapp.hear_seoul.controller.baas.query.UpdateInfo;
+import com.herokuapp.hear_seoul.controller.baas.ImageUploader;
+import com.herokuapp.hear_seoul.controller.baas.InfoUploader;
 import com.herokuapp.hear_seoul.controller.detail.EditImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
@@ -143,6 +143,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 Glide.with(this).asBitmap().load(url).listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        Logger.e(e.getMessage());
                         return false;
                     }
 
@@ -184,7 +185,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setAddress(addressEdit.getText().toString());
 
                 if (isImageChange) {
-                    new BaasImageManager(this).uploadImage(spotBean.getId(), imageList, new BaasImageManager.uploadCallback() {
+                    new ImageUploader(this).uploadImage(spotBean.getId(), imageList, new ImageUploader.uploadCallback() {
                         @Override
                         public void onImageUploadSuccess(ArrayList<String> url) {
                             spotBean.setImgUrlList(url);
@@ -282,7 +283,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
-        new UpdateInfo(this, new UpdateInfo.callback() {
+        new InfoUploader(this, new InfoUploader.callback() {
             @Override
             public void onUpdateSuccess() {
                 Utils.showStyleToast(DetailEditActivity.this, getString(R.string.upload));

@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.baas.query;
+package com.herokuapp.hear_seoul.controller.baas;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,12 +23,12 @@ import com.skt.baas.exception.BaasException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UpdateInfo {
+public class InfoUploader {
 
     private callback callback;
     private ProgressDialog loadingProgress;
 
-    public UpdateInfo(Context context, callback callback) {
+    public InfoUploader(Context context, callback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(context.getString(R.string.loading));

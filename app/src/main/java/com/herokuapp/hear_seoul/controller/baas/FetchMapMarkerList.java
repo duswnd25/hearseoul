@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.controller.baas.query;
+package com.herokuapp.hear_seoul.controller.baas;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,15 +25,14 @@ import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FetchSuggestionSpotList {
-    private OnFetchSuggestionSpotListCallback callback;
+public class FetchMapMarkerList {
+    private OnFetchMapPoiCallback callback;
     private ProgressDialog loadingProgress;
 
-    public FetchSuggestionSpotList(Context context, OnFetchSuggestionSpotListCallback callback) {
+    public FetchMapMarkerList(Context context, OnFetchMapPoiCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(context.getString(R.string.loading));
@@ -41,17 +40,17 @@ public class FetchSuggestionSpotList {
     }
 
 
-    public void getData(LinkedList<String> param) {
+    public void getData(LatLng location) {
         loadingProgress.show();
         try {
             BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-            baasQuery.whereContainedIn(Const.BAAS.SPOT.ID, param);
+            baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), 5);
             baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
                 @Override
                 public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
                     if (e == null) {
-                        Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
                         LinkedList<SpotBean> result = new LinkedList<>();
+                        Logger.d(String.valueOf(fetchResult.size()));
                         for (int index = 0; index < fetchResult.size(); index++) {
                             SpotBean spotBean = new SpotBean();
                             spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
@@ -82,8 +81,8 @@ public class FetchSuggestionSpotList {
 
                             result.add(spotBean);
                         }
-                        loadingProgress.dismiss();
-                        callback.onDataFetchSuccess(result);
+                        loadingProgress.hide();
+                        callback.onPoiFetch(result);
                     } else {
                         Logger.e(e.getMessage());
                     }
@@ -94,7 +93,7 @@ public class FetchSuggestionSpotList {
         }
     }
 
-    public interface OnFetchSuggestionSpotListCallback extends Serializable {
-        void onDataFetchSuccess(LinkedList<SpotBean> result);
+    public interface OnFetchMapPoiCallback extends Serializable {
+        void onPoiFetch(LinkedList<SpotBean> result);
     }
 }
