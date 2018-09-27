@@ -33,7 +33,7 @@ public class ImageUploader {
         loadingProgress.setCancelable(false);
     }
 
-    public void uploadImage(String fileName, LinkedList<Bitmap> bitmapList, uploadCallback callback) {
+    public void uploadImage(LinkedList<Bitmap> bitmapList, uploadCallback callback) {
         loadingProgress.show();
         this.imageNum = bitmapList.size();
         try {
@@ -42,7 +42,7 @@ public class ImageUploader {
                 bmp.compress(Bitmap.CompressFormat.JPEG, 60, stream);
                 byte[] byteArray = stream.toByteArray();
                 bmp.recycle();
-                BaasFile file = new BaasFile(fileName + ".jpg", byteArray);
+                BaasFile file = new BaasFile(byteArray);
                 file.serverSaveInBackground(new BaasSaveCallback() {
                     @Override
                     public void onSuccess(BaasException e) {
