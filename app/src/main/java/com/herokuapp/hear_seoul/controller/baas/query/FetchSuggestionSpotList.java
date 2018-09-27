@@ -43,52 +43,55 @@ public class FetchSuggestionSpotList {
 
     public void getData(LinkedList<String> param) {
         loadingProgress.show();
+        try {
+            BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
+            baasQuery.whereContainedIn(Const.BAAS.SPOT.ID, param);
+            baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
+                @Override
+                public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
+                    if (e == null) {
+                        Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
+                        LinkedList<SpotBean> result = new LinkedList<>();
+                        for (int index = 0; index < fetchResult.size(); index++) {
+                            SpotBean spotBean = new SpotBean();
+                            spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
+                            spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
+                            spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
+                            spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
+                            spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
+                            spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
+                            spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
+                            spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
+                            spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
 
-        BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.whereContainedIn(Const.BAAS.SPOT.ID, param);
-        baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
-            @Override
-            public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
-                if (e == null) {
-                    Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
-                    LinkedList<SpotBean> result = new LinkedList<>();
-                    for (int index = 0; index < fetchResult.size(); index++) {
-                        SpotBean spotBean = new SpotBean();
-                        spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
-                        spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
-                        spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
-                        spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
-                        spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
-
-                        try {
-                            ArrayList<String> urlList = new ArrayList<>();
-                            JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
-                            if (jArray != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    urlList.add(jArray.getString(i));
+                            try {
+                                ArrayList<String> urlList = new ArrayList<>();
+                                JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
+                                if (jArray != null) {
+                                    for (int i = 0; i < jArray.length(); i++) {
+                                        urlList.add(jArray.getString(i));
+                                    }
                                 }
+                                spotBean.setImgUrlList(urlList);
+                            } catch (Exception error) {
+                                Logger.e(error.getMessage());
                             }
-                            spotBean.setImgUrlList(urlList);
-                        } catch (Exception error) {
-                            Logger.e(error.getMessage());
+
+                            BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
+                            spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
+
+                            result.add(spotBean);
                         }
-
-                        BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
-                        spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
-
-                        result.add(spotBean);
+                        loadingProgress.dismiss();
+                        callback.onDataFetchSuccess(result);
+                    } else {
+                        Logger.e(e.getMessage());
                     }
-                    loadingProgress.dismiss();
-                    callback.onDataFetchSuccess(result);
-                } else {
-                    Logger.e(e.getMessage());
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
     }
 
     public interface OnFetchSuggestionSpotListCallback extends Serializable {

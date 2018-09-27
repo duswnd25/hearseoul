@@ -25,7 +25,6 @@ import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,52 +42,55 @@ public class FetchMapMarkerList {
 
     public void getData(LatLng location) {
         loadingProgress.show();
+        try {
+            BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
+            baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), 5);
+            baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
+                @Override
+                public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
+                    if (e == null) {
+                        LinkedList<SpotBean> result = new LinkedList<>();
+                        Logger.d(String.valueOf(fetchResult.size()));
+                        for (int index = 0; index < fetchResult.size(); index++) {
+                            SpotBean spotBean = new SpotBean();
+                            spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
+                            spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
+                            spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
+                            spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
+                            spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
+                            spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
+                            spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
+                            spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
+                            spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
 
-        BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), 5);
-        baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
-            @Override
-            public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
-                if (e == null) {
-                    LinkedList<SpotBean> result = new LinkedList<>();
-                    Logger.d(String.valueOf(fetchResult.size()));
-                    for (int index = 0; index < fetchResult.size(); index++) {
-                        SpotBean spotBean = new SpotBean();
-                        spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
-                        spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));
-                        spotBean.setDescription(fetchResult.get(index).getString(Const.BAAS.SPOT.DESCRIPTION));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setAddress(fetchResult.get(index).getString(Const.BAAS.SPOT.ADDRESS));
-                        spotBean.setTime(fetchResult.get(index).getString(Const.BAAS.SPOT.TIME));
-                        spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
-                        spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
-                        spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
-
-                        try {
-                            ArrayList<String> urlList = new ArrayList<>();
-                            JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
-                            if (jArray != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    urlList.add(jArray.getString(i));
+                            try {
+                                ArrayList<String> urlList = new ArrayList<>();
+                                JSONArray jArray = fetchResult.get(index).getJSONArray(Const.BAAS.SPOT.IMG_SRC);
+                                if (jArray != null) {
+                                    for (int i = 0; i < jArray.length(); i++) {
+                                        urlList.add(jArray.getString(i));
+                                    }
                                 }
+                                spotBean.setImgUrlList(urlList);
+                            } catch (Exception error) {
+                                Logger.e(error.getMessage());
                             }
-                            spotBean.setImgUrlList(urlList);
-                        } catch (Exception error) {
-                            Logger.e(error.getMessage());
+
+                            BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
+                            spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
+
+                            result.add(spotBean);
                         }
-
-                        BaasGeoPoint temp = (BaasGeoPoint) fetchResult.get(index).get(Const.BAAS.SPOT.LOCATION);
-                        spotBean.setLocation(new LatLng(temp.getLatitude(), temp.getLongitude()));
-
-                        result.add(spotBean);
+                        loadingProgress.hide();
+                        callback.onPoiFetch(result);
+                    } else {
+                        Logger.e(e.getMessage());
                     }
-                    loadingProgress.hide();
-                    callback.onPoiFetch(result);
-                } else {
-                    Logger.e(e.getMessage());
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
     }
 
     public interface OnFetchMapPoiCallback extends Serializable {

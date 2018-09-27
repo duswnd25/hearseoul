@@ -36,23 +36,27 @@ public class FetchSuggestionList {
 
     public void getData(LinkedList<String> param) {
         loadingProgress.show();
-        BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SUGGESTION.TABLE_NAME);
-        baasQuery.whereContainedIn(Const.BAAS.SUGGESTION.ID, param);
-        baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
-            @Override
-            public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
-                if (e == null) {
-                    LinkedList<String> result = new LinkedList<>();
-                    for (int index = 0; index < fetchResult.size(); index++) {
-                        result.add(fetchResult.get(index).getString(Const.BAAS.SUGGESTION.SUGGEST));
+        try {
+            BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SUGGESTION.TABLE_NAME);
+            baasQuery.whereContainedIn(Const.BAAS.SUGGESTION.ID, param);
+            baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
+                @Override
+                public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
+                    if (e == null) {
+                        LinkedList<String> result = new LinkedList<>();
+                        for (int index = 0; index < fetchResult.size(); index++) {
+                            result.add(fetchResult.get(index).getString(Const.BAAS.SUGGESTION.SUGGEST));
+                        }
+                        loadingProgress.hide();
+                        callback.onDataFetchSuccess(result);
+                    } else {
+                        Logger.e(e.getMessage());
                     }
-                    loadingProgress.hide();
-                    callback.onDataFetchSuccess(result);
-                } else {
-                    Logger.e(e.getMessage());
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
     }
 
     public interface OnFetchSuggestionListCallback extends Serializable {

@@ -8,12 +8,10 @@
 package com.herokuapp.hear_seoul.ui.detail;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.media.ExifInterface;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -58,7 +57,6 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener, TedBottomPicker.OnMultiImageSelectedListener {
 
-    private ProgressDialog loadingDialog;
     private CircleIndicator indicator;
     private SpotBean spotBean;
     private LinkedList<Bitmap> imageList = new LinkedList<>();
@@ -110,10 +108,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         });
-
-        loadingDialog = new ProgressDialog(this);
-        loadingDialog.setCancelable(false);
-        loadingDialog.setMessage(getString(R.string.loading));
 
         initView();
     }
@@ -183,7 +177,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 selectImage();
                 break;
             case R.id.detail_edit_save:
-                loadingDialog.show();
                 spotBean.setTitle(titleEdit.getText().toString());
                 spotBean.setTime(timeEdit.getText().toString());
                 spotBean.setPhone(phoneEdit.getText().toString());
@@ -191,7 +184,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setAddress(addressEdit.getText().toString());
 
                 if (isImageChange) {
-                    new BaasImageManager().uploadImage(spotBean.getId(), imageList, new BaasImageManager.uploadCallback() {
+                    new BaasImageManager(this).uploadImage(spotBean.getId(), imageList, new BaasImageManager.uploadCallback() {
                         @Override
                         public void onImageUploadSuccess(ArrayList<String> url) {
                             spotBean.setImgUrlList(url);
@@ -289,20 +282,18 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
-        new UpdateInfo(spotBean, originalImageSrc, isNewInformation, isImageChange, new UpdateInfo.callback() {
+        new UpdateInfo(this, new UpdateInfo.callback() {
             @Override
             public void onUpdateSuccess() {
-                loadingDialog.dismiss();
                 Utils.showStyleToast(DetailEditActivity.this, getString(R.string.upload));
                 finish();
             }
 
             @Override
             public void onUpdateFail(String message) {
-                loadingDialog.dismiss();
                 Snackbar.make(findViewById(R.id.detail_edit_container), message, Snackbar.LENGTH_SHORT).show();
             }
-        }).start();
+        }).update(spotBean, originalImageSrc, isNewInformation, isImageChange);
     }
 
     @Override
@@ -318,7 +309,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     // 이미지 선택
     @Override
     public void onImagesSelected(ArrayList<Uri> uriList) {
-        loadingDialog.show();
         try {
             imageList.clear();
             for (Uri current : uriList) {
@@ -337,7 +327,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         } catch (IOException e) {
             Logger.e(e.getMessage());
         }
-        loadingDialog.dismiss();
         reInitAdapter();
     }
 
@@ -356,19 +345,20 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
             ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
             switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
                     break;
                 case ExifInterface.ORIENTATION_ROTATE_180:
                     rotate = 180;
                     break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                default:
+                    rotate = 0;
                     break;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -7,6 +7,10 @@
 
 package com.herokuapp.hear_seoul.controller.baas.query;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
+import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
@@ -19,24 +23,20 @@ import com.skt.baas.exception.BaasException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UpdateInfo extends Thread {
+public class UpdateInfo {
 
-    private boolean isNew, isImageUpdate;
-    private SpotBean spotBean;
     private callback callback;
-    private ArrayList<String> originalImageSrc;
+    private ProgressDialog loadingProgress;
 
-    public UpdateInfo(SpotBean spotBean, ArrayList<String> originalImageSrc, boolean isNew, boolean isImageUpdate, callback callback) {
-        this.isNew = isNew;
-        this.spotBean = spotBean;
-        this.originalImageSrc = originalImageSrc;
+    public UpdateInfo(Context context, callback callback) {
         this.callback = callback;
-        this.isImageUpdate = isImageUpdate;
+        loadingProgress = new ProgressDialog(context);
+        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setCancelable(false);
     }
 
-    @Override
-    public void run() {
-        super.run();
+    public void update(SpotBean spotBean, ArrayList<String> originalImageSrc, boolean isNew, boolean isImageUpdate) {
+        loadingProgress.show();
 
         BaasGeoPoint location = new BaasGeoPoint(spotBean.getLocation().latitude, spotBean.getLocation().longitude);
 
@@ -57,6 +57,7 @@ public class UpdateInfo extends Thread {
             baasObject.serverSaveInBackground(new BaasSaveCallback() {
                 @Override
                 public void onSuccess(BaasException e) {
+                    loadingProgress.dismiss();
                     if (e == null) {
                         callback.onUpdateSuccess();
                     } else {
@@ -80,14 +81,17 @@ public class UpdateInfo extends Thread {
                             baasObject.serverUpsertInBackground(new BaasUpsertCallback() {
                                 @Override
                                 public void onSuccess(BaasException e) {
+                                    loadingProgress.dismiss();
                                     callback.onUpdateSuccess();
                                 }
                             });
                         } else {
+                            loadingProgress.dismiss();
                             callback.onUpdateSuccess();
                         }
                     } else {
                         Logger.e(e.getMessage());
+                        loadingProgress.dismiss();
                         callback.onUpdateFail(String.valueOf(e.getCode()));
                     }
                 }
