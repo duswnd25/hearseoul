@@ -53,6 +53,7 @@ public class FetchInfoById extends Thread {
                             spotBean.setTime(baasObject.getString(Const.BAAS.SPOT.TIME));
                             spotBean.setTag(baasObject.getInt(Const.BAAS.SPOT.TAG));
                             spotBean.setPhone(baasObject.getString(Const.BAAS.SPOT.PHONE));
+                            spotBean.setInfluencer(baasObject.getBoolean(Const.BAAS.SPOT.IS_INFLUENCER));
 
                             try {
                                 ArrayList<String> urlList = new ArrayList<>();

@@ -42,6 +42,7 @@ public class Const {
             public static final String ADDRESS = "address";
             public static final String PHONE = "phone";
             public static final String TAG = "tag";
+            public static final String IS_INFLUENCER = "influencer";
         }
 
         public static class REVIEW {

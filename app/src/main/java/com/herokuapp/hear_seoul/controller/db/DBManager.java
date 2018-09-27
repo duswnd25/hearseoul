@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.core;
+package com.herokuapp.hear_seoul.controller.db;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -58,7 +58,7 @@ public class DBManager extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         String query;
         if (isNewData) {
-            query = "INSERT INTO data (id, isLike) VALUES('" + id + "'," + (isLike ? 1 : 0)  + ");";
+            query = "INSERT INTO data (id, isLike) VALUES('" + id + "'," + (isLike ? 1 : 0) + ");";
         } else {
             query = "UPDATE data SET isLike=" + (isLike ? 1 : 0) + " WHERE id='" + id + "';";
         }
@@ -67,8 +67,10 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableQuery = "CREATE TABLE data(id TEXT PRIMARY KEY NOT NULL, isLike REAL NOT NULL);";
-        db.execSQL(createTableQuery);
+        String createDataTableQuery = "CREATE TABLE data(id TEXT PRIMARY KEY NOT NULL, isLike REAL NOT NULL);";
+        //String createInfluencerQuery = "CREATE TABLE data(id TEXT PRIMARY KEY NOT NULL, isLike REAL NOT NULL);";
+        db.execSQL(createDataTableQuery);
+        //db.execSQL(createInfluencerQuery);
     }
 
     @Override

@@ -65,6 +65,7 @@ public class FetchLikeList {
                             spotBean.setTag(fetchResult.get(index).getInt(Const.BAAS.SPOT.TAG));
                             spotBean.setPhone(fetchResult.get(index).getString(Const.BAAS.SPOT.PHONE));
                             spotBean.setUpdatedAt(fetchResult.get(index).getUpdatedAt());
+                            spotBean.setInfluencer(fetchResult.get(index).getBoolean(Const.BAAS.SPOT.IS_INFLUENCER));
 
                             try {
                                 ArrayList<String> urlList = new ArrayList<>();

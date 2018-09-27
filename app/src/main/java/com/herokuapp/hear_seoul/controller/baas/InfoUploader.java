@@ -50,6 +50,7 @@ public class InfoUploader {
         baasObject.set(Const.BAAS.SPOT.IMG_SRC, spotBean.getImgUrlList());
         baasObject.set(Const.BAAS.SPOT.TAG, spotBean.getTag());
         baasObject.set(Const.BAAS.SPOT.PHONE, spotBean.getPhone());
+        baasObject.set(Const.BAAS.SPOT.IS_INFLUENCER, spotBean.isInfluencer());
 
         if (isNew) {
             // 새 장소

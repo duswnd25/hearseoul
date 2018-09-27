@@ -29,7 +29,7 @@ import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.baas.FetchInfoById;
 import com.herokuapp.hear_seoul.controller.detail.InfoImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.DBManager;
+import com.herokuapp.hear_seoul.controller.db.DBManager;
 import com.herokuapp.hear_seoul.core.Utils;
 
 import java.util.Objects;

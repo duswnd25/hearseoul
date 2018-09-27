@@ -23,7 +23,7 @@ import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionList;
 import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionSpotList;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.DBManager;
+import com.herokuapp.hear_seoul.controller.db.DBManager;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.main.MainActivity;
 

@@ -184,6 +184,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setPhone(phoneEdit.getText().toString());
                 spotBean.setDescription(descriptionEdit.getText().toString());
                 spotBean.setAddress(addressEdit.getText().toString());
+                spotBean.setInfluencer(false);
 
                 if (isImageChange) {
                     new ImageUploader(this).uploadImage(imageList, new ImageUploader.uploadCallback() {
