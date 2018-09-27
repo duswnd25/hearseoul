@@ -52,7 +52,7 @@
 -keep class com.google.** { *; }
 
 -dontwarn de.hdodenhof.**
--dontwarn com.skt.baas.**
+-dontwarn com.skt.**
 -dontwarn com.crashlytics.**
 -dontwarn com.android.**
 -dontwarn me.grantland.**
