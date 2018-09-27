@@ -49,6 +49,7 @@
 -keep class gun0912.** { *; }
 -keep class com.muddzdev.** { *; }
 -keep class me.relex.** { *; }
+-keep class com.google.** { *; }
 
 -dontwarn de.hdodenhof.**
 -dontwarn com.skt.baas.**
@@ -58,6 +59,7 @@
 -dontwarn gun0912.**
 -dontwarn com.muddzdev.**
 -dontwarn me.relex.**
+-dontwarn com.google.**
 
 #파일 생성 옵션
 -printmapping proguard/map.txt
