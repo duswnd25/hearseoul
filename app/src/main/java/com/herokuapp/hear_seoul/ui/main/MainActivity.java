@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -31,7 +32,7 @@ import com.herokuapp.hear_seoul.ui.main.fragment.Event;
 import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
 import com.herokuapp.hear_seoul.ui.main.fragment.Map;
 import com.herokuapp.hear_seoul.ui.main.fragment.Suggestion;
-import com.herokuapp.hear_seoul.ui.setting.SettingsActivity;
+import com.herokuapp.hear_seoul.ui.setting.SettingFragment;
 
 import java.util.Objects;
 
@@ -48,10 +49,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        loadFragment(new Suggestion());
-
         navigation = findViewById(R.id.main_bottom_menu);
         navigation.setOnNavigationItemSelectedListener(this);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment, Suggestion.newInstance());
+        transaction.commit();
     }
 
     @Override
@@ -68,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 placePickerStart();
                 break;
             case R.id.menu_setting:
-                startActivity(new Intent(this, SettingsActivity.class));
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_fragment, SettingFragment.newInstance());
+                transaction.commit();
                 break;
             default:
         }
@@ -115,15 +120,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-    public void loadFragment(Fragment fragment) {
-        if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_fragment, fragment)
-                    .commit();
-        }
-    }
-
     public void changeNavigationSelected(int menuId) {
         try {
             navigation.setSelectedItemId(menuId);
@@ -135,22 +131,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         menuItem.setChecked(true);
+        Fragment selectedFragment;
+
         switch (menuItem.getItemId()) {
             case R.id.menu_suggestion:
-                loadFragment(new Suggestion());
+                selectedFragment = Suggestion.newInstance();
                 break;
             case R.id.menu_explore:
-                loadFragment(new Explore());
+                selectedFragment = Explore.newInstance();
                 break;
             case R.id.menu_map:
-                loadFragment(new Map());
+                selectedFragment = Map.newInstance();
                 break;
             case R.id.menu_event:
-                loadFragment(new Event());
+                selectedFragment = Event.newInstance();
                 break;
             default:
-                loadFragment(new TestFragment());
+                selectedFragment = TestFragment.newInstance();
         }
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment, selectedFragment);
+        transaction.commit();
         return false;
     }
 }

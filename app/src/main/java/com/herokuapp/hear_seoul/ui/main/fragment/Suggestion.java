@@ -39,6 +39,10 @@ public class Suggestion extends Fragment {
     public Suggestion() {
     }
 
+    public static Suggestion newInstance() {
+        return new Suggestion();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

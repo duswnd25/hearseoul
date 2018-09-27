@@ -15,11 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
+import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
 
 
 public class TestFragment extends Fragment {
 
     public TestFragment() {
+    }
+
+    public static TestFragment newInstance() {
+        return new TestFragment();
     }
 
     @Override

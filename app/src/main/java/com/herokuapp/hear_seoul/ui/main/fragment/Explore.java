@@ -35,6 +35,10 @@ public class Explore extends Fragment {
     public Explore() {
     }
 
+    public static Explore newInstance() {
+        return new Explore();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
