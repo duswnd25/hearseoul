@@ -8,13 +8,14 @@
 package com.herokuapp.hear_seoul.ui.detail;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -185,7 +186,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 spotBean.setAddress(addressEdit.getText().toString());
 
                 if (isImageChange) {
-                    new ImageUploader(this).uploadImage(spotBean.getId(), imageList, new ImageUploader.uploadCallback() {
+                    new ImageUploader(this).uploadImage(imageList, new ImageUploader.uploadCallback() {
                         @Override
                         public void onImageUploadSuccess(ArrayList<String> url) {
                             spotBean.setImgUrlList(url);
@@ -310,24 +311,15 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     // 이미지 선택
     @Override
     public void onImagesSelected(ArrayList<Uri> uriList) {
-        try {
-            imageList.clear();
-            for (Uri current : uriList) {
-                Bitmap tempBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), current);
-
-                int rotateImage = getCameraPhotoOrientation(current);
-                Logger.d(String.valueOf(rotateImage));
-                if (rotateImage != 0) {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(rotateImage);
-                    tempBitmap = Bitmap.createBitmap(tempBitmap, 0, 0, tempBitmap.getWidth(), tempBitmap.getHeight(), matrix, true);
-                }
-
-                imageList.add(tempBitmap);
-            }
-        } catch (IOException e) {
-            Logger.e(e.getMessage());
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
+        imageList.clear();
+        for (Uri current : uriList) {
+            imageList.add(getCorrectRotateImage(current));
         }
+        progressDialog.dismiss();
         reInitAdapter();
     }
 
@@ -339,30 +331,39 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
     }
 
-    public int getCameraPhotoOrientation(Uri imageUri) {
-        int rotate = 0;
+    public Bitmap getCorrectRotateImage(Uri imageUri) {
+        int orientation = 0;
+        File imageFile = new File(imageUri.getPath());
         try {
-            File imageFile = new File(imageUri.getPath());
-
             ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-                default:
-                    rotate = 0;
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+        } catch (IOException e) {
+            Logger.e(e.getMessage());
         }
-        return rotate;
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                orientation = 90;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                orientation = 180;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                orientation = 270;
+                break;
+            default:
+                orientation = 0;
+                break;
+        }
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
+
+        if (orientation != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(orientation);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        }
+
+        return bitmap;
     }
 }
