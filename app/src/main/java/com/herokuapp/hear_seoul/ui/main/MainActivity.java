@@ -30,6 +30,7 @@ import com.herokuapp.hear_seoul.ui.main.fragment.Event;
 import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
 import com.herokuapp.hear_seoul.ui.main.fragment.Map;
 import com.herokuapp.hear_seoul.ui.main.fragment.Suggestion;
+import com.herokuapp.hear_seoul.ui.setting.SettingsActivity;
 
 import java.util.Objects;
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add, menu);
+        inflater.inflate(R.menu.menu_toolbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.menu_add:
                 placePickerStart();
+                break;
+            case R.id.menu_setting:
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
             default:
         }
