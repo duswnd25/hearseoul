@@ -23,7 +23,7 @@ import com.herokuapp.hear_seoul.core.Logger;
 
 import java.util.LinkedList;
 
-public class Bookmark extends AppCompatActivity {
+public class LikeListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

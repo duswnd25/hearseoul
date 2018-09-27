@@ -54,7 +54,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
-            android:name=".ui.setting.Bookmark"
+            android:name=".ui.setting.LikeListActivity"
             android:label="@string/title_activity_bookmark"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
     </application>

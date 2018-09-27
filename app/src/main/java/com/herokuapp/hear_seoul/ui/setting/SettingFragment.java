@@ -34,7 +34,7 @@ public class SettingFragment extends PreferenceFragmentCompat implements SharedP
         Preference reset = findPreference(getString(R.string.pref_like_list));
 
         reset.setOnPreferenceClickListener(pref -> {
-            startActivity(new Intent(getActivity(), Bookmark.class));
+            startActivity(new Intent(getActivity(), LikeListActivity.class));
             return true;
         });
     }
