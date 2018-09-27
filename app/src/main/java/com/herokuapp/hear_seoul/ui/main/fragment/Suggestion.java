@@ -28,7 +28,6 @@ import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
 import java.util.LinkedList;
-import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -78,8 +77,7 @@ public class Suggestion extends Fragment {
                 new FetchSuggestionSpotList(context, (FetchSuggestionSpotList.OnFetchSuggestionSpotListCallback) result1 -> {
                     if (result1.size() == 0) {
                         Utils.showStyleToast(context, "추천할만한 장소가 없습니다.");
-                        ((MainActivity) Objects.requireNonNull(getActivity())).loadFragment(new Explore());
-                        ((MainActivity) getActivity()).changeNavigationSelected(R.id.menu_explore);
+                        ((MainActivity) context).changeNavigationSelected(R.id.menu_explore);
                     }
                     dataOrigin.clear();
                     dataOrigin.addAll(result1);

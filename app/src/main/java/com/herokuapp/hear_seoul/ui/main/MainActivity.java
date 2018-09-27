@@ -23,6 +23,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.TestFragment;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
@@ -124,7 +125,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void changeNavigationSelected(int menuId) {
-        navigation.setSelectedItemId(menuId);
+        try {
+            navigation.setSelectedItemId(menuId);
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
     }
 
     @Override
