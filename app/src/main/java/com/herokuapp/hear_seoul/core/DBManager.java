@@ -37,7 +37,7 @@ public class DBManager extends SQLiteOpenHelper {
     public LinkedList<String> getLikeList() {
         LinkedList<String> result = new LinkedList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM data", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM data WHERE isLike = 1", null);
 
         while (cursor.moveToNext()) {
             result.add(cursor.getString(0));
