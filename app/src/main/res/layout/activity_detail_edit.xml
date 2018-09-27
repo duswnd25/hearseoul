@@ -76,7 +76,7 @@
                     android:alpha="1"
                     android:gravity="center"
                     android:hint="@string/hint_for_location_name"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:textColor="@android:color/white"
                     app:layout_collapseMode="parallax" />
 
@@ -100,6 +100,7 @@
                     app:layout_collapseMode="parallax"
                     app:useCompatPadding="true" />
                 -->
+
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/detail_edit_add_image"
                     android:layout_width="wrap_content"
