@@ -22,8 +22,8 @@ import android.view.ViewGroup;
 
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
-import com.herokuapp.hear_seoul.controller.public_data.FetchEvent;
 import com.herokuapp.hear_seoul.controller.main.EventListAdapter;
+import com.herokuapp.hear_seoul.controller.public_data.FetchEvent;
 import com.herokuapp.hear_seoul.core.Logger;
 
 import java.util.LinkedList;

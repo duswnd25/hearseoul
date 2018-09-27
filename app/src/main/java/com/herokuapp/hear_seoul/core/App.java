@@ -11,7 +11,6 @@ import android.app.Application;
 
 import com.herokuapp.hear_seoul.R;
 import com.skt.baas.api.Baas;
-import com.skt.baas.api.BaasInstallation;
 
 public class App extends Application {
 
