@@ -10,7 +10,6 @@
     <color name="colorPrimaryDark">@android:color/black</color>
     <color name="colorAccent">#5F4B8B</color>
     <color name="colorHighlight">#40c4ff</color>
-    <color name="shimmer_background_color">#b1b1b1</color>
     <color name="kakao">#f1c40f</color>
     <color name="facebook">#0C83D0</color>
     <color name="twitter">#78BCE7</color>

@@ -3,8 +3,7 @@
   ~
   ~  GitHub : @duswnd25
   ~  Site   : https://yeonjung.herokuapp.com/
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.herokuapp.hear_seoul">
@@ -51,15 +50,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
-            android:name=".ui.setting.SettingsActivity"
-            android:label="@string/title_setting"
-            android:screenOrientation="portrait"
-            android:theme="@style/HearSeoulTheme" />
-        <activity
             android:name=".ui.detail.DetailEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
-
     </application>
 
 </manifest>

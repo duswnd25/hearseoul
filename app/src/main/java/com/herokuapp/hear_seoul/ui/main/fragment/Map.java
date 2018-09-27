@@ -45,7 +45,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
-import com.herokuapp.hear_seoul.controller.baas.query.FetchMapPoiList;
+import com.herokuapp.hear_seoul.controller.baas.query.FetchMapMarkerList;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
@@ -86,6 +86,10 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             }
         }
     };
+
+    public static Map newInstance() {
+        return new Map();
+    }
 
     public Map() {
     }
@@ -187,7 +191,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
         this.googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         this.googleMap.setOnMarkerClickListener(this);
-        this.googleMap.setOnCameraIdleListener(() -> new FetchMapPoiList(context, (FetchMapPoiList.OnFetchMapPoiCallback) this::addMarker).getData(currentLocation));
+        this.googleMap.setOnCameraIdleListener(() -> new FetchMapMarkerList(context, (FetchMapMarkerList.OnFetchMapPoiCallback) this::addMarker).getData(googleMap.getCameraPosition().target));
     }
 
     //TODO 지도 좌표에 따라 로드하게 변경해야함

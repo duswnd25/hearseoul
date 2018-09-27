@@ -13,6 +13,5 @@
     <string name="hint_for_location_description">상세내용</string>
     <string name="hint_for_edit_time">영업시간</string>
     <string name="hint_for_address">위치</string>
-    <string name="hint_for_tag">#로 구분해 주세요</string>
     <string name="hint_for_phone">전화번호</string>
 </resources>

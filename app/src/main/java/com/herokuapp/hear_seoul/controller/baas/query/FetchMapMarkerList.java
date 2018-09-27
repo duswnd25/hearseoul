@@ -29,11 +29,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FetchMapPoiList {
+public class FetchMapMarkerList {
     private OnFetchMapPoiCallback callback;
     private ProgressDialog loadingProgress;
 
-    public FetchMapPoiList(Context context, OnFetchMapPoiCallback callback) {
+    public FetchMapMarkerList(Context context, OnFetchMapPoiCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(context.getString(R.string.loading));
@@ -86,6 +86,7 @@ public class FetchMapPoiList {
 
                         result.add(spotBean);
                     }
+                    loadingProgress.hide();
                     callback.onPoiFetch(result);
                 } else {
                     Logger.e(e.getMessage());
