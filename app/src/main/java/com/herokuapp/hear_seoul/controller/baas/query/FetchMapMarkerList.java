@@ -43,20 +43,16 @@ public class FetchMapMarkerList {
 
     public void getData(LatLng location) {
         loadingProgress.show();
-        int max = 1000;
 
         BaasQuery<BaasObject> baasQuery = BaasQuery.makeQuery(Const.BAAS.SPOT.TABLE_NAME);
-        baasQuery.setLimit(max);
-        baasQuery.orderByDescending(Const.BAAS.SPOT.TITLE);
         baasQuery.whereNearWithinKilometers(Const.BAAS.SPOT.LOCATION, new BaasGeoPoint(location.latitude, location.longitude), 5);
         baasQuery.findInBackground(new BaasListCallback<BaasObject>() {
             @Override
             public void onSuccess(List<BaasObject> fetchResult, BaasException e) {
                 if (e == null) {
-                    Collections.sort(fetchResult, (o1, o2) -> o2.getUpdatedAt().compareTo(o1.getUpdatedAt()));
                     LinkedList<SpotBean> result = new LinkedList<>();
-                    int maxIndex = max < fetchResult.size() ? max : fetchResult.size();
-                    for (int index = 0; index < maxIndex; index++) {
+                    Logger.d(String.valueOf(fetchResult.size()));
+                    for (int index = 0; index < fetchResult.size(); index++) {
                         SpotBean spotBean = new SpotBean();
                         spotBean.setId(fetchResult.get(index).getString(Const.BAAS.SPOT.ID));
                         spotBean.setTitle(fetchResult.get(index).getString(Const.BAAS.SPOT.TITLE));

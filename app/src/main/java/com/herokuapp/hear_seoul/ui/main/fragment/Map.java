@@ -191,13 +191,15 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(16).build();
         this.googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         this.googleMap.setOnMarkerClickListener(this);
-        this.googleMap.setOnCameraIdleListener(() -> new FetchMapMarkerList(context, (FetchMapMarkerList.OnFetchMapPoiCallback) this::addMarker).getData(googleMap.getCameraPosition().target));
+        this.googleMap.setOnCameraIdleListener(() -> new FetchMapMarkerList(context, (FetchMapMarkerList.OnFetchMapPoiCallback) this::addMarker)
+                .getData(googleMap.getCameraPosition().target));
     }
 
     //TODO 지도 좌표에 따라 로드하게 변경해야함
     // 지도 마커 추가
     private void addMarker(LinkedList<SpotBean> spotList) {
-        spotList.clear();
+        this.googleMap.clear();
+        this.spotList.clear();
         this.spotList.addAll(spotList);
         for (SpotBean spotBean : spotList) {
             int icon_resource;
@@ -221,13 +223,11 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                     icon_resource = R.drawable.ic_empty_black;
 
             }
-            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(icon_resource);
-
             googleMap.addMarker(new MarkerOptions()
                     .position(spotBean.getLocation())
                     .title(spotBean.getTitle())
                     .snippet(spotBean.getDescription())
-                    .icon(icon));
+                    .icon(BitmapDescriptorFactory.fromResource(icon_resource)));
         }
     }
 
