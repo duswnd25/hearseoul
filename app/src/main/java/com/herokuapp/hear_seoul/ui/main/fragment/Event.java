@@ -39,7 +39,7 @@ public class Event extends Fragment implements FetchEvent.callback {
     public Event() {
     }
 
-   
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
