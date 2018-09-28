@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 placePickerStart();
                 break;
             case R.id.menu_setting:
+                currentIndex = -1;
+                Menu tepm = navigation.getMenu();
+                MenuItem a = tepm.findItem(navigation.getSelectedItemId());
+                a.setChecked(false);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.main_fragment, SettingFragment.newInstance());
                 transaction.commit();
@@ -146,8 +150,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.menu_map:
                 index = 3;
                 break;
-            default:
+            case R.id.menu_setting:
                 index = 4;
+                break;
+            default:
+                index = -1;
         }
 
         if (index == currentIndex) {
@@ -169,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case 3:
                 temp = new Map();
+                break;
+            case 4:
+                temp = new SettingFragment();
                 break;
             default:
                 temp = new TestFragment();

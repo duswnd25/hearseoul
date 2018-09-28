@@ -13,10 +13,4 @@
         android:icon="@drawable/ic_add_black"
         android:title="@string/menu_add"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/menu_setting"
-        android:enabled="true"
-        android:icon="@drawable/ic_setting_black"
-        android:title="@string/menu_setting"
-        app:showAsAction="ifRoom" />
 </menu>
