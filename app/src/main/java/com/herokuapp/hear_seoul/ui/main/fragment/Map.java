@@ -112,8 +112,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         this.savedInstanceState = savedInstanceState;
         this.currentLocation = Utils.getSavedLocation(context);
 
-        //view.findViewById(R.id.map_find).setOnClickListener(this);
-
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setCancelable(false);
         loadingProgress.setMessage(getString(R.string.loading));
@@ -141,7 +139,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(context));
         LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(120000); // two minute interval
+        mLocationRequest.setInterval(30000); // 30 seconds interval
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
