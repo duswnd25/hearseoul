@@ -93,6 +93,7 @@ public class FetchLikeList {
                 }
             });
         } catch (Exception e) {
+            loadingProgress.dismiss();
             Logger.e(e.getMessage());
         }
     }

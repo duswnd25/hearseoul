@@ -91,6 +91,7 @@ public class FetchSuggestionSpotList {
                 }
             });
         } catch (Exception e) {
+            loadingProgress.dismiss();
             Logger.e(e.getMessage());
         }
     }

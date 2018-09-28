@@ -61,6 +61,7 @@ public class ImageUploader {
                 });
             }
         } catch (Exception e) {
+            loadingProgress.dismiss();
             Logger.e(e.getMessage());
         }
     }

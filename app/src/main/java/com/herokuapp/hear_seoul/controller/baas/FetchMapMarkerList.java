@@ -82,7 +82,7 @@ public class FetchMapMarkerList {
 
                             result.add(spotBean);
                         }
-                        loadingProgress.hide();
+                        loadingProgress.dismiss();
                         callback.onPoiFetch(result);
                     } else {
                         Logger.e(e.getMessage());
@@ -90,7 +90,7 @@ public class FetchMapMarkerList {
                 }
             });
         } catch (Exception e) {
-            loadingProgress.hide();
+            loadingProgress.dismiss();
             Logger.e(e.getMessage());
         }
     }

@@ -55,6 +55,7 @@ public class FetchSuggestionList {
                 }
             });
         } catch (Exception e) {
+            loadingProgress.dismiss();
             Logger.e(e.getMessage());
         }
     }
