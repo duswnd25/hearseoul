@@ -62,12 +62,16 @@
             android:label="@string/title_activity_bookmark"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
 
-        <service android:name=".core.fcm.FCMMessagingService">
+        <service
+            android:name=".core.fcm.FCMMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".core.fcm.FCMInstanceIDService">
+        <service
+            android:name=".core.fcm.FCMInstanceIDService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
