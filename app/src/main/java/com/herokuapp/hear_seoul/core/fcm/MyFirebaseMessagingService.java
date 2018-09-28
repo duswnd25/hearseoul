@@ -29,13 +29,12 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     // 메시지 수신
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.i(TAG, "onMessageReceived");
 
         Map<String, String> data = remoteMessage.getData();
         String title = data.get("title");
-        String messagae = data.get("content");
+        String message = data.get("content");
 
-        sendNotification(title, messagae);
+        sendNotification(title, message);
     }
 
     private void sendNotification(String title, String message) {
