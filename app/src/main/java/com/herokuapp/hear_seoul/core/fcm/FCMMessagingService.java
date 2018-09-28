@@ -7,14 +7,13 @@
 
 package com.herokuapp.hear_seoul.core.fcm;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.preference.PreferenceManager;
 
@@ -23,60 +22,71 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
-import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 public class FCMMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     // 메시지 수신
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        SharedPreferences savedData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean isUserWantNotification = savedData.getBoolean(getString(R.string.pref_notification), true);
+        boolean isUserWantSound = savedData.getBoolean(getString(R.string.pref_notification_sound), true);
+
+        // Data from FCM
         Map<String, String> data = remoteMessage.getData();
         String id = data.get("id");
-        String targetLocation = data.get("location");
+        String[] targetLocation = data.get("location").split("/");
         String title = data.get("title");
         String message = data.get("content");
-        sendNotification(id, title, message, targetLocation.split("/"));
-    }
+        String channelId = data.get("channel");
+        int priority = Integer.parseInt(data.get("priority"));
 
-    private void sendNotification(String id, String title, String message, String[] targetLocation) {
-        SharedPreferences savedData = PreferenceManager.getDefaultSharedPreferences(this);
-        String[] userLocation = savedData.getString(Const.PREFERENCE.SAVED_LOCATION, "37.541/126.986").split("/");
+        if (!isUserWantNotification && priority < 4) {
+            return;
+        }
 
-        Logger.d("=======================================");
-        Logger.d(userLocation[0] + ", " + userLocation[1]);
-        Logger.d(targetLocation[0] + ", " + targetLocation[1]);
-        Logger.d("=======================================");
-
-        float distance = Utils.calcDistance(
-                new LatLng(Double.parseDouble(userLocation[0]), Double.parseDouble(userLocation[1])),
-                new LatLng(Double.parseDouble(targetLocation[0]), Double.parseDouble(targetLocation[1]))
-        );
-
-        if (distance < 20000) {
-            Intent intent = new Intent(this, DetailActivity.class);
+        // Notification Data
+        Intent intent = new Intent(this, DetailActivity.class);
+        if (channelId.equals(getString(R.string.notification_channel_suggestion))) {
+            // 추천 알림
+            String[] userLocation = savedData.getString(Const.PREFERENCE.SAVED_LOCATION, "37.541/126.986").split("/");
+            float distance = Utils.calcDistance(
+                    new LatLng(Double.parseDouble(userLocation[0]), Double.parseDouble(userLocation[1])),
+                    new LatLng(Double.parseDouble(targetLocation[0]), Double.parseDouble(targetLocation[1]))
+            );
+            if (distance < 10000) {
+                return;
+            }
             SpotBean spotBean = new SpotBean();
             spotBean.setId(id);
 
+            intent = new Intent(this, DetailActivity.class);
             intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent);
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        int[] colorList = {R.color.colorHighlight, R.color.colorAccent, android.R.color.black};
+        Random generator = new Random();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId);
+        builder.setContentTitle(title)
+                .setPriority(priority)
+                .setContentText(message)
+                .setColor(getResources().getColor(colorList[generator.nextInt(colorList.length)], null))
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .setSound(isUserWantSound ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) : null)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentIntent(pendingIntent);
+
+        Objects.requireNonNull(notificationManager).notify(generator.nextInt(), builder.build());
     }
 }
