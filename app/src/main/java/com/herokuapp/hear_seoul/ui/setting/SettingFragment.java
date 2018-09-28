@@ -24,6 +24,10 @@ public class SettingFragment extends PreferenceFragmentCompat implements SharedP
 
     }
 
+    public static SettingFragment newInstance() {
+        return new SettingFragment();
+    }
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         //add xml
@@ -37,10 +41,6 @@ public class SettingFragment extends PreferenceFragmentCompat implements SharedP
             startActivity(new Intent(getActivity(), LikeListActivity.class));
             return true;
         });
-    }
-
-    public static SettingFragment newInstance() {
-        return new SettingFragment();
     }
 
     @Override

@@ -86,11 +86,11 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         }
     };
 
-    public static Map newInstance() {
-        return new Map();
+    public Map() {
     }
 
-    public Map() {
+    public static Map newInstance() {
+        return new Map();
     }
 
     @Override

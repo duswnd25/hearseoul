@@ -18,6 +18,17 @@ import java.util.Date;
 public class SpotBean implements Parcelable {
 
 
+    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
+        @Override
+        public SpotBean createFromParcel(Parcel source) {
+            return new SpotBean(source);
+        }
+
+        @Override
+        public SpotBean[] newArray(int size) {
+            return new SpotBean[size];
+        }
+    };
     private String title, description, id, address, time, objectId, phone;
     private int tag;
     private LatLng location;
@@ -26,15 +37,32 @@ public class SpotBean implements Parcelable {
     private Date updatedAt;
     private boolean isInfluencer;
 
+    public SpotBean() {
+    }
+
+    protected SpotBean(Parcel in) {
+        this.title = in.readString();
+        this.description = in.readString();
+        this.id = in.readString();
+        this.address = in.readString();
+        this.time = in.readString();
+        this.objectId = in.readString();
+        this.phone = in.readString();
+        this.tag = in.readInt();
+        this.location = in.readParcelable(LatLng.class.getClassLoader());
+        this.visit = in.readByte() != 0;
+        this.imgUrlList = in.createStringArrayList();
+        long tmpUpdatedAt = in.readLong();
+        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
+        this.isInfluencer = in.readByte() != 0;
+    }
+
     public boolean isInfluencer() {
         return isInfluencer;
     }
 
     public void setInfluencer(boolean influencer) {
         isInfluencer = influencer;
-    }
-
-    public SpotBean() {
     }
 
     public int getTag() {
@@ -154,33 +182,4 @@ public class SpotBean implements Parcelable {
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
         dest.writeByte(this.isInfluencer ? (byte) 1 : (byte) 0);
     }
-
-    protected SpotBean(Parcel in) {
-        this.title = in.readString();
-        this.description = in.readString();
-        this.id = in.readString();
-        this.address = in.readString();
-        this.time = in.readString();
-        this.objectId = in.readString();
-        this.phone = in.readString();
-        this.tag = in.readInt();
-        this.location = in.readParcelable(LatLng.class.getClassLoader());
-        this.visit = in.readByte() != 0;
-        this.imgUrlList = in.createStringArrayList();
-        long tmpUpdatedAt = in.readLong();
-        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
-        this.isInfluencer = in.readByte() != 0;
-    }
-
-    public static final Creator<SpotBean> CREATOR = new Creator<SpotBean>() {
-        @Override
-        public SpotBean createFromParcel(Parcel source) {
-            return new SpotBean(source);
-        }
-
-        @Override
-        public SpotBean[] newArray(int size) {
-            return new SpotBean[size];
-        }
-    };
 }

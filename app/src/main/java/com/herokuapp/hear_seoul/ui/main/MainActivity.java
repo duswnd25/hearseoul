@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private int PLACE_PICKER_REQUEST = 1;
     private BottomNavigationView navigation;
+    private Fragment[] fragmentList = {
+            Suggestion.newInstance(), Explore.newInstance(), Map.newInstance(), Event.newInstance(), TestFragment.newInstance()
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setOnNavigationItemSelectedListener(this);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment, Suggestion.newInstance());
+        transaction.replace(R.id.main_fragment, fragmentList[0]);
         transaction.commit();
     }
 

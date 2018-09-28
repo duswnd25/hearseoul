@@ -36,7 +36,7 @@ public class FetchMapMarkerList {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
         loadingProgress.setMessage(context.getString(R.string.loading));
-        loadingProgress.setCancelable(false);
+        loadingProgress.setCancelable(true);
     }
 
 
@@ -90,6 +90,7 @@ public class FetchMapMarkerList {
                 }
             });
         } catch (Exception e) {
+            loadingProgress.hide();
             Logger.e(e.getMessage());
         }
     }

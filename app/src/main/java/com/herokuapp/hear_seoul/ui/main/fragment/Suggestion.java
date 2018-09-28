@@ -21,9 +21,9 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionList;
 import com.herokuapp.hear_seoul.controller.baas.FetchSuggestionSpotList;
+import com.herokuapp.hear_seoul.controller.db.DBManager;
 import com.herokuapp.hear_seoul.controller.main.SuggestionAdapter;
 import com.herokuapp.hear_seoul.core.Const;
-import com.herokuapp.hear_seoul.controller.db.DBManager;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
