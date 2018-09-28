@@ -18,10 +18,14 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.preference.PreferenceManager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.messaging.RemoteMessage;
 import com.herokuapp.hear_seoul.R;
+import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
+import com.herokuapp.hear_seoul.core.Utils;
+import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
 import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
 import java.util.Map;
@@ -32,34 +36,47 @@ public class FCMMessagingService extends com.google.firebase.messaging.FirebaseM
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map<String, String> data = remoteMessage.getData();
+        String id = data.get("id");
+        String targetLocation = data.get("location");
         String title = data.get("title");
         String message = data.get("content");
-
-        sendNotification(title, message);
+        sendNotification(id, title, message, targetLocation.split("/"));
     }
 
-    private void sendNotification(String title, String message) {
+    private void sendNotification(String id, String title, String message, String[] targetLocation) {
         SharedPreferences savedData = PreferenceManager.getDefaultSharedPreferences(this);
-        String[] data = savedData.getString(Const.PREFERENCE.SAVED_LOCATION, "37.541/126.986").split("/");
+        String[] userLocation = savedData.getString(Const.PREFERENCE.SAVED_LOCATION, "37.541/126.986").split("/");
 
-        Logger.d(data[0]);
-        Logger.d(data[1]);
+        Logger.d("=======================================");
+        Logger.d(userLocation[0] + ", " + userLocation[1]);
+        Logger.d(targetLocation[0] + ", " + targetLocation[1]);
+        Logger.d("=======================================");
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        float distance = Utils.calcDistance(
+                new LatLng(Double.parseDouble(userLocation[0]), Double.parseDouble(userLocation[1])),
+                new LatLng(Double.parseDouble(targetLocation[0]), Double.parseDouble(targetLocation[1]))
+        );
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        if (distance < 20000) {
+            Intent intent = new Intent(this, DetailActivity.class);
+            SpotBean spotBean = new SpotBean();
+            spotBean.setId(id);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
     }
 }
