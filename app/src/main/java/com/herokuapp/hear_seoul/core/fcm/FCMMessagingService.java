@@ -26,7 +26,7 @@ import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
 import java.util.Map;
 
-public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
+public class FCMMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     // 메시지 수신
     @Override
