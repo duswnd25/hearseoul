@@ -71,15 +71,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.menu_add:
                 placePickerStart();
                 break;
-            case R.id.menu_setting:
-                currentIndex = -1;
-                Menu tepm = navigation.getMenu();
-                MenuItem a = tepm.findItem(navigation.getSelectedItemId());
-                a.setChecked(false);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_fragment, SettingFragment.newInstance());
-                transaction.commit();
-                break;
             default:
         }
         return super.onOptionsItemSelected(item);
