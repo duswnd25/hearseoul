@@ -9,6 +9,7 @@ package com.herokuapp.hear_seoul.core;
 
 import android.app.Application;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.herokuapp.hear_seoul.R;
 import com.skt.baas.api.Baas;
 
@@ -19,5 +20,6 @@ public class App extends Application {
         super.onCreate();
         Baas.init(this, 1, getString(R.string.baas_key));
         Baas.debugMode(false);
+        FirebaseMessaging.getInstance().subscribeToTopic("default");
     }
 }
