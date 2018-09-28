@@ -7,7 +7,7 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:icon="@null     "
+        android:icon="@null"
         android:title="@string/hint_for_my_information">
         <Preference
             android:icon="@drawable/ic_favorite"
@@ -19,7 +19,7 @@
         android:title="@string/hint_for_notification">
         <SwitchPreference
             android:defaultValue="true"
-            android:icon="@drawable/ic_notification"
+            android:icon="@drawable/ic_fcm"
             android:key="@string/pref_notification"
             android:summaryOff="@string/pref_notification_description_off"
             android:summaryOn="@string/pref_notification_description_on"
@@ -28,7 +28,7 @@
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="@string/pref_notification"
-            android:icon="@drawable/ic_notification"
+            android:icon="@drawable/ic_sound"
             android:key="@string/pref_notification_sound"
             android:summaryOff="@string/pref_notification_sound_description_off"
             android:summaryOn="@string/pref_notification_sound_description_on"
