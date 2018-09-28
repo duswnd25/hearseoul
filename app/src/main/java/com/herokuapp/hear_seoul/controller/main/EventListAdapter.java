@@ -9,12 +9,12 @@ package com.herokuapp.hear_seoul.controller.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
+import com.lid.lib.LabelImageView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,8 +67,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         } else {
             Glide.with(context).load(R.drawable.placeholder).apply(options).into(holder.mainImage);
         }
-        int feeType = itemList.get(position).getUseFee().equals("무료") ? R.drawable.ic_free : R.drawable.ic_no_free;
-        Glide.with(context).load(feeType).apply(options).into(holder.subImage);
+
+        if (itemList.get(position).getUseFee().equals("무료")) {
+            holder.mainImage.setLabelText(context.getString(R.string.fee_no));
+            holder.mainImage.setLabelBackgroundColor(Color.parseColor("#03A9F4"));
+        } else {
+            holder.mainImage.setLabelText(context.getString(R.string.fee_yes));
+            holder.mainImage.setLabelBackgroundColor(Color.parseColor("#C2185B"));
+        }
     }
 
     @Override
@@ -112,8 +119,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView dDay, title, date, gCode;
-        private ImageView mainImage;
-        private ImageView subImage;
+        private LabelImageView mainImage;
 
         ViewHolder(View view) {
             super(view);
@@ -122,7 +128,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             date = view.findViewById(R.id.item_event_list_cultural_date);
             gCode = view.findViewById(R.id.item_event_list_cultural_g_code);
             mainImage = view.findViewById(R.id.item_event_list_main_image);
-            subImage = view.findViewById(R.id.item_event_list_sub_image);
         }
     }
 }

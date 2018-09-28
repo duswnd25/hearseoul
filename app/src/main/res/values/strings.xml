@@ -19,6 +19,8 @@
     <string name="tag_show">공연</string>
     <string name="tag_photo">사진찍기 좋은곳</string>
     <string name="tag_no">없음</string>
+    <string name="fee_no">무료</string>
+    <string name="fee_yes">유료</string>
 
     <!-- Strings related to Settings -->
 

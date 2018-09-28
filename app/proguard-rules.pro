@@ -50,6 +50,7 @@
 -keep class com.muddzdev.** { *; }
 -keep class me.relex.** { *; }
 -keep class com.google.** { *; }
+-keep class com.github.linger1216.** { *; }
 
 -dontwarn de.hdodenhof.**
 -dontwarn com.skt.**
@@ -60,6 +61,7 @@
 -dontwarn com.muddzdev.**
 -dontwarn me.relex.**
 -dontwarn com.google.**
+-dontwarn class com.github.linger1216.**
 
 #파일 생성 옵션
 -printmapping proguard/map.txt

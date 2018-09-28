@@ -71,6 +71,7 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'gun0912.ted:tedbottompicker:1.2.6'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.github.linger1216:labelview:v1.1.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

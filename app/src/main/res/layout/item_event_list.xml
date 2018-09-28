@@ -6,6 +6,8 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
@@ -22,20 +24,17 @@
             android:layout_width="141dp"
             android:layout_height="141dp">
 
-            <ImageView
+            <com.lid.lib.LabelImageView
                 android:id="@+id/item_event_list_main_image"
-                android:layout_width="141dp"
-                android:layout_height="141dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/bg_small_image" />
+                android:scaleType="centerCrop"
+                app:label_backgroundColor="#C2185B"
+                app:label_height="30dp"
+                app:label_orientation="LEFT_TOP"
+                tools:src="@drawable/bg_small_image" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/item_event_list_sub_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="bottom|end"
-                android:src="@drawable/placeholder" />
         </FrameLayout>
 
 
