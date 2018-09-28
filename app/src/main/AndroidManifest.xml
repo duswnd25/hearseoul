@@ -40,6 +40,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar">
             <intent-filter>
@@ -55,6 +56,7 @@
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
             android:name=".ui.detail.DetailEditActivity"
+            android:label="@string/title_activity_edit"
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
