@@ -19,5 +19,13 @@
             android:summaryOff="@string/pref_notification_description_off"
             android:summaryOn="@string/pref_notification_description_on"
             android:title="@string/pref_notification_title" />
+
+        <SwitchPreference
+            android:dependency="@string/pref_notification"
+            android:icon="@drawable/ic_notification"
+            android:key="@string/pref_notification"
+            android:summaryOff="@string/pref_notification_sound_description_off"
+            android:summaryOn="@string/pref_notification_sound_description_on"
+            android:title="@string/pref_notification_sound_title" />
     </PreferenceCategory>
 </PreferenceScreen>
