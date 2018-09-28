@@ -8,7 +8,6 @@
 package com.herokuapp.hear_seoul.ui.main.fragment;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -66,7 +65,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     private Bundle savedInstanceState;
     private LatLng currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
-    private ProgressDialog loadingProgress;
     private LinkedList<SpotBean> spotList = new LinkedList<>();
 
     // 위치 콜백
@@ -89,9 +87,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     public Map() {
     }
 
-    public static Map newInstance() {
-        return new Map();
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -111,10 +107,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         this.rootView = view;
         this.savedInstanceState = savedInstanceState;
         this.currentLocation = Utils.getSavedLocation(context);
-
-        loadingProgress = new ProgressDialog(context);
-        loadingProgress.setCancelable(false);
-        loadingProgress.setMessage(getString(R.string.loading));
 
         // 권한 체크
         TedPermission.with(Objects.requireNonNull(context))
@@ -160,7 +152,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     }
 
     private void initMap() {
-        loadingProgress.show();
         mapView = rootView.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.onResume(); // 즉시 지도를 가져오기 위해 필요함
@@ -170,7 +161,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
             Logger.e(e.getMessage());
         }
         mapView.getMapAsync(this);
-        loadingProgress.dismiss();
     }
 
     @Override

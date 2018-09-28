@@ -39,9 +39,7 @@ public class Event extends Fragment implements FetchEvent.callback {
     public Event() {
     }
 
-    public static Event newInstance() {
-        return new Event();
-    }
+   
 
     @Override
     public void onAttach(Context context) {

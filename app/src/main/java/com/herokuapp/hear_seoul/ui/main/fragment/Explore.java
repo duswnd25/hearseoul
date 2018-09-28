@@ -35,9 +35,7 @@ public class Explore extends Fragment implements FetchSpotList.OnFetchSpotListCa
     public Explore() {
     }
 
-    public static Explore newInstance() {
-        return new Explore();
-    }
+
 
     @Override
     public void onAttach(Context context) {
