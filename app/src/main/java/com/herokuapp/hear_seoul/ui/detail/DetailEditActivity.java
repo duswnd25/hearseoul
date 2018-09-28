@@ -52,6 +52,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.relex.circleindicator.CircleIndicator;
@@ -334,7 +335,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     public Bitmap getCorrectRotateImage(Uri imageUri) {
         int orientation = 0;
-        File imageFile = new File(imageUri.getPath());
+        File imageFile = new File(Objects.requireNonNull(imageUri.getPath()));
         try {
             ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
