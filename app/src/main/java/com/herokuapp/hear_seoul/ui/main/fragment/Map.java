@@ -88,7 +88,6 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -40,7 +40,6 @@ public class Event extends Fragment implements FetchEvent.callback {
     }
 
    
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

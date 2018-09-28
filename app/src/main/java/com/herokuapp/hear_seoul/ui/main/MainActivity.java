@@ -38,9 +38,9 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    int currentIndex = 0;
     private int PLACE_PICKER_REQUEST = 1;
     private BottomNavigationView navigation;
-    int currentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
