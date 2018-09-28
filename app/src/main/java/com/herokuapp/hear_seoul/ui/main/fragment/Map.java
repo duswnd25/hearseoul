@@ -211,10 +211,10 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                     icon_resource = R.drawable.ic_landmark_black;
                     break;
                 case 4:
-                    icon_resource = R.drawable.ic_show_black;
+                    icon_resource = R.drawable.ic_tag_show;
                     break;
                 case 5:
-                    icon_resource = R.drawable.ic_camera_black;
+                    icon_resource = R.drawable.ic_tag_camera;
                     break;
                 default:
                     icon_resource = R.drawable.ic_empty_black;

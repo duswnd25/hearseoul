@@ -29,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -247,13 +248,13 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 targetView = -1;
                 spotBean.setTag(-1);
         }
-        ((CardView) findViewById(R.id.detail_edit_tag_food)).setCardBackgroundColor(Color.WHITE);
-        ((CardView) findViewById(R.id.detail_edit_tag_cafe)).setCardBackgroundColor(Color.WHITE);
-        ((CardView) findViewById(R.id.detail_edit_tag_landmark)).setCardBackgroundColor(Color.WHITE);
-        ((CardView) findViewById(R.id.detail_edit_tag_show)).setCardBackgroundColor(Color.WHITE);
-        ((CardView) findViewById(R.id.detail_edit_tag_photo)).setCardBackgroundColor(Color.WHITE);
+        findViewById(R.id.detail_edit_tag_food).setBackgroundResource(R.drawable.bg_radius_white_square);
+        findViewById(R.id.detail_edit_tag_cafe).setBackgroundResource(R.drawable.bg_radius_white_square);
+        findViewById(R.id.detail_edit_tag_landmark).setBackgroundResource(R.drawable.bg_radius_white_square);
+        findViewById(R.id.detail_edit_tag_show).setBackgroundResource(R.drawable.bg_radius_white_square);
+        findViewById(R.id.detail_edit_tag_photo).setBackgroundResource(R.drawable.bg_radius_white_square);
         if (targetView != -1) {
-            ((CardView) findViewById(targetView)).setCardBackgroundColor(getColor(R.color.colorHighlight));
+            findViewById(targetView).setBackgroundResource(R.drawable.bg_radius_highlight_square);
         }
     }
 
