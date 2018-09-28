@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -84,6 +85,7 @@ public class FetchEvent extends AsyncTask<Void, Integer, LinkedList<EventBean>> 
         } catch (Exception e) {
             Logger.e(e.getMessage());
         }
+        Collections.sort(results, (o1, o2) -> o1.getStartDate().compareTo(o2.getStartDate()));
         return results;
     }
 
