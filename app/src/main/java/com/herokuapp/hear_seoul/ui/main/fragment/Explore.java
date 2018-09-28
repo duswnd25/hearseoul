@@ -26,7 +26,7 @@ import com.herokuapp.hear_seoul.controller.main.ExploreAdapter;
 import java.util.LinkedList;
 
 
-public class Explore extends Fragment {
+public class Explore extends Fragment implements FetchSpotList.OnFetchSpotListCallback {
 
     private LinkedList<SpotBean> dataOrigin = new LinkedList<>();
     private ExploreAdapter adapter;
@@ -66,10 +66,16 @@ public class Explore extends Fragment {
         adapter = new ExploreAdapter(getContext(), dataOrigin);
         recyclerView.setAdapter(adapter);
 
-        new FetchSpotList(context, (FetchSpotList.OnFetchSpotListCallback) result -> {
-            dataOrigin.clear();
-            dataOrigin.addAll(result);
-            adapter.notifyDataSetChanged();
-        }).getData();
+        new FetchSpotList(context, this).getData();
+    }
+
+    @Override
+    public void onDataFetchSuccess(LinkedList<SpotBean> result) {
+        if (result.size() == 0) {
+            new FetchSpotList(context, this).getData();
+        }
+        dataOrigin.clear();
+        dataOrigin.addAll(result);
+        adapter.notifyDataSetChanged();
     }
 }
