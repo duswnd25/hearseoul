@@ -140,10 +140,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.menu_explore:
                 index = 1;
                 break;
-            case R.id.menu_map:
+            case R.id.menu_event:
                 index = 2;
                 break;
-            case R.id.menu_event:
+            case R.id.menu_map:
                 index = 3;
                 break;
             default:
