@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="notification_channel_default_title">기본 알림</string>
+    <string name="notification_channel_default">default_channel</string>
+    <string name="notification_channel_suggestion_title">추천 알림</string>
+    <string name="notification_channel_suggestion">default_channel</string>
+</resources>
