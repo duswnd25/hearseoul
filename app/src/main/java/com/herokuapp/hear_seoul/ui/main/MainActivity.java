@@ -40,9 +40,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private int PLACE_PICKER_REQUEST = 1;
     private BottomNavigationView navigation;
-    private Fragment[] fragmentList = {
-            Suggestion.newInstance(), Explore.newInstance(), Map.newInstance(), Event.newInstance(), TestFragment.newInstance()
-    };
+    int currentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setOnNavigationItemSelectedListener(this);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment, fragmentList[0]);
+        transaction.replace(R.id.main_fragment, new Suggestion());
         transaction.commit();
     }
 
@@ -134,27 +132,50 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         menuItem.setChecked(true);
-        Fragment selectedFragment;
-
+        int index;
         switch (menuItem.getItemId()) {
             case R.id.menu_suggestion:
-                selectedFragment = Suggestion.newInstance();
+                index = 0;
                 break;
             case R.id.menu_explore:
-                selectedFragment = Explore.newInstance();
+                index = 1;
                 break;
             case R.id.menu_map:
-                selectedFragment = Map.newInstance();
+                index = 2;
                 break;
             case R.id.menu_event:
-                selectedFragment = Event.newInstance();
+                index = 3;
                 break;
             default:
-                selectedFragment = TestFragment.newInstance();
+                index = 4;
+        }
+
+        if (index == currentIndex) {
+            return false;
+        } else {
+            currentIndex = index;
+        }
+
+        Fragment temp;
+        switch (currentIndex) {
+            case 0:
+                temp = new Suggestion();
+                break;
+            case 1:
+                temp = new Explore();
+                break;
+            case 2:
+                temp = new Event();
+                break;
+            case 3:
+                temp = new Map();
+                break;
+            default:
+                temp = new TestFragment();
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment, selectedFragment);
+        transaction.replace(R.id.main_fragment, temp);
         transaction.commit();
         return false;
     }
