@@ -97,7 +97,6 @@ public class DBManager extends SQLiteOpenHelper {
         String createInfluencerQuery = "CREATE TABLE influencer(latitude REAL NOT NULL, longitude REAL NOT NULL);";
         db.execSQL(createDataTableQuery);
         db.execSQL(createInfluencerQuery);
-        db.close();
     }
 
     @Override

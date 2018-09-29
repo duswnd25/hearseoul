@@ -1,0 +1,59 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="app_name">ここでは、ソウル</string>
+        
+    <string name="empty">表示する内容がありません！</string>
+        
+    <string name="open">を展開</string>
+        
+    <string name="upload">アップロードした</string>
+        
+    <string name="loading">しばらくお待ちください</string>
+        
+    <string name="loading_like">チムハンリストを取得しています</string>
+        
+    <string name="loading_marker">の周りの場所を持って来ています</string>
+        
+    <string name="loading_list">リストをもたらしています</string>
+        
+    <string name="loading_suggestion_list">おすすめリストを取得しています</string>
+        
+    <string name="loading_suggestion_spot">おすすめの場所を持って来ています</string>
+        
+    <string name="loading_upload_image">画像を登録しています。</string>
+        
+    <string name="information_correction">情報を変更する</string>
+        
+    <string name="select_nearby_place">の近くの場所を選択してください</string>
+        
+    <string name="tag_food">料理</string>
+        
+    <string name="tag_cafe">カフェ</string>
+        
+    <string name="tag_landmark">観光地</string>
+        
+    <string name="tag_show">公演</string>
+        
+    <string name="tag_photo">写真の良いところ</string>
+        
+    <string name="tag_no">なし</string>
+        
+    <string name="fee_no">無料</string>
+        
+    <string name="fee_yes">有料</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <!-- Example settings for Data & Sync -->
+
+    <!-- Example settings for Notifications -->
+
+</resources>

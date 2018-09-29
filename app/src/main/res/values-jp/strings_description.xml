@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="location_permission_description">ロケーションベースのサービスを提供するために権限が必要です。</string>
+        
+    <string name="storage_permission_description">写真を取得するために権限が必要です。</string>
+        
+    <string name="permission_deny_description">[設定]>[権限]でアクセスを許可することができます。</string>
+        
+    <string name="hint_for_location_name">ジャンソミョン</string>
+        
+    <string name="hint_for_location_description">詳細</string>
+        
+    <string name="hint_for_edit_time">営業時間</string>
+        
+    <string name="hint_for_address">位置</string>
+        
+    <string name="hint_for_phone">電話番号</string>
+        
+    <string name="hint_for_my_information">私の情報</string>
+        
+    <string name="hint_for_notification">通知</string>
+</resources>

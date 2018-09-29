@@ -61,7 +61,7 @@
 -dontwarn com.muddzdev.**
 -dontwarn me.relex.**
 -dontwarn com.google.**
--dontwarn class com.github.linger1216.**
+-dontwarn com.github.linger1216.**
 
 #파일 생성 옵션
 -printmapping proguard/map.txt

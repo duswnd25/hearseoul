@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_notification_title">알림</string>
+    <string name="pref_notification_description_on">PUSH 알림을 수신합니다.</string>
+    <string name="pref_notification_description_off">PUSH 알림을 수신하지 않습니다.</string>
+
+    <string name="pref_notification_sound">pref_notification_sound</string>
+    <string name="pref_notification_sound_title">알림 소리</string>
+    <string name="pref_notification_sound_description_on">PUSH 알림을 소리와 함께 수신합니다.</string>
+    <string name="pref_notification_sound_description_off">PUSH 알림을 무음으로 수신합니다.</string>
+
+    <string name="pref_like_list">pref_like_list</string>
+    <string name="pref_like_list_title">찜한 장소</string>
+</resources>

@@ -1,0 +1,59 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="app_name">Hear, Seoul</string>
+        
+    <string name="empty">No content to display!</string>
+        
+    <string name="open">Open</string>
+        
+    <string name="upload">Upload Successfully</string>
+        
+    <string name="loading">Please wait</string>
+        
+    <string name="loading_like">Getting fetched list</string>
+        
+    <string name="loading_marker">Getting nearby locations</string>
+        
+    <string name="loading_list">Getting list</string>
+        
+    <string name="loading_suggestion_list">Retrieving list of suggestions</string>
+        
+    <string name="loading_suggestion_spot">Importing recommendations</string>
+        
+    <string name="loading_upload_image">Image is being registered.</string>
+        
+    <string name="information_correction">Information Edit</string>
+        
+    <string name="select_nearby_place">Please Select Nearby Place</string>
+        
+    <string name="tag_food">Restaurant</string>
+        
+    <string name="tag_cafe">Cafe</string>
+        
+    <string name="tag_landmark">Landmark</string>
+        
+    <string name="tag_show">Show</string>
+        
+    <string name="tag_photo">Good to take photo</string>
+        
+    <string name="tag_no">none</string>
+        
+    <string name="fee_no">FREE</string>
+        
+    <string name="fee_yes">PAID</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <!-- Example settings for Data & Sync -->
+
+    <!-- Example settings for Notifications -->
+
+</resources>
