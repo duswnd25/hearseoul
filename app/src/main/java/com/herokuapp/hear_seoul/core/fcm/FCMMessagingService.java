@@ -24,6 +24,7 @@ import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
+import com.herokuapp.hear_seoul.ui.main.MainActivity;
 
 import java.util.Map;
 import java.util.Objects;
@@ -41,10 +42,10 @@ public class FCMMessagingService extends com.google.firebase.messaging.FirebaseM
         // Data from FCM
         Map<String, String> data = remoteMessage.getData();
         String id = data.get("id");
-        String[] targetLocation = data.get("location").split("/");
         String title = data.get("title");
         String message = data.get("content");
         String channelId = data.get("channel");
+        String type = data.get("type");
         int priority = Integer.parseInt(data.get("priority"));
 
         if (!isUserWantNotification && priority < 4) {
@@ -52,9 +53,10 @@ public class FCMMessagingService extends com.google.firebase.messaging.FirebaseM
         }
 
         // Notification Data
-        Intent intent = new Intent(this, DetailActivity.class);
-        if (channelId.equals(getString(R.string.notification_channel_suggestion))) {
+        Intent intent = new Intent(this, MainActivity.class);
+        if (type.equals("suggest")) {
             // 추천 알림
+            String[] targetLocation = data.get("location").split("/");
             String[] userLocation = savedData.getString(Const.PREFERENCE.SAVED_LOCATION, "37.541/126.986").split("/");
             float distance = Utils.calcDistance(
                     new LatLng(Double.parseDouble(userLocation[0]), Double.parseDouble(userLocation[1])),
