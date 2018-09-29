@@ -38,28 +38,40 @@
         android:icon="@null"
         android:title="개발팀">
         <Preference
-            android:icon="@drawable/ic_favorite"
-            android:summary="API 서버 개발"
-            android:title="구정수" />
+            android:icon="@drawable/ic_node"
+            android:summary="구정수, 김연중"
+            android:title="Server Developer" />
         <Preference
-            android:icon="@drawable/ic_favorite"
-            android:summary="Android, (DB, API)서버 개발"
-            android:title="김연중" />
+            android:icon="@drawable/ic_android"
+            android:summary="김연중"
+            android:title="Android Client Developer" />
         <Preference
-            android:icon="@drawable/ic_favorite"
-            android:summary="CNN-KNN 머신러닝 모델 작성 및 구현"
-            android:title="김천화" />
+            android:icon="@drawable/ic_db"
+            android:summary="김연중"
+            android:title="Database Server Developer" />
         <Preference
-            android:icon="@drawable/ic_favorite"
-            android:summary="UI 디자인 및 이미지"
-            android:title="선아름" />
+            android:icon="@drawable/ic_ml"
+            android:summary="김천화, 이제영"
+            android:title="Machine Learning CNN-KNN Developer" />
         <Preference
-            android:icon="@drawable/ic_favorite"
-            android:summary="기획"
-            android:title="이민지" />
+            android:icon="@drawable/ic_design"
+            android:title="UI/UX ICON Designer"
+            android:summary="선아름" />
         <Preference
-            android:icon="@drawable/ic_favorite"
-            android:summary="CNN-KNN 머신러닝 모델 작성 및 구현"
-            android:title="이제영" />
+            android:icon="@drawable/ic_plan"
+            android:title="Planner"
+            android:summary="이민지" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:icon="@null"
+        android:title="License">
+        <Preference
+            android:icon="@drawable/ic_icons8"
+            android:summary="https://icons8.com/"
+            android:title="icon image" />
+        <Preference
+            android:icon="@drawable/ic_open_source"
+            android:summary="https://icons8.com/"
+            android:title="Open Source License" />
     </PreferenceCategory>
 </PreferenceScreen>
