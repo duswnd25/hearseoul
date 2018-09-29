@@ -212,11 +212,10 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
 
             }
 
-            int height = 30;
-            int width = 30;
+            int size = 60;
             BitmapDrawable resource = (BitmapDrawable) getResources().getDrawable(icon_resource);
             Bitmap b = resource.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, size, size, false);
             googleMap.addMarker(new MarkerOptions()
                     .position(spotBean.getLocation())
                     .title(spotBean.getTitle())
