@@ -24,7 +24,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LocationByIP extends AsyncTask<LocationBean, Integer, LocationBean> {
+public class LocationByIP extends AsyncTask<Void, Integer, LocationBean> {
     private OnLocationFetchFinishCallback callback;
     private ProgressDialog loadingProgress;
     private Exception error;
@@ -50,7 +50,7 @@ public class LocationByIP extends AsyncTask<LocationBean, Integer, LocationBean>
     }
 
     @Override
-    protected LocationBean doInBackground(LocationBean... params) {
+    protected LocationBean doInBackground(Void... params) {
 
         LocationBean result = new LocationBean();
 
@@ -63,6 +63,7 @@ public class LocationByIP extends AsyncTask<LocationBean, Integer, LocationBean>
             result.setCountryCode(responseJson.getString("countryCode"));
             result.setLatitude(responseJson.getDouble("lat"));
             result.setLongitude(responseJson.getDouble("lon"));
+            Logger.d("TEST");
         } catch (Exception e) {
             error = e;
             Logger.e(e.getMessage());

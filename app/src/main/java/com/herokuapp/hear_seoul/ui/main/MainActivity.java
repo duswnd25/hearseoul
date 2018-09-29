@@ -54,8 +54,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolbar);
 
         new LocationByIP(this, (LocationByIP.OnLocationFetchFinishCallback) (result, error) -> {
-            currentLocation = new LatLng(result.getLatitude(), result.getLongitude());
-            Utils.saveLocation(MainActivity.this, currentLocation);
+            if (error != null) {
+                Logger.d("테스트");
+                currentLocation = new LatLng(result.getLatitude(), result.getLongitude());
+                Utils.saveLocation(MainActivity.this, currentLocation);
+            }
         }).execute();
 
         currentLocation = Utils.getSavedLocation(this);
