@@ -55,12 +55,12 @@
             android:title="Machine Learning CNN-KNN Developer" />
         <Preference
             android:icon="@drawable/ic_design"
-            android:title="UI/UX ICON Designer"
-            android:summary="선아름" />
+            android:summary="선아름"
+            android:title="UI/UX ICON Designer" />
         <Preference
             android:icon="@drawable/ic_plan"
-            android:title="Planner"
-            android:summary="이민지" />
+            android:summary="이민지"
+            android:title="Planner" />
     </PreferenceCategory>
     <PreferenceCategory
         android:icon="@null"
