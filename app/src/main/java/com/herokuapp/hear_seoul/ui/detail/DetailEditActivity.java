@@ -281,7 +281,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     private void saveDataToServer() {
         DBManager dbManager = new DBManager(this, Const.DB.DB_NAME, null, Const.DB.VERSION);
         dbManager.insertInfluencer(spotBean.getLocation());
-        
+
         spotBean.setTitle(titleEdit.getText().toString());
         spotBean.setTime(timeEdit.getText().toString());
         spotBean.setPhone(phoneEdit.getText().toString());
