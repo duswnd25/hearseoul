@@ -30,6 +30,7 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
 
         return isLike;
     }
@@ -43,6 +44,7 @@ public class DBManager extends SQLiteOpenHelper {
             result.add(cursor.getString(0));
         }
         cursor.close();
+        db.close();
         return result;
     }
 
@@ -63,6 +65,7 @@ public class DBManager extends SQLiteOpenHelper {
             query = "UPDATE data SET isLike=" + (isLike ? 1 : 0) + " WHERE id='" + id + "';";
         }
         db.execSQL(query);
+        db.close();
     }
 
     @Override
@@ -70,6 +73,7 @@ public class DBManager extends SQLiteOpenHelper {
         String createDataTableQuery = "CREATE TABLE data(id TEXT PRIMARY KEY NOT NULL, isLike REAL NOT NULL);";
         //String createInfluencerQuery = "CREATE TABLE data(id TEXT PRIMARY KEY NOT NULL, isLike REAL NOT NULL);";
         db.execSQL(createDataTableQuery);
+        db.close();
         //db.execSQL(createInfluencerQuery);
     }
 
