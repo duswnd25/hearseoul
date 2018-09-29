@@ -47,7 +47,7 @@ public class FetchSuggestionList {
                         for (int index = 0; index < fetchResult.size(); index++) {
                             result.add(fetchResult.get(index).getString(Const.BAAS.SUGGESTION.SUGGEST));
                         }
-                        loadingProgress.hide();
+                        loadingProgress.dismiss();
                         callback.onDataFetchSuccess(result);
                     } else {
                         Logger.e(e.getMessage());

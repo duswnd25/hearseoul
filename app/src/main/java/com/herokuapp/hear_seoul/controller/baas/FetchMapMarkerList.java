@@ -85,6 +85,7 @@ public class FetchMapMarkerList {
                         loadingProgress.dismiss();
                         callback.onPoiFetch(result);
                     } else {
+                        loadingProgress.dismiss();
                         Logger.e(e.getMessage());
                     }
                 }
