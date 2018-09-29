@@ -21,8 +21,10 @@ import android.view.MenuItem;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
+import com.herokuapp.hear_seoul.controller.location.LocationByIP;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     int currentIndex = 0;
     private int PLACE_PICKER_REQUEST = 1;
     private BottomNavigationView navigation;
+    private LatLng currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        new LocationByIP(this, (LocationByIP.OnLocationFetchFinishCallback) (result, error) -> {
+            currentLocation = new LatLng(result.getLatitude(), result.getLongitude());
+            Utils.saveLocation(MainActivity.this, currentLocation);
+        }).execute();
+
+        currentLocation = Utils.getSavedLocation(this);
 
         navigation = findViewById(R.id.main_bottom_menu);
         navigation.setOnNavigationItemSelectedListener(this);
@@ -89,31 +99,37 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // Place Picker 결과
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
+        String message = getString(R.string.select_nearby_place);
 
-            Place place = PlacePicker.getPlace(this, data);
-            // if (Utils.calcDistance(currentLocation, place.getLatLng()) < 200) {
-            // }
-            SpotBean spotBean = new SpotBean();
-            spotBean.setId(place.getId());
-            spotBean.setTitle(place.getName().toString());
-            spotBean.setLocation(place.getLatLng());
-            spotBean.setTime("NO");
-            spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
-            String phone = String.valueOf(place.getPhoneNumber())
-                    .replace("+82", "0")
-                    .replaceAll(" ", "");
-            spotBean.setPhone(phone);
-
-            Intent intent = new Intent(this, DetailActivity.class);
-            intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
-            intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
-
-            startActivity(intent);
-
-        } else {
-            Utils.showStyleToast(this, getString(R.string.select_nearby_place));
+        if (resultCode != RESULT_OK) {
+            return;
         }
+
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            Place place = PlacePicker.getPlace(this, data);
+            if (Utils.calcDistance(currentLocation, place.getLatLng()) < 3000) {
+                SpotBean spotBean = new SpotBean();
+                spotBean.setId(place.getId());
+                spotBean.setTitle(place.getName().toString());
+                spotBean.setLocation(place.getLatLng());
+                spotBean.setTime("NO");
+                spotBean.setAddress(Objects.requireNonNull(place.getAddress()).toString());
+                String phone = String.valueOf(place.getPhoneNumber())
+                        .replace("+82", "0")
+                        .replaceAll(" ", "");
+                spotBean.setPhone(phone);
+
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra(Const.INTENT_EXTRA.SPOT, spotBean);
+                intent.putExtra(Const.INTENT_EXTRA.IS_NEW_INFORMATION, true);
+
+                startActivity(intent);
+                return;
+            } else {
+                message = getString(R.string.select_nearby_place);
+            }
+        }
+        Utils.showStyleToast(this, message);
     }
 
     public void changeNavigationSelected(int menuId) {
