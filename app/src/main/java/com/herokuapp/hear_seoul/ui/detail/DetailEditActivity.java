@@ -35,12 +35,14 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.maps.model.LatLng;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.controller.baas.ImageUploader;
 import com.herokuapp.hear_seoul.controller.baas.InfoUploader;
+import com.herokuapp.hear_seoul.controller.db.DBManager;
 import com.herokuapp.hear_seoul.controller.detail.EditImageAdapter;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
@@ -178,13 +180,6 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                 selectImage();
                 break;
             case R.id.detail_edit_save:
-                spotBean.setTitle(titleEdit.getText().toString());
-                spotBean.setTime(timeEdit.getText().toString());
-                spotBean.setPhone(phoneEdit.getText().toString());
-                spotBean.setDescription(descriptionEdit.getText().toString());
-                spotBean.setAddress(addressEdit.getText().toString());
-                spotBean.setInfluencer(false);
-
                 if (isImageChange) {
                     new ImageUploader(this).uploadImage(imageList, new ImageUploader.uploadCallback() {
                         @Override
@@ -284,6 +279,25 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
     // 데이터 업로드
     private void saveDataToServer() {
+        DBManager dbManager = new DBManager(this, Const.DB.DB_NAME, null, Const.DB.VERSION);
+        dbManager.insertInfluencer(spotBean.getLocation());
+        
+        spotBean.setTitle(titleEdit.getText().toString());
+        spotBean.setTime(timeEdit.getText().toString());
+        spotBean.setPhone(phoneEdit.getText().toString());
+        spotBean.setDescription(descriptionEdit.getText().toString());
+        spotBean.setAddress(addressEdit.getText().toString());
+
+        LinkedList<LatLng> influencerList = dbManager.getInfluencerList();
+
+        int nearByLocation = 0;
+        for (LatLng a : influencerList) {
+            if (Utils.calcDistance(spotBean.getLocation(), a) < 5000) {
+                nearByLocation++;
+            }
+        }
+        spotBean.setInfluencer(nearByLocation > 10);
+
         new InfoUploader(this, new InfoUploader.callback() {
             @Override
             public void onUpdateSuccess() {

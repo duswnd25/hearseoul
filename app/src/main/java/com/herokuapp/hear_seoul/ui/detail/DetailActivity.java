@@ -194,7 +194,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     isUserLikeSpot = !isUserLikeSpot;
                     DBManager dbManager = new DBManager(DetailActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION);
-                    dbManager.updateOrCreate(spotBean.getId(), isUserLikeSpot);
+                    dbManager.updateSpotLikeState(spotBean.getId(), isUserLikeSpot);
                     likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
                 }
                 break;
