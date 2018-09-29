@@ -34,4 +34,32 @@
             android:summaryOn="@string/pref_notification_sound_description_on"
             android:title="@string/pref_notification_sound_title" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:icon="@null"
+        android:title="개발팀">
+        <Preference
+            android:icon="@drawable/ic_favorite"
+            android:summary="API 서버 개발"
+            android:title="구정수" />
+        <Preference
+            android:icon="@drawable/ic_favorite"
+            android:summary="Android, (DB, API)서버 개발"
+            android:title="김연중" />
+        <Preference
+            android:icon="@drawable/ic_favorite"
+            android:summary="CNN-KNN 머신러닝 모델 작성 및 구현"
+            android:title="김천화" />
+        <Preference
+            android:icon="@drawable/ic_favorite"
+            android:summary="UI 디자인 및 이미지"
+            android:title="선아름" />
+        <Preference
+            android:icon="@drawable/ic_favorite"
+            android:summary="기획"
+            android:title="이민지" />
+        <Preference
+            android:icon="@drawable/ic_favorite"
+            android:summary="CNN-KNN 머신러닝 모델 작성 및 구현"
+            android:title="이제영" />
+    </PreferenceCategory>
 </PreferenceScreen>
