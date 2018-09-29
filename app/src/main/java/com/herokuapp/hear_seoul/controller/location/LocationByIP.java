@@ -63,7 +63,6 @@ public class LocationByIP extends AsyncTask<Void, Integer, LocationBean> {
             result.setCountryCode(responseJson.getString("countryCode"));
             result.setLatitude(responseJson.getDouble("lat"));
             result.setLongitude(responseJson.getDouble("lon"));
-            Logger.d("TEST");
         } catch (Exception e) {
             error = e;
             Logger.e(e.getMessage());
