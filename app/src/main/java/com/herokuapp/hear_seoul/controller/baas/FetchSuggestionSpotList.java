@@ -36,7 +36,7 @@ public class FetchSuggestionSpotList {
     public FetchSuggestionSpotList(Context context, OnFetchSuggestionSpotListCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setMessage(context.getString(R.string.loading_suggestion_spot));
         loadingProgress.setCancelable(false);
     }
 

@@ -11,6 +11,12 @@
     <string name="open">열기</string>
     <string name="upload">업로드 하였습니다</string>
     <string name="loading">잠시만 기다려주세요</string>
+    <string name="loading_like">찜한 목록을 가져오는 중 입니다</string>
+    <string name="loading_marker">주변 장소를 가져오고 있습니다</string>
+    <string name="loading_list">목록을 가져오고 있습니다</string>
+    <string name="loading_suggestion_list">추천 리스트를 가져오고 있습니다</string>
+    <string name="loading_suggestion_spot">추천 장소를 가져오고 있습니다</string>
+    <string name="loading_upload_image">이미지를 등록중입니다.</string>
     <string name="information_correction">정보 수정 하기</string>
     <string name="select_nearby_place">근처의 위치를 선택하세요</string>
     <string name="tag_food">음식</string>

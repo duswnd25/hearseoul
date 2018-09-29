@@ -35,7 +35,7 @@ public class FetchMapMarkerList {
     public FetchMapMarkerList(Context context, OnFetchMapPoiCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setMessage(context.getString(R.string.loading_marker));
         loadingProgress.setCancelable(true);
     }
 

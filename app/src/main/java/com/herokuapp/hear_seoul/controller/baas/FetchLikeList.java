@@ -36,7 +36,7 @@ public class FetchLikeList {
     public FetchLikeList(Context context, OnFetchLikeListCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setMessage(context.getString(R.string.loading_like));
         loadingProgress.setCancelable(false);
     }
 

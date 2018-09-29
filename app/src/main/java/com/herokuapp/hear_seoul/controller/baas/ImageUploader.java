@@ -29,7 +29,7 @@ public class ImageUploader {
 
     public ImageUploader(Context context) {
         loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setMessage(context.getString(R.string.loading_upload_image));
         loadingProgress.setCancelable(false);
     }
 

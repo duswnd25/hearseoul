@@ -11,7 +11,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -131,7 +133,7 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(context));
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(30000); // 30 seconds interval
-        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setFastestInterval(30000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
     }
@@ -209,11 +211,17 @@ public class Map extends Fragment implements PermissionListener, OnMapReadyCallb
                     icon_resource = R.drawable.ic_empty_black;
 
             }
+
+            int height = 30;
+            int width = 30;
+            BitmapDrawable resource = (BitmapDrawable) getResources().getDrawable(icon_resource);
+            Bitmap b = resource.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
             googleMap.addMarker(new MarkerOptions()
                     .position(spotBean.getLocation())
                     .title(spotBean.getTitle())
                     .snippet(spotBean.getDescription())
-                    .icon(BitmapDescriptorFactory.fromResource(icon_resource)));
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
         }
     }
 

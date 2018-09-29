@@ -36,7 +36,7 @@ public class FetchSpotList {
     public FetchSpotList(Context context, OnFetchSpotListCallback callback) {
         this.callback = callback;
         loadingProgress = new ProgressDialog(context);
-        loadingProgress.setMessage(context.getString(R.string.loading));
+        loadingProgress.setMessage(context.getString(R.string.loading_list));
         loadingProgress.setCancelable(false);
     }
 
