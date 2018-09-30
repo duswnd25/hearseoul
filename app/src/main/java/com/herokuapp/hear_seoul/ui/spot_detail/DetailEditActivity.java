@@ -55,6 +55,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 import gun0912.tedbottompicker.TedBottomPicker;
+import me.grantland.widget.AutofitTextView;
 import me.relex.circleindicator.CircleIndicator;
 
 public class DetailEditActivity extends AppCompatActivity implements View.OnClickListener, TedBottomPicker.OnMultiImageSelectedListener {
@@ -62,7 +63,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
     private CircleIndicator indicator;
     private SpotBean spotBean;
     private LinkedList<Bitmap> imageList = new LinkedList<>();
-    private boolean isNewInformation, isImageChange = false;
+    private boolean isNewInformation, isImageChange = false, isInfluencer = false;
     private ViewPager viewPager;
     private EditImageAdapter adapter;
     private EditText titleEdit, timeEdit, phoneEdit, descriptionEdit, addressEdit;
@@ -126,6 +127,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         adapter.registerDataSetObserver(indicator.getDataSetObserver());
 
         // content editor
+        AutofitTextView influencerView = findViewById(R.id.detail_edit_time_influencer);
         titleEdit = findViewById(R.id.detail_edit_title);
         timeEdit = findViewById(R.id.detail_edit_time);
         phoneEdit = findViewById(R.id.detail_edit_phone);
@@ -138,6 +140,20 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         phoneEdit.setText(spotBean.getPhone());
         descriptionEdit.setText(spotBean.getDescription());
         addressEdit.setText(spotBean.getAddress());
+
+        LinkedList<LatLng> influencerList = new DBManager(this, Const.DB.DB_NAME, null, Const.DB.VERSION).getInfluencerList();
+
+        int nearByLocation = 0;
+        for (LatLng a : influencerList) {
+            if (Utils.calcDistance(spotBean.getLocation(), a) < Const.PREFERENCE.INFLUENCER_NEAR_BY_DISTANCE) {
+                nearByLocation++;
+            }
+        }
+        isInfluencer = nearByLocation > Const.PREFERENCE.INFLUENCER_NEAR_BY_COUNT;
+
+        if (isInfluencer) {
+            influencerView.setText(R.string.your_are_influencer);
+        }
 
         if (!isNewInformation) {
             originalImageSrc.addAll(spotBean.getImgUrlList());
@@ -287,16 +303,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
         spotBean.setPhone(phoneEdit.getText().toString());
         spotBean.setDescription(descriptionEdit.getText().toString());
         spotBean.setAddress(addressEdit.getText().toString());
-
-        LinkedList<LatLng> influencerList = dbManager.getInfluencerList();
-
-        int nearByLocation = 0;
-        for (LatLng a : influencerList) {
-            if (Utils.calcDistance(spotBean.getLocation(), a) < Const.PREFERENCE.INFLUENCER_NEAR_BY_DISTANCE) {
-                nearByLocation++;
-            }
-        }
-        spotBean.setInfluencer(nearByLocation > Const.PREFERENCE.INFLUENCER_NEAR_BY_COUNT);
+        spotBean.setInfluencer(isInfluencer);
 
         new InfoUploader(this, new InfoUploader.callback() {
             @Override

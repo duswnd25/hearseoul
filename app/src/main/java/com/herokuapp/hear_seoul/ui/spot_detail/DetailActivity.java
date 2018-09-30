@@ -124,7 +124,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         String distanceValue = Utils.getDistanceFromCurrentLocation(this, spotBean.getLocation()) + "km";
         distanceView.setText(distanceValue);
 
-        likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
+        likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill : R.drawable.ic_like_blank);
 
         String tagText;
 
@@ -197,7 +197,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     isUserLikeSpot = !isUserLikeSpot;
                     DBManager dbManager = new DBManager(DetailActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION);
                     dbManager.updateSpotLikeState(spotBean.getId(), isUserLikeSpot);
-                    likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
+                    likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill : R.drawable.ic_like_blank);
                 }
                 break;
             case R.id.detail_share:
@@ -217,7 +217,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.detail_address:
                 String uri = "geo:" + spotBean.getLocation().latitude + ","
-                        + spotBean.getLocation().longitude + "?q=" + spotBean.getTitle() + spotBean.getAddress();
+                        + spotBean.getLocation().longitude + "?q=" + spotBean.getTitle() + " " + spotBean.getAddress();
                 startActivity(new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse(uri)));
                 break;

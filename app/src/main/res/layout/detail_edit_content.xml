@@ -6,6 +6,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,6 +14,19 @@
     android:orientation="vertical"
     android:padding="@dimen/padding_default"
     tools:context=".ui.main.MainActivity">
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/detail_edit_time_influencer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:padding="@dimen/padding_half"
+        app:sizeToFit="true"
+        android:textColor="@color/colorAccent"
+        tools:ignore="RtlSymmetry"
+        tools:text="이 지역의 인플루언서 입니다!" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,8 +93,8 @@
                     android:clickable="false"
                     android:elevation="1dp"
                     android:focusable="false"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:paddingStart="@dimen/padding_half">
+                    android:paddingStart="@dimen/padding_half"
+                    android:paddingEnd="@dimen/padding_default">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -109,8 +123,8 @@
                     android:clickable="false"
                     android:elevation="1dp"
                     android:focusable="false"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:paddingStart="@dimen/padding_half">
+                    android:paddingStart="@dimen/padding_half"
+                    android:paddingEnd="@dimen/padding_default">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -140,8 +154,8 @@
                     android:clickable="false"
                     android:elevation="1dp"
                     android:focusable="false"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:paddingStart="@dimen/padding_half">
+                    android:paddingStart="@dimen/padding_half"
+                    android:paddingEnd="@dimen/padding_default">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -171,8 +185,8 @@
                     android:clickable="false"
                     android:elevation="1dp"
                     android:focusable="false"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:paddingStart="@dimen/padding_half">
+                    android:paddingStart="@dimen/padding_half"
+                    android:paddingEnd="@dimen/padding_default">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -201,8 +215,8 @@
                     android:clickable="false"
                     android:elevation="1dp"
                     android:focusable="false"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:paddingStart="@dimen/padding_half">
+                    android:paddingStart="@dimen/padding_half"
+                    android:paddingEnd="@dimen/padding_default">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -297,8 +311,8 @@
             android:layout_width="@dimen/detail_icon_size"
             android:layout_height="@dimen/detail_icon_size"
             android:layout_gravity="top"
-            android:layout_marginEnd="@dimen/padding_half"
             android:layout_marginTop="@dimen/padding_half"
+            android:layout_marginEnd="@dimen/padding_half"
             android:scaleType="centerInside"
             android:src="@drawable/ic_content_black" />
 

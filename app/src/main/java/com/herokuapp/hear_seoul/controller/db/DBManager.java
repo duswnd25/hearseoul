@@ -25,7 +25,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void insertInfluencer(LatLng location) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query;
-        query = "INSERT INTO influencer (id, isLike) VALUES(" + location.latitude + ", " + location.longitude + ");";
+        query = "INSERT INTO influencer (latitude, longitude) VALUES(" + location.latitude + ", " + location.longitude + ");";
         db.execSQL(query);
         db.close();
     }
