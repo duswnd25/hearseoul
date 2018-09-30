@@ -121,6 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="@dimen/padding_half">
 
         <ImageView
@@ -133,7 +134,7 @@
         <me.grantland.widget.AutofitTextView
             android:id="@+id/detail_address"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:maxLines="2"
             android:paddingStart="@dimen/padding_half"
