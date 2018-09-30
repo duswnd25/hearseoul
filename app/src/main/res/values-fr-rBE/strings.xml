@@ -34,7 +34,7 @@
     <string name="no_select_photo">Aucune photo sélectionnée</string>
     <string name="fail_to_upload">Le téléchargement de la photo a échoué</string>
     <string name="error">Une erreur est survenue</string>
-    <string name="please_insert_information_first">Merci de vous enregistrer d'abord!</string>
-    <string name="no_place_to_suggest">Si vous souhaitez obtenir des recommandations, veuillez le faire d'abord!</string>
+    <string name="please_insert_information_first">Merci de vous enregistrer d\'abord!</string>
+    <string name="no_place_to_suggest">Si vous souhaitez obtenir des recommandations, veuillez le faire d\'abord!</string>
     <string name="in_progress">En cours</string>
 </resources>
