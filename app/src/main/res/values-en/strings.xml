@@ -28,7 +28,6 @@
     <string name="fee_no">Free</string>
     <string name="fee_yes">Paid</string>
     <string name="go_to_event_information">Go to event information</string>
-    <string name="about_event">Cultural Event Details</string>
     <string name="event_sponsor">Host</string>
     <string name="event_inquiry">Contact</string>
     <string name="event_use_fee">Charges</string>
@@ -44,4 +43,5 @@
     <string name="error">An error occurred</string>
     <string name="please_insert_information_first">Please register first!</string>
     <string name="no_place_to_suggest">If you want to get recommendations, please do it first!</string>
+    <string name="in_progress">Proceeding</string>
 </resources>

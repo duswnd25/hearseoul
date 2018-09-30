@@ -1,0 +1,46 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+<resources>
+    <string name="app_name">zde, Soul</string>
+    <string name="empty">Žádné obsah k zobrazení!</string>
+    <string name="open">Otevřít</string>
+    <string name="upload">nahraný</string>
+    <string name="loading">Počkejte prosím</string>
+    <string name="loading_like">Získání vytaženého seznamu</string>
+    <string name="loading_marker">Získání blízkých umístění</string>
+    <string name="loading_list">Získání seznamu</string>
+    <string name="loading_suggestion_list">Získání seznamu návrhů</string>
+    <string name="loading_suggestion_spot">Importování doporučení</string>
+    <string name="loading_upload_image">Image je registrován.</string>
+    <string name="information_correction">Úprava informací</string>
+    <string name="select_nearby_place">Vyberte poblíž</string>
+    <string name="tag_food">Jídlo</string>
+    <string name="tag_cafe">Cafe</string>
+    <string name="tag_landmark">Vyhlídky</string>
+    <string name="tag_show">Výkon</string>
+    <string name="tag_photo">Dobré místo pro pořizování snímků</string>
+    <string name="tag_no">Žádné</string>
+    <string name="fee_no">Zdarma</string>
+    <string name="fee_yes">Placené</string>
+    <string name="go_to_event_information">Přejít na informace události</string>
+    <string name="event_sponsor">Host</string>
+    <string name="event_inquiry">Kontakt</string>
+    <string name="event_use_fee">Poplatky</string>
+    <string name="event_target">Co používat</string>
+    <string name="event_place">Místo</string>
+    <string name="event_time">Čas</string>
+    <string name="event_date">Období</string>
+    <string name="event_code">Žánr</string>
+    <string name="event_program">Program</string>
+    <string name="done">Dokončeno</string>
+    <string name="no_select_photo">Nebyly vybrány žádné fotografie</string>
+    <string name="fail_to_upload">Upload obrázku se nezdařil</string>
+    <string name="error">Došlo k chybě</string>
+    <string name="please_insert_information_first">Nejprve se zaregistrujte!</string>
+    <string name="no_place_to_suggest">Pokud chcete dostávat doporučení, udělejte to prosím nejprve!</string>
+    <string name="in_progress">Probíhající</string>
+</resources>

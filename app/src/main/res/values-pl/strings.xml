@@ -1,0 +1,45 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+<resources>
+    <string name="empty">Brak treści do wyświetlenia!</string>
+    <string name="open">Open</string>
+    <string name="upload">przesłany</string>
+    <string name="loading">Proszę czekać</string>
+    <string name="loading_like">Pobieranie pobranej listy</string>
+    <string name="loading_marker">Uzyskiwanie lokalizacji w pobliżu</string>
+    <string name="loading_list">Pobieranie listy</string>
+    <string name="loading_suggestion_list">Pobieranie listy sugestii</string>
+    <string name="loading_suggestion_spot">Importowanie rekomendacji</string>
+    <string name="loading_upload_image">Obraz jest rejestrowany.</string>
+    <string name="information_correction">Modyfikowanie informacji</string>
+    <string name="select_nearby_place">Wybierz lokalizację w pobliżu</string>
+    <string name="tag_food">Food</string>
+    <string name="tag_cafe">Cafe</string>
+    <string name="tag_landmark">Sightseeing</string>
+    <string name="tag_show">Performance</string>
+    <string name="tag_photo">Dobre miejsce do robienia zdjęć</string>
+    <string name="tag_no">Brak</string>
+    <string name="fee_no">Free</string>
+    <string name="fee_yes">Paid</string>
+    <string name="go_to_event_information">Przejdź do informacji o wydarzeniu</string>
+    <string name="event_sponsor">Host</string>
+    <string name="event_inquiry">Kontakt</string>
+    <string name="event_use_fee">Obciążenia</string>
+    <string name="event_target">Co używać</string>
+    <string name="event_place">Miejsce</string>
+    <string name="event_time">Time</string>
+    <string name="event_date">Period</string>
+    <string name="event_code">Gatunek</string>
+    <string name="event_program">Program</string>
+    <string name="done">Completed</string>
+    <string name="no_select_photo">Nie wybrano żadnych zdjęć</string>
+    <string name="fail_to_upload">Przesyłanie zdjęć nie powiodło się</string>
+    <string name="error">Wystąpił błąd</string>
+    <string name="please_insert_information_first">Proszę się najpierw zarejestrować!</string>
+    <string name="no_place_to_suggest">Jeśli chcesz otrzymywać rekomendacje, zrób to najpierw!</string>
+    <string name="in_progress">In Progress</string>
+</resources>

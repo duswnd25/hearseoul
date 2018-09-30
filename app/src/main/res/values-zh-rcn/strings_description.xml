@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="location_permission_description">提供基于位置的服务需要权限。</string>
+    <string name="storage_permission_description">导入照片需要权限</string>
+    <string name="permission_deny_description">权限可以在 [设置]>[权限] 中授予</string>
+    <string name="hint_for_location_name">放置</string>
+    <string name="hint_for_location_description">详细信息</string>
+    <string name="hint_for_edit_time">营业时间</string>
+    <string name="hint_for_address">location</string>
+    <string name="hint_for_phone">电话号码</string>
+    <string name="hint_for_my_information">关于我</string>
+    <string name="hint_for_notification">注意</string>
+</resources>

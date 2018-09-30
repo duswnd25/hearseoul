@@ -28,7 +28,6 @@
     <string name="fee_no">무료</string>
     <string name="fee_yes">유료</string>
     <string name="go_to_event_information">행사정보 바로가기</string>
-    <string name="about_event">문화 행사 상세</string>
     <string name="event_sponsor">주최</string>
     <string name="event_inquiry">문의</string>
     <string name="event_use_fee">이용요금</string>
@@ -44,4 +43,5 @@
     <string name="error">오류가 발생했습니다.</string>
     <string name="please_insert_information_first">먼저 정보 등록을 해주세요!</string>
     <string name="no_place_to_suggest">추천을 받으시려면 장소 좋아요를 먼저 해 주세요!</string>
+    <string name="in_progress">진행중</string>
 </resources>

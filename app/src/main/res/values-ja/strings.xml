@@ -27,7 +27,6 @@
     <string name="fee_no">無料</string>
     <string name="fee_yes">有料</string>
     <string name="go_to_event_information">イベント情報ショートカット</string>
-    <string name="about_event">文化イベントの詳細</string>
     <string name="event_sponsor">主催</string>
     <string name="event_inquiry">お問い合わせ</string>
     <string name="event_use_fee">利用料金</string>
@@ -43,4 +42,5 @@
     <string name="error">エラーが発生しました。</string>
     <string name="please_insert_information_first">まず情報登録をしてください！</string>
     <string name="no_place_to_suggest">推薦を受けるには場所良いを先にしてください！</string>
+    <string name="in_progress">進行中</string>
 </resources>

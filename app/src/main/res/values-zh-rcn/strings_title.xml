@@ -1,0 +1,2 @@
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="title_activity_detail">详细视图</string>    <string name="title_activity_edit">编辑信息</string>    <string name="title_activity_bookmark">建议的地点</string>
+</resources>

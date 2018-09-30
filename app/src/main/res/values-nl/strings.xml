@@ -1,0 +1,46 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+<resources>
+    <string name = "app_name">here, Seoul</string>
+<string name = "empty">Geen inhoud om weer te geven!</string>
+<string name = "open">Open</string>
+<string name = "upload">upload</string>
+<string name = "loading">Een ogenblik geduld</string>
+<string name = "loading_like">Getrokken lijst opvragen</string>
+<string name = "loading_marker">Plaatsen in de buurt</string>
+<string name = "loading_list">Lijst ophalen</string>
+<string name = "loading_suggestion_list">Lijst met suggesties ophalen</string>
+<string name = "loading_suggestion_spot">Aanbevelingen importeren</string>
+<string name = "loading_upload_image">Afbeelding wordt geregistreerd.</string>
+<string name = "information_correction">Informatie aanpassen</string>
+<string name = "select_nearby_place">Selecteer een locatie in de buurt van</string>
+<string name = "tag_food">Eten</string>
+<string name = "tag_cafe">Cafe</string>
+<string name = "tag_landmark">Sightseeing</string>
+<string name = "tag_show">Prestaties</string>
+<string name = "tag_photo">Een goede plek om foto\'s te maken</string>
+<string name = "tag_no">Geen</string>
+<string name = "fee_no">Gratis</string>
+<string name = "fee_yes">Betaald</string>
+<string name = "go_to_event_information">Ga naar evenementinformatie</string>
+    <string name = "event_sponsor">Host</string>
+<string name = "event_inquiry">Contact</string>
+<string name = "event_use_fee">Kosten</string>
+<string name = "event_target">Wat te gebruiken</string>
+<string name = "event_place">Plaats</string>
+<string name = "event_time">Tijd</string>
+<string name = "event_date">Periode</string>
+<string name = "event_code">Genre</string>
+<string name = "event_program">Programma</string>
+<string name = "done">voltooid</string>
+<string name = "no_select_photo">Geen foto\'s geselecteerd</string>
+<string name = "fail_to_upload">Uploaden van foto is mislukt</string>
+<string name = "error">Er is een fout opgetreden</string>
+<string name = "please_insert_information_first">Registreer eerst!</string>
+<string name = "no_place_to_suggest">Als u aanbevelingen wilt ontvangen, doe dit dan eerst!</string>
+<string name = "in_progress">Wordt uitgevoerd</string>
+</resources>

@@ -9,7 +9,6 @@
 
     <!-- Base application theme. -->
     <style name="HearSeoulTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:fontFamily">@font/font_family</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="floatingActionButtonStyle">@style/Widget.Design.FloatingActionButton</item>
         <item name="colorPrimary">@color/colorPrimary</item>

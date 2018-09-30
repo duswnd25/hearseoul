@@ -120,7 +120,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             long diff = beginDate.getTime() - currentDay.getTime();
             long diffDays = diff / 86400000L;
             if (diffDays <= 0L) {
-                return "진행중";
+                return context.getString(R.string.in_progress);
             }
             return "D-" + diffDays;
         } catch (ParseException e) {
