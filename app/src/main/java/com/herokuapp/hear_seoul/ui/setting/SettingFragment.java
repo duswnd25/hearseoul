@@ -9,6 +9,7 @@ package com.herokuapp.hear_seoul.ui.setting;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -27,10 +28,19 @@ public class SettingFragment extends PreferenceFragmentCompat implements SharedP
         addPreferencesFromResource(R.xml.pref_general);
 
         Preference reset = findPreference(getString(R.string.pref_like_list));
+        Preference license = findPreference("pref_license");
 
         reset.setOnPreferenceClickListener(pref -> {
             startActivity(new Intent(getActivity(), LikeListActivity.class));
             return true;
+        });
+
+        license.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent("android.intent.action.VIEW");
+            Uri uri = Uri.parse("https://hear-seoul.herokuapp.com/app/license");
+            intent.setData(uri);
+            startActivity(intent);
+            return false;
         });
     }
 

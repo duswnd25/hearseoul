@@ -71,7 +71,7 @@
             android:title="icon image" />
         <Preference
             android:icon="@drawable/ic_open_source"
-            android:summary="https://icons8.com/"
+            android:key="pref_license"
             android:title="Open Source License" />
     </PreferenceCategory>
 </PreferenceScreen>
