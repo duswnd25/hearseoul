@@ -37,4 +37,6 @@
     <string name="please_insert_information_first">Per favore registrati prima!</string>
     <string name="no_place_to_suggest">Se vuoi ricevere consigli, per favore fallo prima!</string>
     <string name="in_progress">In corso</string>
+    <string name="your_are_influencer">È Influencer di questa area!</string>
+    <string name="app_name">Aperto</string>
 </resources>

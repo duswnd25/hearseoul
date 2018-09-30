@@ -37,4 +37,6 @@
     <string name="please_insert_information_first">Merci de vous enregistrer d\'abord!</string>
     <string name="no_place_to_suggest">Si vous souhaitez obtenir des recommandations, veuillez le faire d\'abord!</string>
     <string name="in_progress">En cours</string>
+    <string name="your_are_influencer">C\\\'est Influenceur de cette région!</string>
+    <string name="event_code">Genre</string>
 </resources>

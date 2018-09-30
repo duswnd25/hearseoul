@@ -42,4 +42,7 @@
     <string name="please_insert_information_first">Proszę się najpierw zarejestrować!</string>
     <string name="no_place_to_suggest">Jeśli chcesz otrzymywać rekomendacje, zrób to najpierw!</string>
     <string name="in_progress">In Progress</string>
+    <string name="your_are_influencer">To Influencer tego obszaru!</string>
+    <string name="app_name">Tutaj, Seulu</string>
+    <string name="permission_deny_description">Uprawnienia można przyznawać w Ustawieniach> Uprawnienia.</string>
 </resources>

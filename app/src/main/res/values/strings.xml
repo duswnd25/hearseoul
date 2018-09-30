@@ -44,4 +44,5 @@
     <string name="please_insert_information_first">먼저 정보 등록을 해주세요!</string>
     <string name="no_place_to_suggest">추천을 받으시려면 장소 좋아요를 먼저 해 주세요!</string>
     <string name="in_progress">진행중</string>
+    <string name="your_are_influencer">이 지역의 인플루언서 입니다!</string>
 </resources>

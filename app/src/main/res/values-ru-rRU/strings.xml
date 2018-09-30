@@ -38,4 +38,5 @@
     <string name="please_insert_information_first">Пожалуйста, зарегистрируйтесь первым!</string>
     <string name="no_place_to_suggest">Если вы хотите получить рекомендации, сделайте это сначала!</string>
     <string name="in_progress">Выполняется</string>
+    <string name="your_are_influencer">Это Influencer этой области!</string>
 </resources>

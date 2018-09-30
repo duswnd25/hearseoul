@@ -9,5 +9,5 @@
     <string name="hint_for_address">posizione</string>
     <string name="hint_for_phone">numero di telefono</string>
     <string name="hint_for_my_information">Informazioni su di me</string>
-    <string name="hint_for_notification">Avviso</string>
+    <string name="hint_for_notification">notifiche</string>
 </resources>

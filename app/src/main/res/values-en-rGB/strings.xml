@@ -44,4 +44,5 @@
     <string name="please_insert_information_first">Please register first!</string>
     <string name="no_place_to_suggest">If you want to get recommendations, please do it first!</string>
     <string name="in_progress">Proceeding</string>
+    <string name="your_are_influencer">It is Influencer of this area!</string>
 </resources>

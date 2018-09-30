@@ -32,4 +32,16 @@
     <string name="please_insert_information_first">Bitte zuerst registrieren!</string>
     <string name="no_place_to_suggest">Wenn Sie Empfehlungen erhalten möchten, tun Sie dies bitte zuerst!</string>
     <string name="in_progress">In Bearbeitung</string>
+    <string name="your_are_influencer">Es ist Influencer dieses Gebiets!</string>
+    <string name="event_program">Programm</string>
+    <string name="event_date">Zeitraum</string>
+    <string name="event_time">Zeit</string>
+    <string name="event_place">Ort</string>
+    <string name="information_correction">Informationen bearbeiten</string>
+    <string name="open">öffnen</string>
+    <string name="hint_for_location_name">Ortsname</string>
+    <string name="hint_for_address">Standort</string>
+    <string name="hint_for_phone">Telefonnummer</string>
+    <string name="hint_for_my_information">Meine Informationen</string>
+    <string name="hint_for_notification">Benachrichtigung</string>
 </resources>
