@@ -9,19 +9,24 @@ package com.herokuapp.hear_seoul.controller.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.EventBean;
+import com.herokuapp.hear_seoul.core.Const;
+import com.herokuapp.hear_seoul.ui.event_detail.EventDetailActivity;
 import com.lid.lib.LabelImageView;
 
 import java.text.ParseException;
@@ -46,7 +51,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         return new ViewHolder(v);
     }
 
-    @SuppressLint({"CheckResult"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.title.setText(itemList.get(position).getTitle());
@@ -55,11 +59,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         holder.date.setText(dateText);
         holder.gCode.setText(itemList.get(position).getGcode());
 
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        options.skipMemoryCache(true);
-        options.diskCacheStrategy(DiskCacheStrategy.NONE);
-        options.error(R.drawable.placeholder);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .skipMemoryCache(true)
+                .format(DecodeFormat.DEFAULT)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder);
+
         String imageUrl = itemList.get(position).getMainImg();
 
         if (imageUrl.length() > 10) {
@@ -75,6 +81,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             holder.mainImage.setLabelText(context.getString(R.string.fee_yes));
             holder.mainImage.setLabelBackgroundColor(Color.parseColor("#C2185B"));
         }
+
+        holder.container.setOnClickListener(v -> {
+            Intent intent = new Intent(context, EventDetailActivity.class);
+            intent.putExtra(Const.INTENT_EXTRA.EVENT, itemList.get(position));
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -120,9 +132,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView dDay, title, date, gCode;
         private LabelImageView mainImage;
+        private LinearLayout container;
 
         ViewHolder(View view) {
             super(view);
+            container = view.findViewById(R.id.item_event_list_container);
             title = view.findViewById(R.id.item_event_list_cultural_title);
             dDay = view.findViewById(R.id.item_event_list_d_day);
             date = view.findViewById(R.id.item_event_list_cultural_date);

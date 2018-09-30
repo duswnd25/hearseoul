@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:background="#3a4659"
-        android:gravity="center"
-        android:text="문화 행사 상세"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:theme="@style/HearSeoulTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/event_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_weight="1"
+            app:popupTheme="@style/HearSeoulTheme.PopupOverlay"
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/black">
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,19 +40,21 @@
                 android:layout_height="165dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/placeholder"  />
+                android:src="@drawable/placeholder" />
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/event_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
+                android:maxLines="1"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:textColor="#000000"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:sizeToFit="true" />
 
             <View
                 android:layout_width="match_parent"
@@ -65,22 +77,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="장르"
+                        android:maxLines="1"
+                        android:text="@string/event_code"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_code_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -89,22 +105,26 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="기간"
+                        android:maxLines="1"
+                        android:text="@string/event_date"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -113,22 +133,26 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="시간"
+                        android:maxLines="1"
+                        android:text="@string/event_time"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -137,22 +161,26 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="장소"
+                        android:maxLines="1"
+                        android:text="@string/event_place"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_place"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -161,22 +189,26 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="이용대상"
+                        android:maxLines="1"
+                        android:text="@string/event_target"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_target"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -185,22 +217,26 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="이용요금"
+                        android:maxLines="1"
+                        android:text="@string/event_use_fee"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_use_fee"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -209,22 +245,26 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="주최"
+                        android:maxLines="1"
+                        android:text="@string/event_sponsor"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail_sponsor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -233,34 +273,41 @@
                     android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="문의"
+                        android:maxLines="1"
+                        android:text="@string/event_inquiry"
                         android:textColor="#567ebb"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/event_detail__inquiry"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
+                        android:maxLines="1"
                         android:text=""
                         android:textColor="#565656"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:sizeToFit="true" />
                 </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="51dp"
+        android:id="@+id/event_detail_go_web"
         android:background="#3a4659"
         android:gravity="center"
+        android:maxLines="1"
         android:text="@string/go_to_event_information"
         android:textColor="#ffffff"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:sizeToFit="true" />
 </LinearLayout>

@@ -52,8 +52,9 @@ public class InfoImageAdapter extends PagerAdapter {
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.placeholder)
+                .skipMemoryCache(true)
                 .format(DecodeFormat.DEFAULT)
+                .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder);
 
         Glide.with(context).load(itemList.get(position)).apply(options).thumbnail(0.4f).into(image);

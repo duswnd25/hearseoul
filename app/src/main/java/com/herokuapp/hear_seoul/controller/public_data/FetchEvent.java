@@ -78,6 +78,7 @@ public class FetchEvent extends AsyncTask<Void, Integer, LinkedList<EventBean>> 
                 temp.setProgram(jsonObject.getString("PROGRAM"));
                 temp.setContent(jsonObject.getString("CONTENTS"));
                 temp.setGcode(jsonObject.getString("GCODE"));
+                temp.setSponsor(jsonObject.getString("SPONSOR"));
                 results.add(temp);
             }
 

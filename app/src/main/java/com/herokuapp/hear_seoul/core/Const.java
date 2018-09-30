@@ -13,6 +13,7 @@ public class Const {
         public static final String SPOT = "spot";
         public static final String IS_NEW_INFORMATION = "is_new_information";
         public static final String OBJECT_ID = "objectId";
+        public static final String EVENT = "events";
     }
 
     public static class DB {

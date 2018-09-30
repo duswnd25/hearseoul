@@ -51,17 +51,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name=".ui.spot_detail.DetailActivity"
             android:label="@string/title_activity_detail"
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
-            android:name=".ui.detail.DetailEditActivity"
+            android:name=".ui.spot_detail.DetailEditActivity"
             android:label="@string/title_activity_edit"
             android:screenOrientation="portrait"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
         <activity
             android:name=".ui.setting.LikeListActivity"
+            android:label="@string/title_activity_bookmark"
+            android:theme="@style/HearSeoulTheme.NoActionBar" />
+        <activity
+            android:name=".ui.event_detail.EventDetailActivity"
             android:label="@string/title_activity_bookmark"
             android:theme="@style/HearSeoulTheme.NoActionBar" />
 

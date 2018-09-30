@@ -68,8 +68,9 @@ public class SuggestionAdapter extends PagerAdapter {
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.placeholder)
+                .skipMemoryCache(true)
                 .format(DecodeFormat.DEFAULT)
+                .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder);
 
         Glide.with(context)

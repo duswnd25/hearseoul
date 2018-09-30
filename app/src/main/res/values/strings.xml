@@ -28,4 +28,13 @@
     <string name="fee_no">무료</string>
     <string name="fee_yes">유료</string>
     <string name="go_to_event_information">행사정보 바로가기</string>
+    <string name="about_event">문화 행사 상세</string>
+    <string name="event_sponsor">주최</string>
+    <string name="event_inquiry">문의</string>
+    <string name="event_use_fee">이용요금</string>
+    <string name="event_target">이용대상</string>
+    <string name="event_place">장소</string>
+    <string name="event_time">시간</string>
+    <string name="event_date">기간</string>
+    <string name="event_code">장르</string>
 </resources>

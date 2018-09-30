@@ -7,8 +7,19 @@
 
 package com.herokuapp.hear_seoul.bean;
 
-public class EventBean {
-    private String cultureCode, subCode, codeName, title, startDate, endDate, time, place, orgLink, mainImg, homepage, useTarget, useFee, inquery, program, content, gcode;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class EventBean implements Parcelable {
+    private String cultureCode, sponsor, subCode, codeName, title, startDate, endDate, time, place, orgLink, mainImg, homepage, useTarget, useFee, inquery, program, content, gcode;
+
+    public String getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor;
+    }
 
     public String getCultureCode() {
         return cultureCode;
@@ -145,4 +156,67 @@ public class EventBean {
     public void setGcode(String gcode) {
         this.gcode = gcode;
     }
+
+    public EventBean() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.cultureCode);
+        dest.writeString(this.sponsor);
+        dest.writeString(this.subCode);
+        dest.writeString(this.codeName);
+        dest.writeString(this.title);
+        dest.writeString(this.startDate);
+        dest.writeString(this.endDate);
+        dest.writeString(this.time);
+        dest.writeString(this.place);
+        dest.writeString(this.orgLink);
+        dest.writeString(this.mainImg);
+        dest.writeString(this.homepage);
+        dest.writeString(this.useTarget);
+        dest.writeString(this.useFee);
+        dest.writeString(this.inquery);
+        dest.writeString(this.program);
+        dest.writeString(this.content);
+        dest.writeString(this.gcode);
+    }
+
+    protected EventBean(Parcel in) {
+        this.cultureCode = in.readString();
+        this.sponsor = in.readString();
+        this.subCode = in.readString();
+        this.codeName = in.readString();
+        this.title = in.readString();
+        this.startDate = in.readString();
+        this.endDate = in.readString();
+        this.time = in.readString();
+        this.place = in.readString();
+        this.orgLink = in.readString();
+        this.mainImg = in.readString();
+        this.homepage = in.readString();
+        this.useTarget = in.readString();
+        this.useFee = in.readString();
+        this.inquery = in.readString();
+        this.program = in.readString();
+        this.content = in.readString();
+        this.gcode = in.readString();
+    }
+
+    public static final Creator<EventBean> CREATOR = new Creator<EventBean>() {
+        @Override
+        public EventBean createFromParcel(Parcel source) {
+            return new EventBean(source);
+        }
+
+        @Override
+        public EventBean[] newArray(int size) {
+            return new EventBean[size];
+        }
+    };
 }

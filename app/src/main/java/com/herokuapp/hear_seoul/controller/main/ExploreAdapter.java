@@ -61,9 +61,10 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.placeholder)
+                .skipMemoryCache(true)
                 .format(DecodeFormat.DEFAULT)
-                .error(R.drawable.ic_empty_black);
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder);
 
         Glide.with(context).load(itemList.get(position).getImgUrlList().get(0)).apply(options).thumbnail(0.4f).listener(new RequestListener<Drawable>() {
             @Override

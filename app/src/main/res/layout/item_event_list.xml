@@ -42,17 +42,19 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/item_event_list_d_day"
             android:layout_width="37dp"
             android:layout_height="18dp"
             android:background="@drawable/bg_d_day"
             android:gravity="center"
+            android:maxLines="1"
             android:text=""
             android:textColor="#ee7e1a"
-            android:textSize="10sp" />
+            android:textSize="12sp"
+            app:sizeToFit="true" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/item_event_list_cultural_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -60,20 +62,24 @@
             android:layout_weight="1"
             android:includeFontPadding="false"
             android:lineSpacingExtra="3dp"
+            android:maxLines="4"
             android:text=""
             android:textColor="#000000"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:sizeToFit="true" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/item_event_list_cultural_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
+            android:maxLines="1"
             android:textColor="#a3a3a3"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:sizeToFit="true" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/item_event_list_cultural_g_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +87,9 @@
             android:layout_marginTop="3dp"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
+            android:maxLines="1"
             android:textColor="#a3a3a3"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:sizeToFit="true" />
     </LinearLayout>
 </LinearLayout>
