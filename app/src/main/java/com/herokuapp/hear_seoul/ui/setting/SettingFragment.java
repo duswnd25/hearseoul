@@ -18,22 +18,14 @@ import com.herokuapp.hear_seoul.R;
 
 public class SettingFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private SharedPreferences sharedPreferences;
-
     public SettingFragment() {
 
-    }
-
-    public static SettingFragment newInstance() {
-        return new SettingFragment();
     }
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         //add xml
         addPreferencesFromResource(R.xml.pref_general);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         Preference reset = findPreference(getString(R.string.pref_like_list));
 

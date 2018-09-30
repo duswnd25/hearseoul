@@ -23,6 +23,8 @@ public class Const {
 
     public static class PREFERENCE {
         public static final String SAVED_LOCATION = "saved_location";
+        public static final int INFLUENCER_NEAR_BY_DISTANCE = 5000;
+        public static final int INFLUENCER_NEAR_BY_COUNT = 5;
     }
 
     public static class BAAS {

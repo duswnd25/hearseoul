@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onInfoFetchFail(String message) {
         loadingProgress.dismiss();
-        Utils.showStyleToast(DetailActivity.this, "오류가 발생했습니다.");
+        Utils.showStyleToast(DetailActivity.this, getString(R.string.error));
         finish();
     }
 
@@ -190,7 +190,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.detail_like:
                 if (isNewInformation) {
-                    Utils.showStyleToast(DetailActivity.this, "먼저 정보 등록을 해주세요!");
+                    Utils.showStyleToast(DetailActivity.this, getString(R.string.please_insert_information_first));
                 } else {
                     isUserLikeSpot = !isUserLikeSpot;
                     DBManager dbManager = new DBManager(DetailActivity.this, Const.DB.DB_NAME, null, Const.DB.VERSION);

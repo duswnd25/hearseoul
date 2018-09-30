@@ -17,13 +17,9 @@ import android.view.ViewGroup;
 import com.herokuapp.hear_seoul.R;
 
 
-public class TestFragment extends Fragment {
+public class EmptyFragment extends Fragment {
 
-    public TestFragment() {
-    }
-
-    public static TestFragment newInstance() {
-        return new TestFragment();
+    public EmptyFragment() {
     }
 
     @Override

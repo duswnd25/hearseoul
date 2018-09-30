@@ -74,15 +74,14 @@ public class Suggestion extends Fragment {
     private void getData() {
         LinkedList<String> likeSpotList = new DBManager(context, Const.DB.DB_NAME, null, Const.DB.VERSION).getLikeList();
 
-        new FetchSuggestionList(context, (FetchSuggestionList.OnFetchSuggestionListCallback) result ->
-                new FetchSuggestionSpotList(context, (FetchSuggestionSpotList.OnFetchSuggestionSpotListCallback) result1 -> {
-                    if (result1.size() == 0) {
-                        Utils.showStyleToast(context, "추천할만한 장소가 없습니다.");
-                        ((MainActivity) context).changeNavigationSelected(R.id.menu_explore);
-                    }
-                    dataOrigin.clear();
-                    dataOrigin.addAll(result1);
-                    adapter.notifyDataSetChanged();
-                }).getData(result)).getData(likeSpotList);
+        new FetchSuggestionList(context, (FetchSuggestionList.OnFetchSuggestionListCallback) new FetchSuggestionSpotList(context, (FetchSuggestionSpotList.OnFetchSuggestionSpotListCallback) result1 -> {
+            if (result1.size() == 0) {
+                Utils.showStyleToast(context, getString(R.string.no_place_to_suggest));
+                ((MainActivity) context).changeNavigationSelected(R.id.menu_explore);
+            }
+            dataOrigin.clear();
+            dataOrigin.addAll(result1);
+            adapter.notifyDataSetChanged();
+        })::getData).getData(likeSpotList);
     }
 }

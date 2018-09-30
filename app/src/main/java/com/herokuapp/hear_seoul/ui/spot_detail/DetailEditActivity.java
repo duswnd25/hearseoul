@@ -190,7 +190,7 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
                         @Override
                         public void onImageUploadFail(String message) {
-                            Utils.showStyleToast(DetailEditActivity.this, "실패");
+                            Utils.showStyleToast(DetailEditActivity.this, getString(R.string.fail_to_upload));
                         }
                     });
                 } else {
@@ -260,8 +260,8 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
                                 .setOnMultiImageSelectedListener(DetailEditActivity.this)
                                 .showTitle(true)
                                 .showCameraTile(false)
-                                .setCompleteButtonText("Done")
-                                .setEmptySelectionText("No Select")
+                                .setCompleteButtonText(R.string.done)
+                                .setEmptySelectionText(R.string.no_select_photo)
                                 .create();
                         bottomSheetDialogFragment.show(getSupportFragmentManager());
                     }
@@ -292,11 +292,11 @@ public class DetailEditActivity extends AppCompatActivity implements View.OnClic
 
         int nearByLocation = 0;
         for (LatLng a : influencerList) {
-            if (Utils.calcDistance(spotBean.getLocation(), a) < 5000) {
+            if (Utils.calcDistance(spotBean.getLocation(), a) < Const.PREFERENCE.INFLUENCER_NEAR_BY_DISTANCE) {
                 nearByLocation++;
             }
         }
-        spotBean.setInfluencer(nearByLocation > 10);
+        spotBean.setInfluencer(nearByLocation > Const.PREFERENCE.INFLUENCER_NEAR_BY_COUNT);
 
         new InfoUploader(this, new InfoUploader.callback() {
             @Override

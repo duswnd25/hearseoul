@@ -38,4 +38,10 @@
     <string name="event_date">기간</string>
     <string name="event_code">장르</string>
     <string name="event_program">프로그램</string>
+    <string name="done">완료</string>
+    <string name="no_select_photo">선택한 사진이 없습니다</string>
+    <string name="fail_to_upload">사진 업로드를 실패했습니다</string>
+    <string name="error">오류가 발생했습니다.</string>
+    <string name="please_insert_information_first">먼저 정보 등록을 해주세요!</string>
+    <string name="no_place_to_suggest">추천을 받으시려면 장소 좋아요를 먼저 해 주세요!</string>
 </resources>

@@ -28,7 +28,7 @@ import com.herokuapp.hear_seoul.controller.location.LocationByIP;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
-import com.herokuapp.hear_seoul.ui.TestFragment;
+import com.herokuapp.hear_seoul.ui.EmptyFragment;
 import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
 import com.herokuapp.hear_seoul.ui.main.fragment.Event;
 import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         new LocationByIP(this, (LocationByIP.OnLocationFetchFinishCallback) (result, error) -> {
             if (error != null) {
-                Logger.d("테스트");
                 currentLocation = new LatLng(result.getLatitude(), result.getLongitude());
                 Utils.saveLocation(MainActivity.this, currentLocation);
             }
@@ -191,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 temp = new SettingFragment();
                 break;
             default:
-                temp = new TestFragment();
+                temp = new EmptyFragment();
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
