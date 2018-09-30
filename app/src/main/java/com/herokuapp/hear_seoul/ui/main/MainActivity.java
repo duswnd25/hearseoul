@@ -29,12 +29,12 @@ import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.EmptyFragment;
-import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
 import com.herokuapp.hear_seoul.ui.main.fragment.Event;
 import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
 import com.herokuapp.hear_seoul.ui.main.fragment.Map;
 import com.herokuapp.hear_seoul.ui.main.fragment.Suggestion;
 import com.herokuapp.hear_seoul.ui.setting.SettingFragment;
+import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
 
 import java.util.Objects;
 

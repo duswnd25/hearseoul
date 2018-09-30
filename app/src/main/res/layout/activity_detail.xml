@@ -71,16 +71,35 @@
                 android:textColor="@android:color/white"
                 app:sizeToFit="true" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/detail_like"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:scaleType="centerInside"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="normal"
-                app:layout_collapseMode="parallax"
-                app:useCompatPadding="true" />
+                android:orientation="horizontal">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/detail_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    app:backgroundTint="@android:color/white"
+                    app:fabSize="normal"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:useCompatPadding="true" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/detail_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_share_black"
+                    app:backgroundTint="@android:color/white"
+                    app:fabSize="normal"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:useCompatPadding="true" />
+            </LinearLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"

@@ -151,7 +151,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         likeView.setOnClickListener(this);
         phoneView.setOnClickListener(this);
+        addressView.setOnClickListener(this);
         findViewById(R.id.detail_correction).setOnClickListener(this);
+        findViewById(R.id.detail_share).setOnClickListener(this);
     }
 
     @Override
@@ -198,6 +200,28 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     likeView.setImageResource(isUserLikeSpot ? R.drawable.ic_like_fill_black : R.drawable.ic_like_blank_black);
                 }
                 break;
+            case R.id.detail_share:
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("\n");
+                stringBuilder.append("tel : ");
+                stringBuilder.append(spotBean.getPhone());
+                stringBuilder.append("\n");
+                stringBuilder.append("address : ");
+                stringBuilder.append(spotBean.getAddress());
+
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "[" + getString(R.string.app_name) + "]");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, stringBuilder.toString());
+                startActivity(Intent.createChooser(sharingIntent, "select"));
+                break;
+            case R.id.detail_address:
+                String uri = "geo:" + spotBean.getLocation().latitude + ","
+                        + spotBean.getLocation().longitude + "?q=" + spotBean.getTitle() + spotBean.getAddress();
+                startActivity(new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse(uri)));
+                break;
+            default:
         }
     }
 }

@@ -16,37 +16,6 @@
     tools:context=".ui.main.MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_default"
-        android:gravity="center">
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_kakao_white"
-            app:backgroundTint="@color/kakao"
-            app:fabSize="auto"
-            app:useCompatPadding="true" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_facebook_white"
-            app:backgroundTint="@color/facebook"
-            app:fabSize="auto"
-            app:useCompatPadding="true" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_twitter_white"
-            app:backgroundTint="@color/twitter"
-            app:fabSize="auto"
-            app:useCompatPadding="true" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/detail_correction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,8 +87,8 @@
             android:clickable="false"
             android:focusable="true"
             android:gravity="center"
-            android:paddingEnd="@dimen/padding_default"
             android:paddingStart="@dimen/padding_half"
+            android:paddingEnd="@dimen/padding_default"
             android:text="@string/tag_food" />
     </LinearLayout>
 
