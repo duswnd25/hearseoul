@@ -17,7 +17,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +31,7 @@ import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
+import com.lid.lib.LabelImageView;
 
 import java.util.LinkedList;
 
@@ -59,6 +59,14 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
         holder.title.setText(itemList.get(position).getTitle());
         holder.description.setText(itemList.get(position).getDescription());
 
+        if (itemList.get(position).isInfluencer()) {
+            holder.image.setLabelVisual(true);
+            holder.image.setLabelText("VERIFIED");
+            holder.image.setLabelBackgroundColor(context.getResources().getColor(R.color.colorHighlight, null));
+        } else {
+            holder.image.setLabelVisual(false);
+        }
+
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .skipMemoryCache(true)
@@ -66,18 +74,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder);
 
-        Glide.with(context).load(itemList.get(position).getImgUrlList().get(0)).apply(options).thumbnail(0.4f).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                Logger.e(e.getMessage());
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                return false;
-            }
-        }).into(holder.image);
+        Glide.with(context).load(itemList.get(position).getImgUrlList().get(0)).apply(options).thumbnail(0.4f).into(holder.image);
 
         holder.container.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
@@ -93,7 +90,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title, description;
-        private ImageView image;
+        private LabelImageView image;
         private View container;
 
         ViewHolder(View view) {

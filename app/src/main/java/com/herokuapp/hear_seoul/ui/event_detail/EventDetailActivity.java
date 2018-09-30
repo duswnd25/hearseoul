@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -56,6 +57,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         AutofitTextView fee = findViewById(R.id.event_detail_use_fee);
         AutofitTextView sponsor = findViewById(R.id.event_detail_sponsor);
         AutofitTextView inquiry = findViewById(R.id.event_detail__inquiry);
+        TextView program = findViewById(R.id.event_detail_program);
 
         title.setText(eventBean.getTitle());
         code.setText(eventBean.getCodeName());
@@ -67,6 +69,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         fee.setText(eventBean.getUseFee());
         inquiry.setText(eventBean.getInquery());
         sponsor.setText(eventBean.getSponsor());
+        program.setText(eventBean.getProgram());
         this.detailUrl = eventBean.getOrgLink();
 
         RequestOptions options = new RequestOptions()

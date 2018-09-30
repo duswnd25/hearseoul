@@ -37,4 +37,5 @@
     <string name="event_time">시간</string>
     <string name="event_date">기간</string>
     <string name="event_code">장르</string>
+    <string name="event_program">프로그램</string>
 </resources>
