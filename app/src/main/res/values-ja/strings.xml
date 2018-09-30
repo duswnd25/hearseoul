@@ -4,56 +4,43 @@
   ~  GitHub : @duswnd25
   ~  Site   : https://yeonjung.herokuapp.com/
   -->
-
 <resources>
     <string name="app_name">ここでは、ソウル</string>
-        
     <string name="empty">表示する内容がありません！</string>
-        
     <string name="open">を展開</string>
-        
     <string name="upload">アップロードした</string>
-        
     <string name="loading">しばらくお待ちください</string>
-        
     <string name="loading_like">チムハンリストを取得しています</string>
-        
     <string name="loading_marker">の周りの場所を持って来ています</string>
-        
     <string name="loading_list">リストをもたらしています</string>
-        
     <string name="loading_suggestion_list">おすすめリストを取得しています</string>
-        
     <string name="loading_suggestion_spot">おすすめの場所を持って来ています</string>
-        
     <string name="loading_upload_image">画像を登録しています。</string>
-        
     <string name="information_correction">情報を変更する</string>
-        
     <string name="select_nearby_place">の近くの場所を選択してください</string>
-        
     <string name="tag_food">料理</string>
-        
     <string name="tag_cafe">カフェ</string>
-        
     <string name="tag_landmark">観光地</string>
-        
     <string name="tag_show">公演</string>
-        
     <string name="tag_photo">写真の良いところ</string>
-        
     <string name="tag_no">なし</string>
-        
     <string name="fee_no">無料</string>
-        
     <string name="fee_yes">有料</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-
-    <!-- Example settings for Data & Sync -->
-
-    <!-- Example settings for Notifications -->
-
+    <string name="go_to_event_information">イベント情報ショートカット</string>
+    <string name="about_event">文化イベントの詳細</string>
+    <string name="event_sponsor">主催</string>
+    <string name="event_inquiry">お問い合わせ</string>
+    <string name="event_use_fee">利用料金</string>
+    <string name="event_target">利用対象</string>
+    <string name="event_place">場所</string>
+    <string name="event_time">時間</string>
+    <string name="event_date">期間</string>
+    <string name="event_code">ジャンル</string>
+    <string name="event_program">プログラム</string>
+    <string name="done">完了</string>
+    <string name="no_select_photo">選択した画像がありません</string>
+    <string name="fail_to_upload">写真のアップロードに失敗しました</string>
+    <string name="error">エラーが発生しました。</string>
+    <string name="please_insert_information_first">まず情報登録をしてください！</string>
+    <string name="no_place_to_suggest">推薦を受けるには場所良いを先にしてください！</string>
 </resources>

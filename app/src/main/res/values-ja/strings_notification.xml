@@ -6,5 +6,5 @@
   -->
 
 <resources>
-    <string name="notification_channel_default_title">기본 알림</string>
+    <string name="notification_channel_default_title">デフォルトの通知</string>
 </resources>

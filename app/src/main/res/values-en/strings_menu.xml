@@ -6,10 +6,10 @@
   -->
 
 <resources>
-    <string name="menu_suggestion">추천</string>
-    <string name="menu_map">지도</string>
-    <string name="menu_discover">탐색</string>
-    <string name="menu_event">행사</string>
-    <string name="menu_add">업로드</string>
-    <string name="menu_setting">설정</string>
+    <string name="menu_suggestion">Recommendation</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_discover">Navigation</string>
+    <string name="menu_event">Event</string>
+    <string name="menu_add">Upload</string>
+    <string name="menu_setting">Settings</string>
 </resources>
