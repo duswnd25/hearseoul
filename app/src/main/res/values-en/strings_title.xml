@@ -9,5 +9,4 @@
     <string name="title_activity_detail">Detailed view</string>
     <string name="title_activity_edit">Edit information</string>
     <string name="title_activity_bookmark">Suggested places</string>
-    <string name="title_activity_event_detail">Cultural Event Details</string>
 </resources>
