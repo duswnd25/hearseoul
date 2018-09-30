@@ -1,1 +1,13 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="pref_notification">pref_notification</string>    <string name="pref_notification_title">Poznámka</string>    <string name="pref_notification_description_on">Přijímat oznámení PUSH</string>    <string name="pref_notification_description_off">Nepřijímá oznámení PUSH</string>    <string name="pref_notification_sound">pref_notification_sound</string>    <string name="pref_notification_sound_title">Zvukové oznámení</string>    <string name="pref_notification_sound_description_on">Přijmout oznámení PUSH se zvukem</string>    <string name="pref_notification_sound_description_off">Přijme oznámení PUSH tiše</string>    <string name="pref_like_list">pref_like_list</string>    <string name="pref_like_list_title">Navrhované místa</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_notification_title">Poznámka</string>
+    <string name="pref_notification_description_on">Přijímat oznámení PUSH</string>
+    <string name="pref_notification_description_off">Nepřijímá oznámení PUSH</string>
+    <string name="pref_notification_sound">pref_notification_sound</string>
+    <string name="pref_notification_sound_title">Zvukové oznámení</string>
+    <string name="pref_notification_sound_description_on">Přijmout oznámení PUSH se zvukem</string>
+    <string name="pref_notification_sound_description_off">Přijme oznámení PUSH tiše</string>
+    <string name="pref_like_list">pref_like_list</string>
+    <string name="pref_like_list_title">Navrhované místa</string>
+</resources>

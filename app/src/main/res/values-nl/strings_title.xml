@@ -6,7 +6,7 @@
   -->
 
 <resources>
-    <string name = "title_activity_detail">Gedetailleerd overzicht</string>
- <string name = "title_activity_edit">Informatie bewerken</string>
- <string name = "title_activity_bookmark">Aanbevolen plaatsen</string>
+    <string name="title_activity_detail">Gedetailleerd overzicht</string>
+    <string name="title_activity_edit">Informatie bewerken</string>
+    <string name="title_activity_bookmark">Aanbevolen plaatsen</string>
 </resources>

@@ -1,2 +1,41 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="app_name">aquí, Seúl</string>    <string name="empty">¡No hay contenido para mostrar!</string>    <string name="open">Open</string>    <string name="upload">uploaded</string>    <string name="loading">Espere</string>    <string name="loading_like">Obteniendo la lista</string>    <string name="loading_marker">Obteniendo ubicaciones cercanas</string>    <string name="loading_list">Obteniendo la lista</string>    <string name="loading_suggestion_list">Recuperando la lista de sugerencias</string>    <string name="loading_suggestion_spot">Importando recomendaciones</string>    <string name="loading_upload_image">La imagen está siendo registrada.</string>    <string name="information_correction">Modificar información</string>    <string name="select_nearby_place">Seleccione una ubicación cerca de</string>    <string name="tag_food">Food</string>    <string name="tag_cafe">Cafe</string>    <string name="tag_landmark">Lugares de interés</string>    <string name="tag_show">Rendimiento</string>    <string name="tag_photo">Un buen lugar para tomar fotos</string>    <string name="tag_no">None</string>    <string name="fee_no">Free</string>    <string name="fee_yes">Pagado</string>    <string name="go_to_event_information">Ir a la información del evento</string>
-    <string name="event_sponsor">Host</string>    <string name="event_inquiry">Contacto</string>    <string name="event_use_fee">Cargos</string>    <string name="event_target">Qué usar</string>    <string name="event_place">Place</string>    <string name="event_time">Time</string>    <string name="event_date">Período</string>    <string name="event_code">Género</string>    <string name="event_program">Programa</string>    <string name="done">Completado</string>    <string name="no_select_photo">No hay fotos seleccionadas</string>    <string name="fail_to_upload">Falló la carga de la foto</string>    <string name="error">Se produjo un error</string>    <string name="please_insert_information_first">¡Regístrese primero!</string>    <string name="no_place_to_suggest">Si desea obtener recomendaciones, ¡hágalo primero!</string>    <string name="in_progress">In Progress</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="app_name">aquí, Seúl</string>
+    <string name="empty">¡No hay contenido para mostrar!</string>
+    <string name="open">Open</string>
+    <string name="upload">uploaded</string>
+    <string name="loading">Espere</string>
+    <string name="loading_like">Obteniendo la lista</string>
+    <string name="loading_marker">Obteniendo ubicaciones cercanas</string>
+    <string name="loading_list">Obteniendo la lista</string>
+    <string name="loading_suggestion_list">Recuperando la lista de sugerencias</string>
+    <string name="loading_suggestion_spot">Importando recomendaciones</string>
+    <string name="loading_upload_image">La imagen está siendo registrada.</string>
+    <string name="information_correction">Modificar información</string>
+    <string name="select_nearby_place">Seleccione una ubicación cerca de</string>
+    <string name="tag_food">Food</string>
+    <string name="tag_cafe">Cafe</string>
+    <string name="tag_landmark">Lugares de interés</string>
+    <string name="tag_show">Rendimiento</string>
+    <string name="tag_photo">Un buen lugar para tomar fotos</string>
+    <string name="tag_no">None</string>
+    <string name="fee_no">Free</string>
+    <string name="fee_yes">Pagado</string>
+    <string name="go_to_event_information">Ir a la información del evento</string>
+    <string name="event_sponsor">Host</string>
+    <string name="event_inquiry">Contacto</string>
+    <string name="event_use_fee">Cargos</string>
+    <string name="event_target">Qué usar</string>
+    <string name="event_place">Place</string>
+    <string name="event_time">Time</string>
+    <string name="event_date">Período</string>
+    <string name="event_code">Género</string>
+    <string name="event_program">Programa</string>
+    <string name="done">Completado</string>
+    <string name="no_select_photo">No hay fotos seleccionadas</string>
+    <string name="fail_to_upload">Falló la carga de la foto</string>
+    <string name="error">Se produjo un error</string>
+    <string name="please_insert_information_first">¡Regístrese primero!</string>
+    <string name="no_place_to_suggest">Si desea obtener recomendaciones, ¡hágalo primero!</string>
+    <string name="in_progress">In Progress</string>
+</resources>

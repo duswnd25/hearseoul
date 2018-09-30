@@ -1,2 +1,41 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="app_name">這裡，首爾</string>    <string name="empty">沒有要顯示的內容！</string>    <string name="open">打開</string>    <string name="upload">已上傳</string>    <string name="loading">請稍候</string>    <string name="loading_like">獲取列表</string>    <string name="loading_marker">獲取附近的位置</string>    <string name="loading_list">獲取列表</string>    <string name="loading_suggestion_list">檢索建議列表</string>    <string name="loading_suggestion_spot">導入建議</string>    <string name="loading_upload_image">正在註冊圖像。</string>    <string name="information_correction">修改信息</string>    <string name="select_nearby_place">請選擇 附近的位置</string>    <string name="tag_food">食物</string>    <string name="tag_cafe">Cafe</string>    <string name="tag_landmark">觀光</string>    <string name="tag_show">性能</string>    <string name="tag_photo">拍攝照片的好地方</string>    <string name="tag_no">無</string>    <string name="fee_no">免費</string>    <string name="fee_yes">付費</string>    <string name="go_to_event_information">轉到事件信息</string>
-    <string name="event_sponsor">主機</string>    <string name="event_inquiry">聯繫</string>    <string name="event_use_fee">費用</string>    <string name="event_target">使用什麼</string>    <string name="event_place">放置</string>    <string name="event_time">時間</string>    <string name="event_date">Period</string>    <string name="event_code">流派</string>    <string name="event_program">程序</string>    <string name="done">已完成</string>    <string name="no_select_photo">未選擇照片</string>    <string name="fail_to_upload">照片上傳失敗</string>    <string name="error">發生錯誤</string>    <string name="please_insert_information_first">請先註冊！</string>    <string name="no_place_to_suggest">如果您想獲得建議，請先完成！</string>    <string name="in_progress">正在進行中</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="app_name">這裡，首爾</string>
+    <string name="empty">沒有要顯示的內容！</string>
+    <string name="open">打開</string>
+    <string name="upload">已上傳</string>
+    <string name="loading">請稍候</string>
+    <string name="loading_like">獲取列表</string>
+    <string name="loading_marker">獲取附近的位置</string>
+    <string name="loading_list">獲取列表</string>
+    <string name="loading_suggestion_list">檢索建議列表</string>
+    <string name="loading_suggestion_spot">導入建議</string>
+    <string name="loading_upload_image">正在註冊圖像。</string>
+    <string name="information_correction">修改信息</string>
+    <string name="select_nearby_place">請選擇 附近的位置</string>
+    <string name="tag_food">食物</string>
+    <string name="tag_cafe">Cafe</string>
+    <string name="tag_landmark">觀光</string>
+    <string name="tag_show">性能</string>
+    <string name="tag_photo">拍攝照片的好地方</string>
+    <string name="tag_no">無</string>
+    <string name="fee_no">免費</string>
+    <string name="fee_yes">付費</string>
+    <string name="go_to_event_information">轉到事件信息</string>
+    <string name="event_sponsor">主機</string>
+    <string name="event_inquiry">聯繫</string>
+    <string name="event_use_fee">費用</string>
+    <string name="event_target">使用什麼</string>
+    <string name="event_place">放置</string>
+    <string name="event_time">時間</string>
+    <string name="event_date">Period</string>
+    <string name="event_code">流派</string>
+    <string name="event_program">程序</string>
+    <string name="done">已完成</string>
+    <string name="no_select_photo">未選擇照片</string>
+    <string name="fail_to_upload">照片上傳失敗</string>
+    <string name="error">發生錯誤</string>
+    <string name="please_insert_information_first">請先註冊！</string>
+    <string name="no_place_to_suggest">如果您想獲得建議，請先完成！</string>
+    <string name="in_progress">正在進行中</string>
+</resources>

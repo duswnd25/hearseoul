@@ -1,1 +1,13 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name = "pref_notification">pref_notification</string> <string name = "pref_notification_title">Avviso</string> <string name = "pref_notification_description_on">Ricevi notifiche PUSH</string> <string name = "pref_notification_description_off">Non ricevere notifiche PUSH</string> <string name = "pref_notification_sound">pref_notification_sound</string> <string name = "pref_notification_sound_title">Notifica sonora</string> <string name = "pref_notification_sound_description_on">Ricevi notifiche PUSH con audio</string> <string name = "pref_notification_sound_description_off">riceve una notifica PUSH in modo silente</string> <string name = "pref_like_list">pref_like_list</string> <string name = "pref_like_list_title">Luoghi suggeriti</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_notification_title">Avviso</string>
+    <string name="pref_notification_description_on">Ricevi notifiche PUSH</string>
+    <string name="pref_notification_description_off">Non ricevere notifiche PUSH</string>
+    <string name="pref_notification_sound">pref_notification_sound</string>
+    <string name="pref_notification_sound_title">Notifica sonora</string>
+    <string name="pref_notification_sound_description_on">Ricevi notifiche PUSH con audio</string>
+    <string name="pref_notification_sound_description_off">riceve una notifica PUSH in modo silente</string>
+    <string name="pref_like_list">pref_like_list</string>
+    <string name="pref_like_list_title">Luoghi suggeriti</string>
+</resources>

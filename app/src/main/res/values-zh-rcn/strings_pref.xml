@@ -1,1 +1,13 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name ="pref_notification">pref_notification</string> <string name ="pref_notification_title">注意</string> <string name ="pref_notification_description_on">接收PUSH通知</string> <string name ="pref_notification_description_off">不接收PUSH通知</string> <string name ="pref_notification_sound">pref_notification_sound</string> <string name ="pref_notification_sound_title">声音通知</string> <string name ="pref_notification_sound_description_on">接收带声音的PUSH通知</string> <string name ="pref_notification_sound_description_off">以静默方式接收PUSH通知</string> <string name ="pref_like_list">pref_like_list</string> <string name ="pref_like_list_title">建议的地方</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_notification_title">注意</string>
+    <string name="pref_notification_description_on">接收PUSH通知</string>
+    <string name="pref_notification_description_off">不接收PUSH通知</string>
+    <string name="pref_notification_sound">pref_notification_sound</string>
+    <string name="pref_notification_sound_title">声音通知</string>
+    <string name="pref_notification_sound_description_on">接收带声音的PUSH通知</string>
+    <string name="pref_notification_sound_description_off">以静默方式接收PUSH通知</string>
+    <string name="pref_like_list">pref_like_list</string>
+    <string name="pref_like_list_title">建议的地方</string>
+</resources>

@@ -1,2 +1,6 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name = "title_activity_detail">Подробный просмотр</string> <string name = "title_activity_edit">Изменить информацию</string> <string name = "title_activity_bookmark">Рекомендуемые места</string>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="title_activity_detail">Подробный просмотр</string>
+    <string name="title_activity_edit">Изменить информацию</string>
+    <string name="title_activity_bookmark">Рекомендуемые места</string>
 </resources>

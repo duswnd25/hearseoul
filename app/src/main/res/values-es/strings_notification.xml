@@ -6,5 +6,5 @@
   -->
 
 <resources>
-    <string name = "notification_channel_default_title">Notificación predeterminada</string>
+    <string name="notification_channel_default_title">Notificación predeterminada</string>
 </resources>

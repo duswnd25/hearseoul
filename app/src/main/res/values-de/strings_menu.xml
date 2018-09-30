@@ -1,1 +1,9 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name = "menu_suggestion">Empfehlung</string> <Zeichenkette name = "menu_map">Karte</string> <string name = "menu_discover">Navigation</string> <string name = "menu_event">Ereignis</string> <string name = "menu_add">Hochladen</string> <string name = "menu_setting">Einstellungen</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="menu_suggestion">Empfehlung</string>
+    <string name="menu_map">Karte</string>
+    <string name="menu_discover">Navigation</string>
+    <string name="menu_event">Ereignis</string>
+    <string name="menu_add">Hochladen</string>
+    <string name="menu_setting">Einstellungen</string>
+</resources>

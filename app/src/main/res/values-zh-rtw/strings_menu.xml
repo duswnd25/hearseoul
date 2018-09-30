@@ -1,1 +1,9 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="menu_suggestion">推薦</string>    <string name="menu_map">地圖</string>    <string name="menu_discover">導航</string>    <string name="menu_event">事件</string>    <string name="menu_add">上傳</string>    <string name="menu_setting">設置</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="menu_suggestion">推薦</string>
+    <string name="menu_map">地圖</string>
+    <string name="menu_discover">導航</string>
+    <string name="menu_event">事件</string>
+    <string name="menu_add">上傳</string>
+    <string name="menu_setting">設置</string>
+</resources>

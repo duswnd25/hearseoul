@@ -1,2 +1,41 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="app_name">здесь, Сеул</string>    <string name="empty">Нет содержимого для отображения!</string>    <string name="open">Открыть</string>    <string name="upload">uploaded</string>    <string name="loading">Подождите</string>    <string name="loading_like">Получение списка</string>    <string name="loading_marker">Получение ближайших местоположений</string>    <string name="loading_list">Получение списка</string>    <string name="loading_suggestion_list">Извлечение списка предложений</string>    <string name="loading_suggestion_spot">Импорт рекомендаций</string>    <string name="loading_upload_image">Изображение регистрируется.</string>    <string name="information_correction">Изменение информации</string>    <string name="select_nearby_place">Выберите местоположение рядом с</string>    <string name="tag_food">Пища</string>    <string name="tag_cafe">Cafe</string>    <string name="tag_landmark">Достопримечательности</string>    <string name="tag_show">Производительность</string>    <string name="tag_photo">Хорошее место для съемки</string>    <string name="tag_no">None</string>    <string name="fee_no">Бесплатно</string>    <string name="fee_yes">Paid</string>    <string name="go_to_event_information">Перейти к информации о событии</string>
-    <string name="event_sponsor">Host</string>    <string name="event_inquiry">Контакт</string>    <string name="event_use_fee">Сборы</string>    <string name="event_target">Что использовать</string>    <string name="event_place">Место</string>    <string name="event_time">Время</string>    <string name="event_date">Period</string>    <string name="event_code">Жанр</string>    <string name="event_program">Программа</string>    <string name="done">Завершено</string>    <string name="no_select_photo">Нет выбранных фотографий</string>    <string name="fail_to_upload">Ошибка загрузки фотографий</string>    <string name="error">Произошла ошибка</string>    <string name="please_insert_information_first">Пожалуйста, зарегистрируйтесь первым!</string>    <string name="no_place_to_suggest">Если вы хотите получить рекомендации, сделайте это сначала!</string>    <string name="in_progress">Выполняется</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="app_name">здесь, Сеул</string>
+    <string name="empty">Нет содержимого для отображения!</string>
+    <string name="open">Открыть</string>
+    <string name="upload">uploaded</string>
+    <string name="loading">Подождите</string>
+    <string name="loading_like">Получение списка</string>
+    <string name="loading_marker">Получение ближайших местоположений</string>
+    <string name="loading_list">Получение списка</string>
+    <string name="loading_suggestion_list">Извлечение списка предложений</string>
+    <string name="loading_suggestion_spot">Импорт рекомендаций</string>
+    <string name="loading_upload_image">Изображение регистрируется.</string>
+    <string name="information_correction">Изменение информации</string>
+    <string name="select_nearby_place">Выберите местоположение рядом с</string>
+    <string name="tag_food">Пища</string>
+    <string name="tag_cafe">Cafe</string>
+    <string name="tag_landmark">Достопримечательности</string>
+    <string name="tag_show">Производительность</string>
+    <string name="tag_photo">Хорошее место для съемки</string>
+    <string name="tag_no">None</string>
+    <string name="fee_no">Бесплатно</string>
+    <string name="fee_yes">Paid</string>
+    <string name="go_to_event_information">Перейти к информации о событии</string>
+    <string name="event_sponsor">Host</string>
+    <string name="event_inquiry">Контакт</string>
+    <string name="event_use_fee">Сборы</string>
+    <string name="event_target">Что использовать</string>
+    <string name="event_place">Место</string>
+    <string name="event_time">Время</string>
+    <string name="event_date">Period</string>
+    <string name="event_code">Жанр</string>
+    <string name="event_program">Программа</string>
+    <string name="done">Завершено</string>
+    <string name="no_select_photo">Нет выбранных фотографий</string>
+    <string name="fail_to_upload">Ошибка загрузки фотографий</string>
+    <string name="error">Произошла ошибка</string>
+    <string name="please_insert_information_first">Пожалуйста, зарегистрируйтесь первым!</string>
+    <string name="no_place_to_suggest">Если вы хотите получить рекомендации, сделайте это сначала!</string>
+    <string name="in_progress">Выполняется</string>
+</resources>

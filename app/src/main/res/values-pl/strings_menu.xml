@@ -6,10 +6,10 @@
   -->
 
 <resources>
-    <string name = "menu_suggestion">Recommendation</string>
- <string name = "menu_map">Mapa</string>
- <string name = "menu_discover">Nawigacja</string>
- <string name = "menu_event">Event</string>
- <string name = "menu_add">Upload</string>
- <string name = "menu_setting">Ustawienia</string>
+    <string name="menu_suggestion">Recommendation</string>
+    <string name="menu_map">Mapa</string>
+    <string name="menu_discover">Nawigacja</string>
+    <string name="menu_event">Event</string>
+    <string name="menu_add">Upload</string>
+    <string name="menu_setting">Ustawienia</string>
 </resources>

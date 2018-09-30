@@ -1,1 +1,13 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  --><resources>    <string name="location_permission_description">Toestemming is vereist om locatiegebaseerde services te bieden.</string>    <string name="storage_permission_description">Toestemming is vereist om foto\'s te importeren</string>           <string name="permission_deny_description">  Machtigingen kunnen worden verleend in  [Settings]>[Permissions]</string>    <string name="hint_for_location_name">Plaats</string>    <string name="hint_for_location_description">Details</string>    <string name="hint_for_edit_time">Openingstijden</string>    <string name="hint_for_address">locatie</string>    <string name="hint_for_phone">telefoonnummer</string>    <string name="hint_for_my_information">Over mij</string>    <string name="hint_for_notification">Opmerking</string></resources>
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="location_permission_description">Toestemming is vereist om locatiegebaseerde services te bieden.</string>
+    <string name="storage_permission_description">Toestemming is vereist om foto\'s te importeren</string>
+    <string name="permission_deny_description">Machtigingen kunnen worden verleend in  [Settings]>[Permissions]</string>
+    <string name="hint_for_location_name">Plaats</string>
+    <string name="hint_for_location_description">Details</string>
+    <string name="hint_for_edit_time">Openingstijden</string>
+    <string name="hint_for_address">locatie</string>
+    <string name="hint_for_phone">telefoonnummer</string>
+    <string name="hint_for_my_information">Over mij</string>
+    <string name="hint_for_notification">Opmerking</string>
+</resources>
