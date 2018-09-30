@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">#5F4B8B</color>
+    <color name="colorHighlight">#22539f</color>
+    <color name="kakao">#f1c40f</color>
+    <color name="facebook">#0C83D0</color>
+    <color name="twitter">#78BCE7</color>
+</resources>

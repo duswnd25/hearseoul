@@ -1,0 +1,40 @@
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="app_name">ici, Séoul</string>
+    <string name="empty">Aucun contenu à afficher!</string>
+    <string name="open">Ouvrir</string>
+    <string name="upload">uploadé</string>
+    <string name="loading">Veuillez patienter</string>
+    <string name="loading_like">Obtenir la liste extraite</string>
+    <string name="loading_marker">Obtenir les emplacements à proximité</string>
+    <string name="loading_list">Obtenir la liste</string>
+    <string name="loading_suggestion_list">Récupération de la liste de suggestions</string>
+    <string name="loading_suggestion_spot">Importation de recommandations</string>
+    <string name="loading_upload_image">L\'image est en cours d\'enregistrement.</string>
+    <string name="information_correction">Modification des informations</string>
+    <string name="select_nearby_place">Veuillez sélectionner un lieu proche de</string>
+    <string name="tag_food">Alimentation</string>
+    <string name="tag_cafe">Café</string>
+    <string name="tag_landmark">Visites guidées</string>
+    <string name="tag_show">Performance</string>
+    <string name="tag_photo">Un bon endroit pour prendre des photos</string>
+    <string name="tag_no">Aucun</string>
+    <string name="fee_no">Gratuit</string>
+    <string name="fee_yes">Payé</string>
+    <string name="go_to_event_information">Aller aux informations sur l\'événement</string>
+    <string name="event_sponsor">Hôte</string>
+    <string name="event_inquiry">Contact</string>
+    <string name="event_use_fee">Charges</string>
+    <string name="event_target">Quoi utiliser</string>
+    <string name="event_place">Place</string>
+    <string name="event_time">Heure</string>
+    <string name="event_date">Période</string>
+    <string name="event_program">Programme</string>
+    <string name="done">Completed</string>
+    <string name="no_select_photo">Aucune photo sélectionnée</string>
+    <string name="fail_to_upload">Le téléchargement de la photo a échoué</string>
+    <string name="error">Une erreur est survenue</string>
+    <string name="please_insert_information_first">Merci de vous enregistrer d'abord!</string>
+    <string name="no_place_to_suggest">Si vous souhaitez obtenir des recommandations, veuillez le faire d'abord!</string>
+    <string name="in_progress">En cours</string>
+</resources>

@@ -1,0 +1,15 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="menu_suggestion">Recommendation</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_discover">Navigation</string>
+    <string name="menu_event">Event</string>
+    <string name="menu_add">Upload</string>
+    <string name="menu_setting">Settings</string>
+</resources>

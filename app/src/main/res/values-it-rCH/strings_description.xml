@@ -5,7 +5,7 @@
     <string name="permission_deny_description">  Le autorizzazioni possono essere concesse in  [Settings]>[Permissions]</string>
     <string name="hint_for_location_name">Place</string>
     <string name="hint_for_location_description">Dettagli</string>
-    <string name="hint_for_edit_time">Orario lavorativo </ stringa>
+    <string name="hint_for_edit_time">Orario lavorativo</string>
     <string name="hint_for_address">posizione</string>
     <string name="hint_for_phone">numero di telefono</string>
     <string name="hint_for_my_information">Informazioni su di me</string>

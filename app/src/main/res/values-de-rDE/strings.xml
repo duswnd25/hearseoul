@@ -1,0 +1,35 @@
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="app_name">hier, Seoul</string>
+    <string name="empty">Kein Inhalt zum Anzeigen!</string>
+    <string name="upload">hochgeladen</string>
+    <string name="loading">Bitte warten</string>
+    <string name="loading_like">Abgerufene Liste abrufen</string>
+    <string name="loading_marker">Orte in der Nähe abrufen</string>
+    <string name="loading_list">Liste abrufen</string>
+    <string name="loading_suggestion_list">Liste der Vorschläge abrufen</string>
+    <string name="loading_suggestion_spot">Empfehlungen importieren</string>
+    <string name="loading_upload_image">Bild wird registriert.</string>
+    <string name="select_nearby_place">Bitte wählen Sie einen Ort in der Nähe von</string>
+    <string name="tag_food">Essen</string>
+    <string name="tag_cafe">Café</string>
+    <string name="tag_landmark">Besichtigung</string>
+    <string name="tag_show">Leistung</string>
+    <string name="tag_photo">Ein guter Ort, um Bilder aufzunehmen</string>
+    <string name="tag_no">Keine</string>
+    <string name="fee_no">Frei</string>
+    <string name="fee_yes">Bezahlt</string>
+    <string name="go_to_event_information">Gehe zu Ereignisinformationen</string>
+    <string name="event_sponsor">Host</string>
+    <string name="event_inquiry">Kontakt</string>
+    <string name="event_use_fee">Gebühren</string>
+    <string name="event_target">Was zu verwenden ist</string>
+    <string name="event_code">Genre</string>
+    <string name="done">Abgeschlossen</string>
+    <string name="no_select_photo">Keine Fotos ausgewählt</string>
+    <string name="fail_to_upload">Foto-Upload fehlgeschlagen</string>
+    <string name="error">Ein Fehler ist aufgetreten</string>
+    <string name="please_insert_information_first">Bitte zuerst registrieren!</string>
+    <string name="no_place_to_suggest">Wenn Sie Empfehlungen erhalten möchten, tun Sie dies bitte zuerst!</string>
+    <string name="in_progress">In Bearbeitung</string>
+</resources>

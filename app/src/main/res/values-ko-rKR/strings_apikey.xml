@@ -1,0 +1,12 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="baas_key">d1cd1f6f-0a5a-4947-9d56-8e76582559cc</string>
+    <string name="seoul_event_key">497952544b64757336307466454d6d</string>
+    <string name="google_map_api">AIzaSyD8RodYOoYxLmpUN99LBHssvWbvuhL8sv8</string>
+</resources>

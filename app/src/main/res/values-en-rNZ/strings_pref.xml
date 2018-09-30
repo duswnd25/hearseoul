@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_notification_title">Notice</string>
+    <string name="pref_notification_description_on">Receive PUSH notifications</string>
+    <string name="pref_notification_description_off">Do not receive PUSH notifications</string>
+    <string name="pref_notification_sound">pref_notification_sound</string>
+    <string name="pref_notification_sound_title">Sound notification</string>
+    <string name="pref_notification_sound_description_on">Receive PUSH notifications with sound</string>
+    <string name="pref_notification_sound_description_off">Receives a PUSH notification silently</string>
+    <string name="pref_like_list">pref_like_list</string>
+    <string name="pref_like_list_title">Liked places</string>
+</resources>

@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="app_name">여기, 서울</string>
+    <string name="empty">표시할 내용이 없습니다!</string>
+    <string name="open">열기</string>
+    <string name="upload">업로드 하였습니다</string>
+    <string name="loading">잠시만 기다려주세요</string>
+    <string name="loading_like">찜한 목록을 가져오는 중 입니다</string>
+    <string name="loading_marker">주변 장소를 가져오고 있습니다</string>
+    <string name="loading_list">목록을 가져오고 있습니다</string>
+    <string name="loading_suggestion_list">추천 리스트를 가져오고 있습니다</string>
+    <string name="loading_suggestion_spot">추천 장소를 가져오고 있습니다</string>
+    <string name="loading_upload_image">이미지를 등록중입니다.</string>
+    <string name="information_correction">정보 수정 하기</string>
+    <string name="select_nearby_place">근처의 위치를 선택하세요</string>
+    <string name="tag_food">음식</string>
+    <string name="tag_cafe">카페</string>
+    <string name="tag_landmark">관광지</string>
+    <string name="tag_show">공연</string>
+    <string name="tag_photo">사진찍기 좋은곳</string>
+    <string name="tag_no">없음</string>
+    <string name="fee_no">무료</string>
+    <string name="fee_yes">유료</string>
+    <string name="go_to_event_information">행사정보 바로가기</string>
+    <string name="event_sponsor">주최</string>
+    <string name="event_inquiry">문의</string>
+    <string name="event_use_fee">이용요금</string>
+    <string name="event_target">이용대상</string>
+    <string name="event_place">장소</string>
+    <string name="event_time">시간</string>
+    <string name="event_date">기간</string>
+    <string name="event_code">장르</string>
+    <string name="event_program">프로그램</string>
+    <string name="done">완료</string>
+    <string name="no_select_photo">선택한 사진이 없습니다</string>
+    <string name="fail_to_upload">사진 업로드를 실패했습니다</string>
+    <string name="error">오류가 발생했습니다.</string>
+    <string name="please_insert_information_first">먼저 정보 등록을 해주세요!</string>
+    <string name="no_place_to_suggest">추천을 받으시려면 장소 좋아요를 먼저 해 주세요!</string>
+    <string name="in_progress">진행중</string>
+</resources>

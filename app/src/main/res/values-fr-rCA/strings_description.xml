@@ -1,0 +1,13 @@
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="location_permission_description">L\'autorisation est nécessaire pour fournir des services basés sur l\'emplacement.</string>
+    <string name="storage_permission_description">Une autorisation est nécessaire pour importer des photos</string>
+    <string name="permission_deny_description">Des autorisations peuvent être accordées dans  [Paramètres]>[Autorisations]</string>
+    <string name="hint_for_location_name">Place</string>
+    <string name="hint_for_location_description">Détails</string>
+    <string name="hint_for_edit_time">Heures d\'ouverture</string>
+    <string name="hint_for_address">emplacement</string>
+    <string name="hint_for_phone">numéro de téléphone</string>
+    <string name="hint_for_my_information">À propos de moi</string>
+    <string name="hint_for_notification">Remarque</string>
+</resources>

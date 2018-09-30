@@ -1,0 +1,12 @@
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
+
+<resources>
+    <string name="title_activity_detail">Detailed view</string>
+    <string name="title_activity_edit">Edit information</string>
+    <string name="title_activity_bookmark">Suggested places</string>
+</resources>

@@ -1,0 +1,13 @@
+<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<resources>
+    <string name="pref_notification">pref_notification</string>
+    <string name="pref_notification_title">Avis</string>
+    <string name="pref_notification_description_on">Recevoir les notifications PUSH</string>
+    <string name="pref_notification_description_off">Ne pas recevoir de notifications PUSH</string>
+    <string name="pref_notification_sound">pref_notification_sound</string>
+    <string name="pref_notification_sound_title">Notification sonore</string>
+    <string name="pref_notification_sound_description_on">Recevoir des notifications PUSH avec son</string>
+    <string name="pref_notification_sound_description_off">Reçoit une notification PUSH en silence</string>
+    <string name="pref_like_list">pref_like_list</string>
+    <string name="pref_like_list_title">Lieux suggérés</string>
+</resources>
