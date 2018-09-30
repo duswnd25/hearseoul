@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2018. YeonJung Kim
+ *
+ *  GitHub : @duswnd25
+ *  Site   : https://yeonjung.herokuapp.com/
+ */
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {

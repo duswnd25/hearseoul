@@ -1,4 +1,9 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
 <resources>
     <string name="location_permission_description">L\'autorisation est nécessaire pour fournir des services basés sur l\'emplacement.</string>
     <string name="storage_permission_description">Une autorisation est nécessaire pour importer des photos</string>

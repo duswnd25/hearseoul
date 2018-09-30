@@ -1,4 +1,9 @@
-<!--  ~ Copyright (c) 2018. YeonJung Kim  ~  ~  GitHub : @duswnd25  ~  Site   : https://yeonjung.herokuapp.com/  -->
+<!--
+  ~ Copyright (c) 2018. YeonJung Kim
+  ~
+  ~  GitHub : @duswnd25
+  ~  Site   : https://yeonjung.herokuapp.com/
+  -->
 <resources>
     <string name="app_name">ici, Séoul</string>
     <string name="empty">Aucun contenu à afficher!</string>
