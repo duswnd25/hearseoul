@@ -24,6 +24,7 @@ import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
+import com.lid.lib.LabelImageView;
 
 import java.util.LinkedList;
 
@@ -55,7 +56,7 @@ public class SuggestionAdapter extends PagerAdapter {
                 (Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_main_suggestion, container, false);
 
-        ImageView image = view.findViewById(R.id.item_main_suggestion_image);
+        LabelImageView image = view.findViewById(R.id.item_main_suggestion_image);
         AutofitTextView title = view.findViewById(R.id.item_main_suggestion_title);
         AutofitTextView description = view.findViewById(R.id.item_main_suggestion_description);
         AutofitTextView distance = view.findViewById(R.id.item_main_suggestion_distance);
@@ -65,6 +66,14 @@ public class SuggestionAdapter extends PagerAdapter {
         description.setText(itemList.get(position).getDescription());
         String distanceText = Utils.getDistanceFromCurrentLocation(context, itemList.get(position).getLocation()) + "km";
         distance.setText(distanceText);
+
+        if (itemList.get(position).isInfluencer()) {
+            image.setLabelVisual(true);
+            image.setLabelText("VERIFIED");
+            image.setLabelBackgroundColor(context.getResources().getColor(R.color.colorHighlight, null));
+        } else {
+            image.setLabelVisual(false);
+        }
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

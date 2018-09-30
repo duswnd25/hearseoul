@@ -18,11 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.lid.lib.LabelImageView
             android:id="@+id/item_main_suggestion_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            app:label_backgroundColor="#C2185B"
+            app:label_height="30dp"
+            app:label_orientation="LEFT_TOP"
             tools:src="@drawable/placeholder" />
 
         <LinearLayout
