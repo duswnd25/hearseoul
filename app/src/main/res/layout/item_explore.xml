@@ -25,7 +25,7 @@
             android:scaleType="centerCrop"
             app:label_backgroundColor="#C2185B"
             app:label_height="30dp"
-            app:label_orientation="RIGHT_BOTTOM"
+            app:label_orientation="RIGHT_TOP"
             tools:src="@drawable/placeholder" />
 
         <FrameLayout
