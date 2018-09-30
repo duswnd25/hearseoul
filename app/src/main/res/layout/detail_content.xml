@@ -135,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:maxLines="1"
+            android:maxLines="2"
             android:paddingStart="@dimen/padding_half"
             app:sizeToFit="true"
             tools:ignore="RtlSymmetry"
