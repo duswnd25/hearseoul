@@ -14,6 +14,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
@@ -57,7 +58,7 @@ public class SuggestionAdapter extends PagerAdapter {
 
         LabelImageView image = view.findViewById(R.id.item_main_suggestion_image);
         AutofitTextView title = view.findViewById(R.id.item_main_suggestion_title);
-        AutofitTextView description = view.findViewById(R.id.item_main_suggestion_description);
+        TextView description = view.findViewById(R.id.item_main_suggestion_description);
         AutofitTextView distance = view.findViewById(R.id.item_main_suggestion_distance);
         //TextView tag = view.findViewById(R.id.item_main_suggestion_tag);
 

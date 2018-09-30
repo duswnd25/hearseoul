@@ -33,63 +33,59 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_shadow_vetical"
             android:gravity="bottom"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_default">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_default"
                 android:layout_weight="9"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_default">
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/item_main_suggestion_title"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     app:sizeToFit="true"
                     tools:text="제목" />
 
-                <me.grantland.widget.AutofitTextView
+                <TextView
                     android:id="@+id/item_main_suggestion_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textColor="@android:color/white"
-                    app:sizeToFit="true"
                     tools:text="설명" />
 
-                <me.grantland.widget.AutofitTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textColor="@android:color/white"
-                    app:sizeToFit="true"
-                    tools:text="태그" />
             </LinearLayout>
+        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/padding_default"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_address_white" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/item_main_suggestion_distance"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_address_white" />
-
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/item_main_suggestion_distance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textColor="@android:color/white"
-                    app:sizeToFit="true"
-                    tools:text="100km" />
-            </LinearLayout>
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                app:sizeToFit="true"
+                tools:text="100km" />
         </LinearLayout>
     </FrameLayout>
 

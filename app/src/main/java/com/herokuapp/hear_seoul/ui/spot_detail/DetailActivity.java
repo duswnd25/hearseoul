@@ -95,7 +95,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         AutofitTextView phoneView = findViewById(R.id.detail_phone);
         AutofitTextView addressView = findViewById(R.id.detail_address);
         AutofitTextView distanceView = findViewById(R.id.detail_distance);
-        AutofitTextView descriptionView = findViewById(R.id.detail_description);
+        TextView descriptionView = findViewById(R.id.detail_description);
         likeView = findViewById(R.id.detail_like);
 
         if (isExist) {
@@ -202,6 +202,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.detail_share:
                 StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(spotBean.getTitle());
                 stringBuilder.append("\n");
                 stringBuilder.append("tel : ");
                 stringBuilder.append(spotBean.getPhone());

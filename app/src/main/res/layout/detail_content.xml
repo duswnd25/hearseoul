@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:maxLines="1"
+            android:maxLines="2"
             android:paddingStart="@dimen/padding_half"
             app:sizeToFit="true"
             tools:ignore="RtlSymmetry"
@@ -160,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:maxLines="1"
+            android:maxLines="2"
             android:paddingStart="@dimen/padding_half"
             app:sizeToFit="true"
             tools:ignore="RtlSymmetry"
@@ -180,14 +180,12 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_content_black" />
 
-        <me.grantland.widget.AutofitTextView
+        <TextView
             android:id="@+id/detail_description"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:maxLines="1"
             android:paddingStart="@dimen/padding_half"
-            app:sizeToFit="true"
             tools:ignore="RtlSymmetry"
             tools:text="위치" />
     </LinearLayout>
