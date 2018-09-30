@@ -23,7 +23,7 @@ import com.herokuapp.hear_seoul.R;
 import com.herokuapp.hear_seoul.bean.SpotBean;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Utils;
-import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
+import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
 
 import java.util.LinkedList;
 

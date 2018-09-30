@@ -29,7 +29,7 @@ import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
 import com.herokuapp.hear_seoul.ui.TestFragment;
-import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
+import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
 import com.herokuapp.hear_seoul.ui.main.fragment.Event;
 import com.herokuapp.hear_seoul.ui.main.fragment.Explore;
 import com.herokuapp.hear_seoul.ui.main.fragment.Map;

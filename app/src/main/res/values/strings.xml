@@ -27,13 +27,5 @@
     <string name="tag_no">없음</string>
     <string name="fee_no">무료</string>
     <string name="fee_yes">유료</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-
-    <!-- Example settings for Data & Sync -->
-
-    <!-- Example settings for Notifications -->
-
+    <string name="go_to_event_information">행사정보 바로가기</string>
 </resources>

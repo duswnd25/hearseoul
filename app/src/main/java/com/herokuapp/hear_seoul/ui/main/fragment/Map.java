@@ -49,7 +49,7 @@ import com.herokuapp.hear_seoul.controller.baas.FetchMapMarkerList;
 import com.herokuapp.hear_seoul.core.Const;
 import com.herokuapp.hear_seoul.core.Logger;
 import com.herokuapp.hear_seoul.core.Utils;
-import com.herokuapp.hear_seoul.ui.detail.DetailActivity;
+import com.herokuapp.hear_seoul.ui.spot_detail.DetailActivity;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;

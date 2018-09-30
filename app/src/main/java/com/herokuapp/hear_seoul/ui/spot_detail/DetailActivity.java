@@ -5,7 +5,7 @@
  *  Site   : https://yeonjung.herokuapp.com/
  */
 
-package com.herokuapp.hear_seoul.ui.detail;
+package com.herokuapp.hear_seoul.ui.spot_detail;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

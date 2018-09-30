@@ -5,87 +5,83 @@
   ~  Site   : https://yeonjung.herokuapp.com/
   -->
 
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_event_list_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:orientation="vertical">
+    android:layout_height="165dp"
+    android:background="#ffffff"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <FrameLayout
+        android:layout_width="141dp"
+        android:layout_height="141dp">
+
+        <com.lid.lib.LabelImageView
+            android:id="@+id/item_event_list_main_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:label_backgroundColor="#C2185B"
+            app:label_height="30dp"
+            app:label_orientation="LEFT_TOP"
+            tools:src="@drawable/bg_small_image" />
+
+    </FrameLayout>
+
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="165dp"
-        android:background="#ffffff"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="141dp"
-            android:layout_height="141dp">
+        <TextView
+            android:id="@+id/item_event_list_d_day"
+            android:layout_width="37dp"
+            android:layout_height="18dp"
+            android:background="@drawable/bg_d_day"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#ee7e1a"
+            android:textSize="10sp" />
 
-            <com.lid.lib.LabelImageView
-                android:id="@+id/item_event_list_main_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                app:label_backgroundColor="#C2185B"
-                app:label_height="30dp"
-                app:label_orientation="LEFT_TOP"
-                tools:src="@drawable/bg_small_image" />
-
-        </FrameLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
+        <TextView
+            android:id="@+id/item_event_list_cultural_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="11dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="3dp"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/item_event_list_d_day"
-                android:layout_width="37dp"
-                android:layout_height="18dp"
-                android:background="@drawable/bg_d_day"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#ee7e1a"
-                android:textSize="10sp" />
+        <TextView
+            android:id="@+id/item_event_list_cultural_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="#a3a3a3"
+            android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/item_event_list_cultural_title"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="11dp"
-                android:layout_weight="1"
-                android:includeFontPadding="false"
-                android:lineSpacingExtra="3dp"
-                android:text=""
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/item_event_list_cultural_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:textColor="#a3a3a3"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/item_event_list_cultural_g_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="3dp"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:textColor="#a3a3a3"
-                android:textSize="12sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/item_event_list_cultural_g_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:textColor="#a3a3a3"
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>
